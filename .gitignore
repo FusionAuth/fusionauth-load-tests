@@ -1,0 +1,6 @@
+*.iws
+build
+error-log.txt
+heap*
+lib/*
+*.csv

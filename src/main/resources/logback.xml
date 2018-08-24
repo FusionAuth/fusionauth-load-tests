@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2018, FusionAuth, All Rights Reserved
+  -->
+<configuration scan="true" scanPeriod="60 seconds">
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>%d{"MMM dd, yyyy h:mm:ss.SSS a"} %-5level %logger{75} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="com.inversoft.rest" level="ERROR" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>

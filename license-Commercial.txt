@@ -1,0 +1,1 @@
+This software is licensed under the Inversoft FusionAuth license located here: http://www.inversoft.com/license
