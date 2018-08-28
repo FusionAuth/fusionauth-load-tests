@@ -4,7 +4,7 @@
 savantVersion = "1.0.0"
 
 domainVersion = "0.2.0"
-fusionAuthVersion = "1.0.0-{integration}"
+fusionauthVersion = "1.0.0-{integration}"
 javaErrorVersion = "2.2.0"
 loadTestVersion = "0.4.2"
 restifyVersion = "3.1.4"
@@ -31,7 +31,7 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.0.0",
       dependency(id: "com.inversoft:inversoft-domain:${domainVersion}")
       dependency(id: "com.inversoft:java-error:${javaErrorVersion}")
       dependency(id: "com.inversoft:restify:${restifyVersion}")
-      dependency(id: "io.fusionauth:fusionauth-java-client:${fusionAuthVersion}")
+      dependency(id: "io.fusionauth:fusionauth-java-client:${fusionauthVersion}")
       dependency(id: "org.slf4j:slf4j-api:1.7.21")
     }
     group(name: "runtime") {
@@ -59,7 +59,7 @@ release = loadPlugin(id: "org.savantbuild.plugin:release-git:${savantVersion}")
 file = loadPlugin(id: "org.savantbuild.plugin:file:1.0.2")
 
 idea.settings.moduleMap = [
-    "io.fusionauth:fusionauth-java-client:${fusionAuthVersion}" : "fusionauth-java-client",
+    "io.fusionauth:fusionauth-java-client:${fusionauthVersion}" : "fusionauth-java-client",
 ]
 
 java.settings.javaVersion = "1.8"
