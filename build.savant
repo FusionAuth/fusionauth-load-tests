@@ -9,7 +9,7 @@ javaErrorVersion = "2.2.0"
 loadTestVersion = "0.4.2"
 restifyVersion = "3.1.4"
 
-project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.0.14",licenses: ["Commercial"]) {
+project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.0.14", licenses: ["Commercial"]) {
   workflow {
     standard()
     fetch {
