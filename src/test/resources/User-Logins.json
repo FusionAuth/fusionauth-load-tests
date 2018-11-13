@@ -1,15 +1,15 @@
 {
-  "loopCount": 100,
-  "workerCount": 25,
+  "loopCount": 500,
+  "workerCount": 20,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
     "attributes": {
       "directive": "login",
       "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
-      "applicationId": "01da43fa-cc0c-4d29-8b3d-f93dde1ab8ac",
-      "url": "https://datastax-passport-api.inversoft.io",
+      "applicationId": "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd",
+      "url": "http://localhost:9011",
       "loginLowerBound": 1,
-      "loginUpperBound": 5,
+      "loginUpperBound": 2500,
       "debug": true
     }
   },

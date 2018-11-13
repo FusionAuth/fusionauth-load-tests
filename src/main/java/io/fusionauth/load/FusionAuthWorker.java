@@ -77,8 +77,7 @@ public class FusionAuthWorker implements Worker {
 
       printErrors(result);
     } else if (directive.equals("login")) {
-      int random = new Random().nextInt(/**/(loginUpperBound - loginLowerBound) + 1) + loginLowerBound;
-//      int random = counter.incrementAndGet();
+      int random = new Random().nextInt((loginUpperBound - loginLowerBound) + 1) + loginLowerBound;
       user.email = "load_user_" + random + "@fusionauth.io";
       user.password = Password;
 
