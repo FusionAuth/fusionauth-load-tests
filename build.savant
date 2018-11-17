@@ -4,7 +4,7 @@
 savantVersion = "1.0.0"
 
 domainVersion = "0.2.0"
-fusionauthVersion = "1.2.1-{integration}"
+fusionauthVersion = "1.2.1"
 javaErrorVersion = "2.2.0"
 loadTestVersion = "0.4.2"
 restifyVersion = "3.2.1"
