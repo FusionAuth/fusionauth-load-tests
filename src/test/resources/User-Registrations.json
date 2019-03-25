@@ -9,7 +9,7 @@
       "applicationId": "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd",
       "url": "http://localhost:9011",
       "counter": 0,
-      "encryptionScheme": "salted-pbkdf2-hmac-sha25",
+      "encryptionScheme": "salted-pbkdf2-hmac-sha256",
       "factor": 24000
     }
   },
