@@ -7,7 +7,7 @@ domainVersion = "0.2.0"
 fusionauthVersion = "1.6.1-{integration}"
 javaErrorVersion = "2.2.0"
 loadTestVersion = "0.4.2"
-restifyVersion = "3.2.1"
+restifyVersion = "3.2.4"
 
 project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.6.1", licenses: ["Commercial"]) {
   workflow {
