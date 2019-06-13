@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2018, FusionAuth., All Rights Reserved
+ * Copyright (c) 2018-2019, FusionAuth., All Rights Reserved
  */
 savantVersion = "1.0.0"
 
 domainVersion = "0.2.0"
-fusionauthVersion = "1.6.2-{integration}"
+fusionauthVersion = "1.7.0-{integration}"
 javaErrorVersion = "2.2.0"
 loadTestVersion = "0.4.2"
-restifyVersion = "3.2.4"
+restifyVersion = "3.2.6"
 
-project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.6.2", licenses: ["Commercial"]) {
+project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.7.0", licenses: ["Commercial"]) {
   workflow {
     standard()
     fetch {
@@ -35,8 +35,8 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.6.2",
       dependency(id: "org.slf4j:slf4j-api:1.7.21")
     }
     group(name: "runtime") {
-      dependency(id: "ch.qos.logback:logback-core:1.0.11")
-      dependency(id: "ch.qos.logback:logback-classic:1.0.11")
+      dependency(id: "ch.qos.logback:logback-core:1.2.3")
+      dependency(id: "ch.qos.logback:logback-classic:1.2.3")
       dependency(id: "org.ow2.asm:asm:6.1.1", skipCompatibilityCheck: true)
     }
     group(name: "test-compile", export: false) {
