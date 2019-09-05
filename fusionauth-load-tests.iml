@@ -236,11 +236,11 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-databind/2.9.9/jackson-databind-2.9.9.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-databind/2.9.11+2.9.9.2/jackson-databind-2.9.11+2.9.9.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-databind/2.9.9/jackson-databind-2.9.9-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-databind/2.9.11+2.9.9.2/jackson-databind-2.9.11+2.9.9.2-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -346,11 +346,11 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/io/fusionauth/fusionauth-samlv2/0.2.1-{integration}/fusionauth-samlv2-0.2.1-{integration}.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/io/fusionauth/fusionauth-samlv2/0.2.1/fusionauth-samlv2-0.2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/io/fusionauth/fusionauth-samlv2/0.2.1-{integration}/fusionauth-samlv2-0.2.1-{integration}-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/io/fusionauth/fusionauth-samlv2/0.2.1/fusionauth-samlv2-0.2.1-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
