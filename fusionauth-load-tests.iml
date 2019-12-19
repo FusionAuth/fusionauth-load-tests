@@ -139,11 +139,11 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/2.4.4/jackson5-2.4.4.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/2.4.5/jackson5-2.4.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/2.4.4/jackson5-2.4.4-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/2.4.5/jackson5-2.4.5-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -342,17 +342,6 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/.savant/cache/io/fusionauth/fusionauth-jwt/3.1.5/fusionauth-jwt-3.1.5-src.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/io/fusionauth/fusionauth-samlv2/0.2.3/fusionauth-samlv2-0.2.3.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/io/fusionauth/fusionauth-samlv2/0.2.3/fusionauth-samlv2-0.2.3-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
