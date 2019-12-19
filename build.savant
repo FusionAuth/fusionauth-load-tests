@@ -4,12 +4,12 @@
 savantVersion = "1.0.0"
 
 domainVersion = "0.2.0"
-fusionauthVersion = "1.13.0"
+fusionauthVersion = "1.13.1-{integration}"
 javaErrorVersion = "2.2.0"
 loadTestVersion = "0.4.2"
 restifyVersion = "3.3.0"
 
-project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.13.0", licenses: ["Commercial"]) {
+project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.13.1", licenses: ["Commercial"]) {
   workflow {
     standard()
     fetch {
