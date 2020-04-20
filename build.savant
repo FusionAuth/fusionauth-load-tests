@@ -3,13 +3,13 @@
  */
 savantVersion = "1.0.0"
 
-domainVersion = "0.2.0"
-fusionauthVersion = "1.15.8"
-javaErrorVersion = "2.2.0"
+domainVersion = "0.2.1"
+fusionauthVersion = "1.16.0-{integration}"
+javaErrorVersion = "2.2.2"
 loadTestVersion = "0.4.2"
-restifyVersion = "3.3.0"
+restifyVersion = "3.4.1"
 
-project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.15.8", licenses: ["Commercial"]) {
+project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.16.0", licenses: ["Commercial"]) {
   workflow {
     standard()
     fetch {
@@ -26,7 +26,7 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.15.8"
       dependency(id: "javax.servlet:servlet-api:3.1.0", skipCompatibilityCheck: true)
     }
     group(name: "compile") {
-      dependency(id: "com.google.inject:guice:4.2.2")
+      dependency(id: "com.google.inject:guice:4.2.3")
       dependency(id: "com.inversoft:inversoft-load-test:${loadTestVersion}")
       dependency(id: "com.inversoft:inversoft-domain:${domainVersion}")
       dependency(id: "com.inversoft:java-error:${javaErrorVersion}")
@@ -35,12 +35,9 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.15.8"
       dependency(id: "org.slf4j:slf4j-api:1.7.21")
     }
     group(name: "runtime") {
-      dependency(id: "ch.qos.logback:logback-core:1.2.3")
       dependency(id: "ch.qos.logback:logback-classic:1.2.3")
-      dependency(id: "org.ow2.asm:asm:6.1.1", skipCompatibilityCheck: true)
-    }
-    group(name: "test-compile", export: false) {
-      dependency(id: "org.testng:testng:6.8.7")
+      dependency(id: "ch.qos.logback:logback-core:1.2.3")
+      dependency(id: "org.ow2.asm:asm:7.3.1", skipCompatibilityCheck: true)
     }
   }
 
@@ -50,10 +47,9 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.15.8"
 }
 
 // Plugins
-database = loadPlugin(id: "org.savantbuild.plugin:database:1.0.3")
+database = loadPlugin(id: "org.savantbuild.plugin:database:1.0.6")
 dependency = loadPlugin(id: "org.savantbuild.plugin:dependency:1.0.2")
 java = loadPlugin(id: "org.savantbuild.plugin:java:1.0.2")
-javaTestNG = loadPlugin(id: "org.savantbuild.plugin:java-testng:1.0.2")
 idea = loadPlugin(id: "org.savantbuild.plugin:idea:1.0.1")
 release = loadPlugin(id: "org.savantbuild.plugin:release-git:${savantVersion}")
 file = loadPlugin(id: "org.savantbuild.plugin:file:1.0.2")
@@ -62,8 +58,7 @@ idea.settings.moduleMap = [
     "io.fusionauth:fusionauth-java-client:${fusionauthVersion}" : "fusionauth-java-client",
 ]
 
-java.settings.javaVersion = "1.8"
-javaTestNG.settings.javaVersion = "1.8"
+java.settings.javaVersion = "14"
 
 target(name: "clean", description: "Cleans the build directory") {
   java.clean()
@@ -97,11 +92,7 @@ target(name: "jar", description: "Builds the project JARs", dependsOn: ["compile
   java.jar()
 }
 
-target(name: "test", description: "Runs the project's tests", dependsOn: ["jar"]) {
-  javaTestNG.test()
-}
-
-target(name: "int", description: "Releases a local integration build of the project", dependsOn: ["test"]) {
+target(name: "int", description: "Releases a local integration build of the project", dependsOn: ["jar"]) {
   // Leave me blank please.
 }
 
