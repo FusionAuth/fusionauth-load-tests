@@ -3,7 +3,6 @@
  */
 savantVersion = "1.0.0"
 
-domainVersion = "0.2.1"
 fusionauthVersion = "1.19.0-{integration}"
 javaErrorVersion = "2.2.2"
 loadTestVersion = "0.4.2"
@@ -28,7 +27,6 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.19.0"
     group(name: "compile") {
       dependency(id: "com.google.inject:guice:4.2.3")
       dependency(id: "com.inversoft:inversoft-load-test:${loadTestVersion}")
-      dependency(id: "com.inversoft:inversoft-domain:${domainVersion}")
       dependency(id: "com.inversoft:java-error:${javaErrorVersion}")
       dependency(id: "com.inversoft:restify:${restifyVersion}")
       dependency(id: "io.fusionauth:fusionauth-java-client:${fusionauthVersion}")
