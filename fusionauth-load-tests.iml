@@ -36,17 +36,6 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/inversoft-domain/0.2.1/inversoft-domain-0.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/inversoft-domain/0.2.1/inversoft-domain-0.2.1-src.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
     <orderEntry type="module" module-name="fusionauth-java-client" />
     <orderEntry type="module-library">
       <library>
@@ -111,6 +100,17 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/inversoft-config/0.4.0/inversoft-config-0.4.0-src.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/inversoft-domain/0.2.0/inversoft-domain-0.2.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/inversoft-domain/0.2.0/inversoft-domain-0.2.0-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
