@@ -30,7 +30,7 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.20.0"
       dependency(id: "com.inversoft:java-error:${javaErrorVersion}")
       dependency(id: "com.inversoft:restify:${restifyVersion}")
       dependency(id: "io.fusionauth:fusionauth-java-client:${fusionauthVersion}")
-      dependency(id: "org.slf4j:slf4j-api:1.7.21")
+      dependency(id: "org.slf4j:slf4j-api:2.0.0-alpha1", skipCompatibilityCheck: true)
     }
     group(name: "runtime") {
       dependency(id: "ch.qos.logback:logback-classic:1.2.3")
