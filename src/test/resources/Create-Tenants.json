@@ -1,12 +1,13 @@
 {
-  "loopCount": 500,
+  "loopCount": 100,
   "workerCount": 20,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
     "attributes": {
-      "directive": "login",
-      "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
-      "applicationId": "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd",
+      "directive": "create-tenant",
+      "apiKey": "create-tenant-api-key",
+      "keyId": "af99528c-bb19-79eb-1d09-4e582da0eab7",
+      "themeId": "75a068fd-e94b-451a-9aeb-3ddb9a3b5987",
       "url": "https://testing-ha-xl.fusionauth.io",
       "loginLowerBound": 1,
       "loginUpperBound": 2500,

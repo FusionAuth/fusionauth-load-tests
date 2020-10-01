@@ -18,9 +18,9 @@ import io.fusionauth.client.FusionAuthClient;
 public class FusionAuthWorkerFactory implements WorkerFactory {
   private static final AtomicInteger counter = new AtomicInteger(-1);
 
-  private final Configuration configuration;
-
   private final FusionAuthClient client;
+
+  private final Configuration configuration;
 
   private final String directive;
 
@@ -36,7 +36,12 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
 
   @Override
   public Worker createWorker() {
-    return new FusionAuthWorker(client, configuration, counter, directive);
+    return switch (directive) {
+      case "create-tenant" -> new FusionAuthCreateTenantWorker(client, configuration, counter);
+      case "login" -> new FusionAuthLoginWorker(client, configuration);
+      case "register" -> new FusionAuthRegistrationWorker(client, configuration, counter);
+      default -> throw new IllegalArgumentException("Invalid directive [" + directive + "]");
+    };
   }
 
   @Override

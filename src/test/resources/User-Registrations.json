@@ -7,10 +7,11 @@
       "directive": "register",
       "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
       "applicationId": "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd",
-      "url": "https://testing-ha1.fusionauth.io",
+      "url": "https://testing-ha-xl.fusionauth.io",
       "counter": 0,
       "encryptionScheme": "salted-pbkdf2-hmac-sha256",
-      "factor": 24000
+      "factor": 24000,
+      "debug": true
     }
   },
   "listeners": [

@@ -11,4 +11,4 @@ for f in $(ls lib | grep .jar); do
   CLASSPATH=${CLASSPATH}:lib/$f
 done
 
-~/dev/java/current14/bin/java -cp ${CLASSPATH} com.inversoft.load.LoadRunner $@
+~/dev/java/current14/bin/java --enable-preview -cp ${CLASSPATH} com.inversoft.load.LoadRunner $@

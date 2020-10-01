@@ -57,6 +57,7 @@ idea.settings.moduleMap = [
 ]
 
 java.settings.javaVersion = "14"
+java.settings.compilerArguments = "--enable-preview -source 14"
 
 target(name: "clean", description: "Cleans the build directory") {
   java.clean()
