@@ -1,18 +1,14 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Grab the path
-HOME=$(dirname $0)/../../..
-
-if [ ! -d $HOME/lib ]; then
-  echo "Unable to locate library files needed to run the load tests. [$HOME/lib]"
+if [[ ! -d lib ]]; then
+  echo "Unable to locate library files needed to run the load tests. [lib]"
   exit 1
 fi
 
-CLASSPATH=
-for f in $(ls $HOME/lib | grep .jar); do
-  CLASSPATH=$CLASSPATH:$HOME/lib/$f
+CLASSPATH=.
+for f in $(ls lib | grep .jar); do
+  CLASSPATH=${CLASSPATH}:lib/$f
 done
 
-CLASSPATH=$CLASSPATH:$HOME/build/classes/main
-
-java -cp $CLASSPATH com.inversoft.load.LoadRunner $@
+~/dev/java/current14/bin/java -cp ${CLASSPATH} com.inversoft.load.LoadRunner $@

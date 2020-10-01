@@ -20,15 +20,15 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
 
   private final Configuration configuration;
 
-  private FusionAuthClient client;
+  private final FusionAuthClient client;
 
-  private String directive;
+  private final String directive;
 
   @ConfigurationInjected
   public FusionAuthWorkerFactory(Configuration configuration) {
-    client = new FusionAuthClient(configuration.getString("apiKey"), configuration.getString("url"), 5_000, 10_000);
+    this.client = new FusionAuthClient(configuration.getString("apiKey"), configuration.getString("url"), 5_000, 10_000);
     this.configuration = configuration;
-    directive = configuration.getString("directive", "register");
+    this.directive = configuration.getString("directive", "register");
     if (counter.intValue() == -1) {
       counter.set(configuration.getInteger("counter", 0));
     }

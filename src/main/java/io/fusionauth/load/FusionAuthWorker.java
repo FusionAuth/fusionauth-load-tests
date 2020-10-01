@@ -42,19 +42,19 @@ public class FusionAuthWorker implements Worker {
 
   private final int loginUpperBound;
 
-  private AtomicInteger counter;
+  private final AtomicInteger counter;
 
   public FusionAuthWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter, String directive) {
     this.client = client;
     this.directive = directive;
     this.counter = counter;
-    applicationId = UUID.fromString(configuration.getString("applicationId"));
-    loginLowerBound = configuration.getInteger("loginLowerBound", 0);
-    loginUpperBound = configuration.getInteger("loginUpperBound", 1_000_000);
+    this.applicationId = UUID.fromString(configuration.getString("applicationId"));
+    this.loginLowerBound = configuration.getInteger("loginLowerBound", 0);
+    this.loginUpperBound = configuration.getInteger("loginUpperBound", 1_000_000);
     // This speeds up login and registration quite a bit. Default salted-sha256 is a factor of 20,000.
-    factor = configuration.getInteger("factor", 1);
-    encryptionScheme = configuration.getString("encryptionScheme", "salted-sha256");
-    debug = configuration.getBoolean("debug", false);
+    this.factor = configuration.getInteger("factor", 1);
+    this.encryptionScheme = configuration.getString("encryptionScheme", "salted-sha256");
+    this.debug = configuration.getBoolean("debug", false);
   }
 
   @Override
@@ -100,7 +100,7 @@ public class FusionAuthWorker implements Worker {
   public void prepare() {
   }
 
-  private void printErrors(ClientResponse result) {
+  private void printErrors(ClientResponse<?, Errors> result) {
     if (debug || result.status == 400) {
       if (result.exception != null) {
         System.out.println(result.exception.getMessage());

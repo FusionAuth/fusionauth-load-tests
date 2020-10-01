@@ -7,7 +7,7 @@
       "directive": "login",
       "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
       "applicationId": "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd",
-      "url": "http://localhost:9011",
+      "url": "https://testing-ha1.fusionauth.io",
       "loginLowerBound": 1,
       "loginUpperBound": 2500,
       "debug": true

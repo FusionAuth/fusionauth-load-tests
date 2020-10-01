@@ -64,18 +64,9 @@ target(name: "clean", description: "Cleans the build directory") {
 
 target(name: "compile", description: "Compiles the Java source files") {
   java.compile()
-
-  // Copy all compile dependencies to be able to run command line
-  file.prune(dir: "lib/")
-  dependency.copy(to: "lib") {
-    dependencies(group: "compile", transitive: true, fetchSource: false)
-    // Get rid of a slf4j warning by copying runtime deps (gets the logback-classic in the classpath)
-    dependencies(group: "runtime", transitive: false, fetchSource: false)
-  }
 }
 
 target(name: "config", description: "Configure FusionAuth for load testing") {
-
   ["mysql", "postgresql"].each { type ->
     database.settings.type = type
     database.settings.name = "fusionauth"
@@ -83,7 +74,6 @@ target(name: "config", description: "Configure FusionAuth for load testing") {
     // Insert a test API key
     database.execute(file: "src/test/db/authentication_key.sql")
   }
-
 }
 
 target(name: "jar", description: "Builds the project JARs", dependsOn: ["compile"]) {
@@ -91,7 +81,23 @@ target(name: "jar", description: "Builds the project JARs", dependsOn: ["compile
 }
 
 target(name: "int", description: "Releases a local integration build of the project", dependsOn: ["jar"]) {
-  // Leave me blank please.
+  // Copy all compile dependencies to be able to run command line
+  dependency.copy(to: "build/dist/lib") {
+    dependencies(group: "compile", transitive: true, fetchSource: false)
+    // Get rid of a slf4j warning by copying runtime deps (gets the logback-classic in the classpath)
+    dependencies(group: "runtime", transitive: false, fetchSource: false)
+  }
+
+  // Copy the JARs over
+  file.copy(to: "build/dist/lib") {
+    fileSet(dir: "build/jars", includePatterns: [/${project.name}-${project.version}.jar/])
+  }
+
+  // Copy the scripts over
+  file.copy(to: "build/dist") {
+    fileSet(dir: "src/main/script", includePatterns: [/.*/])
+    fileSet(dir: "src/test/resources", includePatterns: [/.*/])
+  }
 }
 
 target(name: "release", description: "Releases a full version of the project", dependsOn: ["int"]) {
