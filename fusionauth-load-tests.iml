@@ -73,11 +73,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
