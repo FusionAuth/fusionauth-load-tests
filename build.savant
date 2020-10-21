@@ -37,6 +37,10 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.20.0"
       dependency(id: "ch.qos.logback:logback-core:1.2.3")
       dependency(id: "org.ow2.asm:asm:7.3.1", skipCompatibilityCheck: true)
     }
+    group(name: "test-compile") {
+      // Required for testng-7.3.0
+      dependency(id: "com.google.guava:guava:27.1.0-jre", skipCompatibilityCheck: true)
+    }
   }
 
   publications {
