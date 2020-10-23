@@ -3,7 +3,7 @@
  */
 savantVersion = "1.0.0"
 
-fusionauthVersion = "1.20.0-{integration}"
+fusionauthVersion = "1.20.0"
 javaErrorVersion = "2.2.2"
 loadTestVersion = "0.4.2"
 restifyVersion = "3.4.1"
