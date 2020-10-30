@@ -4,3 +4,4 @@ error-log.txt
 heap*
 lib/*
 *.csv
+.DS_Store
