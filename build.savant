@@ -4,8 +4,8 @@
 savantVersion = "1.0.0"
 
 fusionauthVersion = "1.21.1-{integration}"
+jackson5Version = "2.4.5"
 javaErrorVersion = "2.2.2"
-loadTestVersion = "0.4.2"
 restifyVersion = "3.4.1"
 
 project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.21.1", licenses: ["Commercial"]) {
@@ -25,8 +25,11 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.21.1"
       dependency(id: "javax.servlet:servlet-api:3.1.0", skipCompatibilityCheck: true)
     }
     group(name: "compile") {
+      dependency(id: "com.fasterxml.jackson.core:jackson-annotations:2.10.3")
+      dependency(id: "com.fasterxml.jackson.core:jackson-core:2.10.3")
+      dependency(id: "com.fasterxml.jackson.core:jackson-databind:2.10.3")
       dependency(id: "com.google.inject:guice:4.2.3")
-      dependency(id: "com.inversoft:inversoft-load-test:${loadTestVersion}")
+      dependency(id: "com.inversoft:jackson5:${jackson5Version}")
       dependency(id: "com.inversoft:java-error:${javaErrorVersion}")
       dependency(id: "com.inversoft:restify:${restifyVersion}")
       dependency(id: "io.fusionauth:fusionauth-java-client:${fusionauthVersion}")
@@ -39,6 +42,7 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.21.1"
     }
     group(name: "test-compile") {
       // Required for testng-7.3.0
+      dependency(id: "org.testng:testng:7.3.0")
       dependency(id: "com.google.guava:guava:27.1.0-jre", skipCompatibilityCheck: true)
     }
   }
@@ -52,6 +56,7 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.21.1"
 database = loadPlugin(id: "org.savantbuild.plugin:database:1.0.6")
 dependency = loadPlugin(id: "org.savantbuild.plugin:dependency:1.0.2")
 java = loadPlugin(id: "org.savantbuild.plugin:java:1.2.0")
+javaTestNG = loadPlugin(id: "org.savantbuild.plugin:java-testng:1.0.8")
 idea = loadPlugin(id: "org.savantbuild.plugin:idea:1.0.1")
 release = loadPlugin(id: "org.savantbuild.plugin:release-git:${savantVersion}")
 file = loadPlugin(id: "org.savantbuild.plugin:file:1.0.2")
@@ -61,6 +66,8 @@ idea.settings.moduleMap = [
 ]
 
 java.settings.javaVersion = "14"
+javaTestNG.settings.javaVersion = "14"
+
 java.settings.compilerArguments = "--enable-preview -source 14"
 
 target(name: "clean", description: "Cleans the build directory") {
@@ -85,6 +92,11 @@ target(name: "jar", description: "Builds the project JARs", dependsOn: ["compile
   java.jar()
 }
 
+target(name: "test", description: "Runs the project's tests", dependsOn: ["jar"]) {
+  javaTestNG.settings.jvmArguments = "--enable-preview"
+  javaTestNG.test()
+}
+
 target(name: "int", description: "Releases a local integration build of the project", dependsOn: ["jar"]) {
   // Copy all compile dependencies to be able to run command line
   dependency.copy(to: "build/dist/lib") {
@@ -101,7 +113,7 @@ target(name: "int", description: "Releases a local integration build of the proj
   // Copy the scripts over
   file.copy(to: "build/dist") {
     fileSet(dir: "src/main/script", includePatterns: [/.*/])
-    fileSet(dir: "src/test/resources", includePatterns: [/.*/])
+    fileSet(dir: "src/main/resources", includePatterns: [/.*/])
   }
 }
 

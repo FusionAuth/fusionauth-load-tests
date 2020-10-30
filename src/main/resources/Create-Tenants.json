@@ -8,7 +8,7 @@
       "apiKey": "create-tenant-api-key",
       "keyId": "af99528c-bb19-79eb-1d09-4e582da0eab7",
       "themeId": "75a068fd-e94b-451a-9aeb-3ddb9a3b5987",
-      "url": "https://testing-ha-xl.fusionauth.io",
+      "url": "local.fusionauth.io",
       "loginLowerBound": 1,
       "loginUpperBound": 2500,
       "debug": true
@@ -16,11 +16,11 @@
   },
   "listeners": [
     {
-      "className": "com.inversoft.load.listeners.ThroughputListener"
+      "className": "io.fusionauth.load.listeners.ThroughputListener"
     }
   ],
   "reporter": {
-    "className": "com.inversoft.load.reporters.DefaultReporter",
+    "className": "io.fusionauth.load.reporters.DefaultReporter",
     "attributes": {
       "interval": 5
     }

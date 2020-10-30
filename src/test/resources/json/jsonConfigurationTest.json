@@ -1,0 +1,26 @@
+{
+  "listeners": [
+    {
+      "className": "io.fusionauth.load.listeners.SystemOutListener"
+    },
+    {
+      "className": "io.fusionauth.load.MockListener"
+    }
+  ],
+  "loopCount": 1,
+  "workerCount": 1,
+  "reporter": {
+    "className": "io.fusionauth.load.reporters.DefaultReporter",
+    "attributes": {
+      "foo": "bar",
+      "baz": 6,
+      "interval": 100
+    }
+  },
+  "workerFactory": {
+    "className": "io.fusionauth.load.MockWorkerFactory",
+    "attributes": {
+      "dbUrl": "jdbc:postgresql://localhost:5432/fusionauth_load_tests_test"
+    }
+  }
+}

@@ -1,26 +1,25 @@
 {
-  "loopCount": 100,
-  "workerCount": 25,
+  "loopCount": 500,
+  "workerCount": 20,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
     "attributes": {
-      "directive": "register",
+      "directive": "login",
       "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
       "applicationId": "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd",
-      "url": "https://testing-ha-xl.fusionauth.io",
-      "counter": 0,
-      "encryptionScheme": "salted-pbkdf2-hmac-sha256",
-      "factor": 24000,
+      "url": "https://local.fusionauth.io",
+      "loginLowerBound": 1,
+      "loginUpperBound": 2500,
       "debug": true
     }
   },
   "listeners": [
     {
-      "className": "com.inversoft.load.listeners.ThroughputListener"
+      "className": "io.fusionauth.load.listeners.ThroughputListener"
     }
   ],
   "reporter": {
-    "className": "com.inversoft.load.reporters.DefaultReporter",
+    "className": "io.fusionauth.load.reporters.DefaultReporter",
     "attributes": {
       "interval": 5
     }
