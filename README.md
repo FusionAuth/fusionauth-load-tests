@@ -19,10 +19,10 @@ If you want to run load tests, you have probably already figured this part out.
 All of this is optional and will depend upon what you want your tests to do. However, to use the provided examples here, start with these setup steps. 
 
 1. Setup an API key. 
-  - If you're a FusionAuth developer, run `sb config` which will insert an API key into the database. 
-  - If you're just an everyday average FusionAuth enthusiast, add an API key however you know how. The examples will expect an API key of `bf69486b-4733-4470-a592-f1bfce7af580` but this can be modified to your liking. 
-1. Setup an Application
-  - Run `./src/main/script/setupApplication.sh`  
+   - If you're a FusionAuth developer, run `sb config` which will insert an API key into the database. 
+   - If you're just an everyday average FusionAuth enthusiast, add an API key however you know how. The examples will expect an API key of `bf69486b-4733-4470-a592-f1bfce7af580` but this can be modified to your liking. 
+2. Setup an Application
+   - Run `./src/main/script/setupApplication.sh`  
 
 ### Run a load test
 
