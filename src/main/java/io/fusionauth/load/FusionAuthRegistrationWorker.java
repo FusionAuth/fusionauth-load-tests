@@ -19,7 +19,6 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.inversoft.error.Errors;
-import io.fusionauth.load.Configuration;
 import com.inversoft.rest.ClientResponse;
 import io.fusionauth.client.FusionAuthClient;
 import io.fusionauth.domain.User;
@@ -58,8 +57,8 @@ public class FusionAuthRegistrationWorker extends BaseWorker {
     user.encryptionScheme = encryptionScheme;
     user.factor = factor;
 
-    UserRegistration userRegistration = new UserRegistration().with((r) -> r.applicationId = applicationId)
-                                                              .with((r) -> r.roles.add("user"));
+    UserRegistration userRegistration = new UserRegistration().with(r -> r.applicationId = applicationId)
+                                                              .with(r -> r.roles.add("user"));
     ClientResponse<RegistrationResponse, Errors> result = client.register(null, new RegistrationRequest(user, userRegistration));
     if (result.wasSuccessful()) {
       return true;
