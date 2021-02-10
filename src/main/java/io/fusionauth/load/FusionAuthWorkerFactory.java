@@ -17,11 +17,6 @@ package io.fusionauth.load;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.fusionauth.load.Configuration;
-import io.fusionauth.load.ConfigurationInjected;
-import io.fusionauth.load.LoadDefinition;
-import io.fusionauth.load.Worker;
-import io.fusionauth.load.WorkerFactory;
 import io.fusionauth.client.FusionAuthClient;
 
 /**
@@ -49,6 +44,7 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
   @Override
   public Worker createWorker() {
     return switch (directive) {
+      case "create-application" -> new FusionAuthCreateApplicationWorker(client, configuration, counter);
       case "create-tenant" -> new FusionAuthCreateTenantWorker(client, configuration, counter);
       case "login" -> new FusionAuthLoginWorker(client, configuration);
       case "register" -> new FusionAuthRegistrationWorker(client, configuration, counter);
