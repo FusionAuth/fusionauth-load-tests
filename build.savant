@@ -2,13 +2,19 @@
  * Copyright (c) 2018-2020, FusionAuth., All Rights Reserved
  */
 savantVersion = "1.0.0"
+fusionauthVersion = "1.26.0-{integration}"
 
-fusionauthVersion = "1.25.1-{integration}"
-jackson5Version = "2.4.5"
+guavaVersion = "27.1.0-jre"
+guiceVersion = "4.2.3"
+jacksonVersion = "2.12.1"
+jackson5Version = "2.4.8"
 javaErrorVersion = "2.2.2"
-restifyVersion = "3.4.1"
+logbackVersion = "1.2.3"
+restifyVersion = "3.5.2"
+slf4jVersion = "1.7.30"
+testngVersion = "7.3.0"
 
-project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.25.1", licenses: ["ApacheV2_0"]) {
+project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.26.0", licenses: ["ApacheV2_0"]) {
   workflow {
     standard()
   }
@@ -22,25 +28,23 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.25.1"
       dependency(id: "javax.servlet:servlet-api:3.1.0", skipCompatibilityCheck: true)
     }
     group(name: "compile") {
-      dependency(id: "com.fasterxml.jackson.core:jackson-annotations:2.12.1")
-      dependency(id: "com.fasterxml.jackson.core:jackson-core:2.12.1")
-      dependency(id: "com.fasterxml.jackson.core:jackson-databind:2.12.1")
-      dependency(id: "com.google.inject:guice:4.2.3")
+      dependency(id: "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}")
+      dependency(id: "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}")
+      dependency(id: "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+      dependency(id: "com.google.inject:guice:${guiceVersion}")
       dependency(id: "com.inversoft:jackson5:${jackson5Version}")
       dependency(id: "com.inversoft:java-error:${javaErrorVersion}")
       dependency(id: "com.inversoft:restify:${restifyVersion}")
       dependency(id: "io.fusionauth:fusionauth-java-client:${fusionauthVersion}")
-      dependency(id: "org.slf4j:slf4j-api:1.7.30")
+      dependency(id: "org.slf4j:slf4j-api:${slf4jVersion}")
     }
     group(name: "runtime") {
-      dependency(id: "ch.qos.logback:logback-classic:1.2.3")
-      dependency(id: "ch.qos.logback:logback-core:1.2.3")
-      dependency(id: "org.ow2.asm:asm:7.3.1", skipCompatibilityCheck: true)
+      dependency(id: "ch.qos.logback:logback-classic:${logbackVersion}")
+      dependency(id: "ch.qos.logback:logback-core:${logbackVersion}")
     }
     group(name: "test-compile") {
-      // Required for testng-7.3.0
-      dependency(id: "org.testng:testng:7.3.0")
-      dependency(id: "com.google.guava:guava:27.1.0-jre", skipCompatibilityCheck: true)
+      dependency(id: "com.google.guava:guava:${guavaVersion}", skipCompatibilityCheck: true)
+      dependency(id: "org.testng:testng:${testngVersion}")
     }
   }
 
@@ -63,9 +67,9 @@ idea.settings.moduleMap = [
 ]
 
 java.settings.javaVersion = "14"
-javaTestNG.settings.javaVersion = "14"
-
 java.settings.compilerArguments = "--enable-preview -source 14"
+javaTestNG.settings.javaVersion = "14"
+javaTestNG.settings.jvmArguments = "--enable-preview"
 
 target(name: "clean", description: "Cleans the build directory") {
   java.clean()
@@ -90,7 +94,6 @@ target(name: "jar", description: "Builds the project JARs", dependsOn: ["compile
 }
 
 target(name: "test", description: "Runs the project's tests", dependsOn: ["jar"]) {
-  javaTestNG.settings.jvmArguments = "--enable-preview"
   javaTestNG.test()
 }
 

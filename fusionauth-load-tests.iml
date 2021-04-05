@@ -29,22 +29,33 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/3.4.1/restify-3.4.1.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/java-error/2.2.2/java-error-2.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/3.4.1/restify-3.4.1-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/java-error/2.2.2/java-error-2.2.2-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/2.4.7/jackson5-2.4.7.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/3.5.2/restify-3.5.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/2.4.7/jackson5-2.4.7-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/3.5.2/restify-3.5.2-src.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/2.4.8/jackson5-2.4.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/2.4.8/jackson5-2.4.8-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -62,44 +73,33 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/java-error/2.2.2/java-error-2.2.2.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-databind/2.12.2/jackson-databind-2.12.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/java-error/2.2.2/java-error-2.2.2-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-databind/2.12.2/jackson-databind-2.12.2-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-databind/2.12.1/jackson-databind-2.12.1.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-annotations/2.12.2/jackson-annotations-2.12.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-databind/2.12.1/jackson-databind-2.12.1-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-annotations/2.12.2/jackson-annotations-2.12.2-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-annotations/2.12.1/jackson-annotations-2.12.1.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-core/2.12.2/jackson-core-2.12.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-annotations/2.12.1/jackson-annotations-2.12.1-src.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-core/2.12.1/jackson-core-2.12.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-core/2.12.1/jackson-core-2.12.1-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/fasterxml/jackson/core/jackson-core/2.12.2/jackson-core-2.12.2-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -338,17 +338,6 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/.savant/cache/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3-src.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/org/ow2/asm/asm/7.3.1/asm-7.3.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/org/ow2/asm/asm/7.3.1/asm-7.3.1-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
