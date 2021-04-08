@@ -8,6 +8,11 @@ curl -s -X POST -H "Content-Type: application/json" \
   '{
      "application": {
        "name": "FusionAuthLoadTesting",
+       "oauthConfiguration": {
+          "authorizedRedirectURLs": ["https://acme.com/redirect"],
+          "clientSecret": "ZDA5Yzk0NTUtYzg4ZS00ZmNhLThmOGUtZDFkN2M3YTllNDY1",
+          "enabledGrants": ["authorization_code"]
+       },
        "roles": ["admin", "user"]
      }
   }'\
@@ -20,6 +25,11 @@ curl -s -X PUT -H "Content-Type: application/json" \
   '{
      "application": {
        "name": "FusionAuthLoadTesting",
+       "oauthConfiguration": {
+         "authorizedRedirectURLs": ["https://acme.com/redirect"],
+         "clientSecret": "ZDA5Yzk0NTUtYzg4ZS00ZmNhLThmOGUtZDFkN2M3YTllNDY1",
+         "enabledGrants": ["authorization_code"]
+       }
        "roles": ["admin", "user"]
      }
   }'\

@@ -46,6 +46,7 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
     return switch (directive) {
       case "create-application" -> new FusionAuthCreateApplicationWorker(client, configuration, counter);
       case "create-tenant" -> new FusionAuthCreateTenantWorker(client, configuration, counter);
+      case "oauth2/authorize" -> new FusionAuthLoginWorker(client, configuration);
       case "login" -> new FusionAuthLoginWorker(client, configuration);
       case "register" -> new FusionAuthRegistrationWorker(client, configuration, counter);
       default -> throw new IllegalArgumentException("Invalid directive [" + directive + "]");
