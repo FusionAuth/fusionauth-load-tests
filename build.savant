@@ -85,7 +85,7 @@ target(name: "config", description: "Configure FusionAuth for load testing") {
     database.settings.name = "fusionauth"
 
     // Insert a test API key
-    database.execute(file: "src/test/db/authentication_key.sql")
+    database.execute(file: "src/test/db/authentication_key_${type}.sql")
   }
 }
 
