@@ -6,7 +6,7 @@ fusionauthVersion = "1.26.0-{integration}"
 
 guavaVersion = "27.1.0-jre"
 guiceVersion = "4.2.3"
-jacksonVersion = "2.12.1"
+jacksonVersion = "2.12.2"
 jackson5Version = "2.4.8"
 javaErrorVersion = "2.2.2"
 logbackVersion = "1.2.3"
@@ -85,7 +85,7 @@ target(name: "config", description: "Configure FusionAuth for load testing") {
     database.settings.name = "fusionauth"
 
     // Insert a test API key
-    database.execute(file: "src/test/db/authentication_key.sql")
+    database.execute(file: "src/test/db/authentication_key_${type}.sql")
   }
 }
 
