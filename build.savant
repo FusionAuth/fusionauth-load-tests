@@ -2,11 +2,11 @@
  * Copyright (c) 2018-2020, FusionAuth., All Rights Reserved
  */
 savantVersion = "1.0.0"
-fusionauthVersion = "1.26.0-{integration}"
+fusionauthVersion = "1.26.1-{integration}"
 
 guavaVersion = "27.1.0-jre"
 guiceVersion = "4.2.3"
-jacksonVersion = "2.12.1"
+jacksonVersion = "2.12.2"
 jackson5Version = "2.4.8"
 javaErrorVersion = "2.2.2"
 logbackVersion = "1.2.3"
@@ -14,7 +14,7 @@ restifyVersion = "3.5.2"
 slf4jVersion = "1.7.30"
 testngVersion = "7.3.0"
 
-project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.26.0", licenses: ["ApacheV2_0"]) {
+project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.26.1", licenses: ["ApacheV2_0"]) {
   workflow {
     standard()
   }
@@ -85,7 +85,7 @@ target(name: "config", description: "Configure FusionAuth for load testing") {
     database.settings.name = "fusionauth"
 
     // Insert a test API key
-    database.execute(file: "src/test/db/authentication_key.sql")
+    database.execute(file: "src/test/db/authentication_key_${type}.sql")
   }
 }
 
