@@ -1,5 +1,5 @@
 {
-  "loopCount": 500,
+  "loopCount": 50,
   "workerCount": 20,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
@@ -10,7 +10,7 @@
       "client_secret": "ZDA5Yzk0NTUtYzg4ZS00ZmNhLThmOGUtZDFkN2M3YTllNDY1",
       "redirect_uri": "https://acme.com/redirect",
       "url": "https://local.fusionauth.io",
-      "loginLowerBound": 1,
+      "loginLowerBound": 100,
       "loginUpperBound": 2500,
       "debug": true
     }

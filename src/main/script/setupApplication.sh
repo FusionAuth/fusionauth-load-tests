@@ -29,7 +29,7 @@ curl -s -X PUT -H "Content-Type: application/json" \
          "authorizedRedirectURLs": ["https://acme.com/redirect"],
          "clientSecret": "ZDA5Yzk0NTUtYzg4ZS00ZmNhLThmOGUtZDFkN2M3YTllNDY1",
          "enabledGrants": ["authorization_code"]
-       }
+       },
        "roles": ["admin", "user"]
      }
   }'\
