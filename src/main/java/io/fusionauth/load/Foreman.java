@@ -75,9 +75,11 @@ public class Foreman implements Buildable<Foreman> {
     // Temp hack to get some general timings on the OAuth2 Authorize worker broken down by component
     if (workers.get(0) instanceof FusionAuthOAuth2AuthorizeWorker) {
       System.out.println("\n\n");
-      System.out.println("Render: " + FusionAuthOAuth2AuthorizeWorker.timing.render + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.render / (workers.size() * loopCount) + " ms");
-      System.out.println("Post: " + FusionAuthOAuth2AuthorizeWorker.timing.post + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.post / (workers.size() * loopCount) + " ms");
-      System.out.println("Token: " + FusionAuthOAuth2AuthorizeWorker.timing.token + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.token / (workers.size() * loopCount) + " ms");
+      long total = FusionAuthOAuth2AuthorizeWorker.timing.render + FusionAuthOAuth2AuthorizeWorker.timing.post + FusionAuthOAuth2AuthorizeWorker.timing.token;
+      long iterationCount = workers.size() * loopCount;
+      System.out.println("Render: " + FusionAuthOAuth2AuthorizeWorker.timing.render + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.render / (iterationCount) + " ms, " + ((FusionAuthOAuth2AuthorizeWorker.timing.render / total) * 100) + "%");
+      System.out.println("Post: " + FusionAuthOAuth2AuthorizeWorker.timing.post + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.post / (iterationCount) + " ms, " + ((FusionAuthOAuth2AuthorizeWorker.timing.post / total) * 100) + "%");
+      System.out.println("Token: " + FusionAuthOAuth2AuthorizeWorker.timing.token + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.token / (iterationCount) + " ms, " + ((FusionAuthOAuth2AuthorizeWorker.timing.token / total) * 100) + "%");
       System.out.println("\n\n");
     }
 
