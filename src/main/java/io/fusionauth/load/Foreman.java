@@ -71,6 +71,16 @@ public class Foreman implements Buildable<Foreman> {
       reporter.stop();
     }
 
+
+    // Temp hack to get some general timings on the OAuth2 Authorize worker broken down by component
+    if (workers.get(0) instanceof FusionAuthOAuth2AuthorizeWorker) {
+      System.out.println("\n\n");
+      System.out.println("Render: " + FusionAuthOAuth2AuthorizeWorker.timing.render + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.render / (workers.size() * loopCount) + " ms");
+      System.out.println("Post: " + FusionAuthOAuth2AuthorizeWorker.timing.post + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.post / (workers.size() * loopCount) + " ms");
+      System.out.println("Token: " + FusionAuthOAuth2AuthorizeWorker.timing.token + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.token / (workers.size() * loopCount) + " ms");
+      System.out.println("\n\n");
+    }
+
     done = true;
     initialized = true;
     return this;

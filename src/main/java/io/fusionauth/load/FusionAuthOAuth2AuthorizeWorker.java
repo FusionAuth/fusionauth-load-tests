@@ -15,22 +15,13 @@
  */
 package io.fusionauth.load;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import com.inversoft.rest.ClientResponse;
+import com.inversoft.rest.FormDataBodyHandler;
+import com.inversoft.rest.RESTClient;
 import com.inversoft.rest.TextResponseHandler;
 import io.fusionauth.client.FusionAuthClient;
 import io.fusionauth.domain.oauth2.AccessToken;
@@ -42,6 +33,8 @@ import io.fusionauth.domain.oauth2.OAuthError;
  * @author Daniel DeGroff
  */
 public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
+  public static OAUth2Timing timing = new OAUth2Timing();
+
   private final String baseURL;
 
   private final FusionAuthClient client;
@@ -85,26 +78,68 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
     // 3. Exchange token
     //
 
-    String authCode = null;
 
     try {
-      int statusCode = getRequestToAuthorization();
+      long start = System.currentTimeMillis();
+      ClientResponse<Void, Void> getResponse = new RESTClient<>(Void.TYPE, Void.TYPE)
+          .url(this.baseURL + "/oauth2/authorize")
+          .urlParameter("client_id", clientId)
+          .urlParameter("response_type", "code")
+          .urlParameter("redirect_uri", redirectURI)
+          .followRedirects(false)
+          .get()
+          .go();
 
-      // 200 means we are not logged into SSO yet
-      if (statusCode == 200) {
-        authCode = postRequestToAuthorization(email);
-      } else if (statusCode == 302) {
-        System.out.println("Whoops, not coded for SSO redirect yet. ");
+      timing.render += (System.currentTimeMillis() - start);
+
+      if (getResponse.status == 200) {
+        // Submit the form
+        start = System.currentTimeMillis();
+        ClientResponse<Void, String> postResponse = new RESTClient<>(Void.TYPE, String.class)
+            .url(this.baseURL + "/oauth2/authorize")
+            .bodyHandler(new FormDataBodyHandler(Map.of(
+                "client_id", clientId,
+                "client_secret", clientSecret,
+                "loginId", email,
+                "password", Password,
+                "redirect_uri", redirectURI,
+                "response_type", "code")))
+            .errorResponseHandler(new TextResponseHandler())
+            .followRedirects(false)
+            .post()
+            .go();
+
+        timing.post += (System.currentTimeMillis() - start);
+
+        if (postResponse.status == 302) {
+          List<String> header = postResponse.headers.get("Location");
+          if (header != null) {
+            String location = header.get(0);
+            int index = location.indexOf("?code=") + 6;
+            String authCode = location.substring(index, location.indexOf("&", index));
+
+            // Exchange auth code for a token
+            start = System.currentTimeMillis();
+
+            ClientResponse<AccessToken, OAuthError> tokenResponse = client.exchangeOAuthCodeForAccessToken(authCode, clientId, clientSecret, redirectURI);
+            if (tokenResponse.wasSuccessful()) {
+              timing.token += (System.currentTimeMillis() - start);
+              return true;
+            }
+
+            System.out.println("/oauth2/token Fail [" + tokenResponse.status + "]");
+          }
+        } else {
+          System.out.println("Whoops! Post to /oauth2/authorized returned [" + postResponse.status + "]");
+          System.out.println(postResponse.errorResponse);
+        }
+
+      } else if (getResponse.status == 302) {
+        System.out.println("Whoops, not coded for SSO redirect yet.");
       }
 
     } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-
-    // Exchange the auth code for a token
-    ClientResponse<AccessToken, OAuthError> tokenResponse = client.exchangeOAuthCodeForAccessToken(authCode, this.clientId, this.clientSecret, this.redirectURI);
-    if (!tokenResponse.wasSuccessful()) {
-      System.out.println("/oauth2/token Fail [" + tokenResponse.status + "]");
+      System.out.println(e.getMessage());
     }
 
     return false;
@@ -118,92 +153,11 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
   public void prepare() {
   }
 
-  private int getRequestToAuthorization() throws IOException {
-    StringBuilder queryString = new StringBuilder();
-    Map<String, List<Object>> parameters = new LinkedHashMap<>();
-    parameters.put("client_id", List.of(this.clientId));
-    parameters.put("client_secret", List.of(this.clientSecret));
-    parameters.put("response_type", List.of("code"));
-    parameters.put("redirect_uri", List.of(this.redirectURI));
-    withParameters(queryString, parameters);
+  public static class OAUth2Timing {
+    public long post;
 
-    URL url = new URL(this.baseURL + "/oauth2/authorize" + queryString.toString());
+    public long render;
 
-    HttpURLConnection huc = (HttpURLConnection) url.openConnection();
-    huc.setDoOutput(false);
-    huc.setConnectTimeout(10_000);
-    huc.setReadTimeout(10_000);
-    huc.setRequestMethod("GET");
-
-    huc.connect();
-
-    return huc.getResponseCode();
-  }
-
-  private String postRequestToAuthorization(String email) throws Exception {
-    URL url = new URL(this.baseURL + "/oauth2/authorize");
-    HttpURLConnection huc = (HttpURLConnection) url.openConnection();
-    huc.setDoOutput(true);
-    huc.setConnectTimeout(10_000);
-    huc.setReadTimeout(10_000);
-    huc.setRequestMethod("POST");
-
-    String postBody = "client_id=" + this.clientId +
-                      "&client_secret=" + URLEncoder.encode(this.clientSecret, StandardCharsets.UTF_8) +
-                      "&loginId=" + URLEncoder.encode(email, StandardCharsets.UTF_8) +
-                      "&password=" + URLEncoder.encode(BaseWorker.Password, StandardCharsets.UTF_8) +
-                      "&redirect_uri=" + URLEncoder.encode(this.redirectURI, StandardCharsets.UTF_8) +
-                      "&response_type=code";
-    byte[] bodyBytes = postBody.getBytes(StandardCharsets.UTF_8);
-
-    huc.addRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-    huc.addRequestProperty("Content-Length", bodyBytes.length + "");
-
-    huc.setInstanceFollowRedirects(false);
-    huc.connect();
-
-    try (OutputStream os = huc.getOutputStream()) {
-      os.write(bodyBytes);
-      os.flush();
-    }
-
-    int postStatus = huc.getResponseCode();
-    String location = huc.getHeaderField("Location");
-    if (postStatus == 302) {
-      int index = location.indexOf("?code=") + 6;
-      return location.substring(index, location.indexOf("&", index));
-    } else if (postStatus == 200) {
-      try (InputStream postIs = huc.getInputStream()) {
-        TextResponseHandler htmlResponse = new TextResponseHandler();
-        String postResponseBody = htmlResponse.apply(postIs);
-        System.out.println(postResponseBody);
-      }
-    }
-
-    return null;
-  }
-
-  private void withParameters(StringBuilder urlString, Map<String, List<Object>> parameters) throws UnsupportedEncodingException {
-    if (parameters.size() > 0) {
-      if (urlString.indexOf("?") == -1) {
-        urlString.append("?");
-      }
-
-      for (Iterator<Entry<String, List<Object>>> i = parameters.entrySet().iterator(); i.hasNext(); ) {
-        Entry<String, List<Object>> entry = i.next();
-
-        for (Iterator<Object> j = entry.getValue().iterator(); j.hasNext(); ) {
-          Object value = j.next();
-          urlString.append(URLEncoder.encode(entry.getKey(), "UTF-8")).append("=").append(URLEncoder.encode(value.toString(), "UTF-8"));
-          if (j.hasNext()) {
-            urlString.append("&");
-          }
-        }
-
-        if (i.hasNext()) {
-          urlString.append("&");
-        }
-      }
-    }
+    public long token;
   }
 }
