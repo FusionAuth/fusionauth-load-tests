@@ -87,6 +87,8 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
           .urlParameter("response_type", "code")
           .urlParameter("redirect_uri", redirectURI)
           .followRedirects(false)
+          .connectTimeout(5_000)
+          .readTimeout(5_000)
           .get()
           .go();
 
@@ -106,6 +108,8 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
                 "response_type", "code")))
             .errorResponseHandler(new TextResponseHandler())
             .followRedirects(false)
+            .connectTimeout(5_000)
+            .readTimeout(5_000)
             .post()
             .go();
 
@@ -121,6 +125,9 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
             // Exchange auth code for a token
             start = System.currentTimeMillis();
 
+            client.connectTimeout = 5_000;
+            client.readTimeout = 5_000;
+
             ClientResponse<AccessToken, OAuthError> tokenResponse = client.exchangeOAuthCodeForAccessToken(authCode, clientId, clientSecret, redirectURI);
             if (tokenResponse.wasSuccessful()) {
               timing.token += (System.currentTimeMillis() - start);
@@ -132,6 +139,7 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
         } else {
           System.out.println("Whoops! Post to /oauth2/authorized returned [" + postResponse.status + "]");
           System.out.println(postResponse.errorResponse);
+          System.out.println(postResponse.exception);
         }
 
       } else if (getResponse.status == 302) {
