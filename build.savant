@@ -2,7 +2,7 @@
  * Copyright (c) 2018-2020, FusionAuth., All Rights Reserved
  */
 savantVersion = "1.0.0"
-fusionauthVersion = "1.28.1-{integration}"
+fusionauthVersion = "1.28.1"
 
 guavaVersion = "27.1.0-jre"
 guiceVersion = "4.2.3"
