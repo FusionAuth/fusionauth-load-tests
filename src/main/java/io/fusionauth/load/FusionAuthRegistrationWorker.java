@@ -59,7 +59,7 @@ public class FusionAuthRegistrationWorker extends BaseWorker {
 
     UserRegistration userRegistration = new UserRegistration().with(r -> r.applicationId = applicationId)
                                                               .with(r -> r.roles.add("user"));
-    ClientResponse<RegistrationResponse, Errors> result = client.register(null, new RegistrationRequest(user, userRegistration));
+    ClientResponse<RegistrationResponse, Errors> result = client.register(null, new RegistrationRequest(null, user, userRegistration));
     if (result.wasSuccessful()) {
       return true;
     }

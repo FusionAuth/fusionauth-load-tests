@@ -19,7 +19,6 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.inversoft.error.Errors;
-import io.fusionauth.load.Configuration;
 import com.inversoft.rest.ClientResponse;
 import io.fusionauth.client.FusionAuthClient;
 import io.fusionauth.domain.RefreshTokenExpirationPolicy;
@@ -83,7 +82,7 @@ public class FusionAuthCreateTenantWorker extends BaseWorker {
                                 .with(t -> t.passwordValidationRules.requireNumber = true)
                                 .with(t -> t.passwordValidationRules.validateOnLogin = true)
                                 .with(t -> t.themeId = UUID.fromString(configuration.getString("themeId")));
-    ClientResponse<TenantResponse, Errors> result = client.createTenant(null, new TenantRequest(tenant));
+    ClientResponse<TenantResponse, Errors> result = client.createTenant(null, new TenantRequest(null, tenant));
     if (result.wasSuccessful()) {
       return true;
     }

@@ -15,6 +15,7 @@
  */
 package io.fusionauth.load;
 
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.fusionauth.client.FusionAuthClient;
@@ -31,6 +32,8 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
 
   private final String directive;
 
+  private final String tenantId;
+
   @ConfigurationInjected
   public FusionAuthWorkerFactory(Configuration configuration) {
     this.client = new FusionAuthClient(configuration.getString("apiKey"), configuration.getString("url"), 5_000, 10_000);
@@ -38,6 +41,10 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
     this.directive = configuration.getString("directive", "register");
     if (counter.intValue() == -1) {
       counter.set(configuration.getInteger("counter", 0));
+    }
+    this.tenantId = configuration.getString("tenantId");
+    if (this.tenantId != null) {
+      this.client.setTenantId(UUID.fromString(tenantId));
     }
   }
 

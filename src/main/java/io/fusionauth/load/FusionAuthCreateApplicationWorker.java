@@ -41,7 +41,7 @@ public class FusionAuthCreateApplicationWorker extends BaseWorker {
   @Override
   public boolean execute() {
     Application application = new Application().with(t -> t.name = "application_" + counter.incrementAndGet());
-    ClientResponse<ApplicationResponse, Errors> result = client.createApplication(null, new ApplicationRequest(application, null));
+    ClientResponse<ApplicationResponse, Errors> result = client.createApplication(null, new ApplicationRequest(null, application, null));
     if (result.wasSuccessful()) {
       return true;
     }
