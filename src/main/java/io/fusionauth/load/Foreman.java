@@ -76,10 +76,15 @@ public class Foreman implements Buildable<Foreman> {
     if (workers.get(0) instanceof FusionAuthOAuth2AuthorizeWorker) {
       System.out.println("\n\n");
       long total = FusionAuthOAuth2AuthorizeWorker.timing.render + FusionAuthOAuth2AuthorizeWorker.timing.post + FusionAuthOAuth2AuthorizeWorker.timing.token;
-      long iterationCount = workers.size() * loopCount;
-      System.out.println("Render: " + FusionAuthOAuth2AuthorizeWorker.timing.render + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.render / (iterationCount) + " ms, " + ((FusionAuthOAuth2AuthorizeWorker.timing.render / total) * 100) + "%");
-      System.out.println("Post: " + FusionAuthOAuth2AuthorizeWorker.timing.post + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.post / (iterationCount) + " ms, " + ((FusionAuthOAuth2AuthorizeWorker.timing.post / total) * 100) + "%");
-      System.out.println("Token: " + FusionAuthOAuth2AuthorizeWorker.timing.token + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.token / (iterationCount) + " ms, " + ((FusionAuthOAuth2AuthorizeWorker.timing.token / total) * 100) + "%");
+      long iterationCount = (long) workers.size() * loopCount;
+
+      int renderPercent = (int) (FusionAuthOAuth2AuthorizeWorker.timing.render * 100.0 / total + 0.5);
+      int postPercent = (int) (FusionAuthOAuth2AuthorizeWorker.timing.post * 100.0 / total + 0.5);
+      int tokenPercent = (int) (FusionAuthOAuth2AuthorizeWorker.timing.token * 100.0 / total + 0.5);
+
+      System.out.println("Render: " + FusionAuthOAuth2AuthorizeWorker.timing.render + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.render / (iterationCount) + " ms, " + (renderPercent) + "%");
+      System.out.println("Post: " + FusionAuthOAuth2AuthorizeWorker.timing.post + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.post / (iterationCount) + " ms, " + (postPercent) + "%");
+      System.out.println("Token: " + FusionAuthOAuth2AuthorizeWorker.timing.token + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.token / (iterationCount) + " ms, " + (tokenPercent) + "%");
       System.out.println("\n\n");
     }
 

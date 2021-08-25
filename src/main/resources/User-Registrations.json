@@ -11,7 +11,7 @@
       "url": "https://local.fusionauth.io",
       "counter": 0,
       "encryptionScheme": "salted-pbkdf2-hmac-sha256",
-      "factor": 24000,
+      "factor": 1,
       "debug": true
     }
   },

@@ -23,6 +23,7 @@ import io.fusionauth.client.FusionAuthClient;
 /**
  * @author Daniel DeGroff
  */
+@SuppressWarnings("unused")
 public class FusionAuthWorkerFactory implements WorkerFactory {
   private static final AtomicInteger counter = new AtomicInteger(-1);
 
@@ -32,8 +33,6 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
 
   private final String directive;
 
-  private final String tenantId;
-
   @ConfigurationInjected
   public FusionAuthWorkerFactory(Configuration configuration) {
     this.client = new FusionAuthClient(configuration.getString("apiKey"), configuration.getString("url"), 5_000, 10_000);
@@ -42,8 +41,9 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
     if (counter.intValue() == -1) {
       counter.set(configuration.getInteger("counter", 0));
     }
-    this.tenantId = configuration.getString("tenantId");
-    if (this.tenantId != null) {
+
+    String tenantId = configuration.getString("tenantId", null);
+    if (tenantId != null) {
       this.client.setTenantId(UUID.fromString(tenantId));
     }
   }

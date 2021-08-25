@@ -116,25 +116,31 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
         timing.post += (System.currentTimeMillis() - start);
 
         if (postResponse.status == 302) {
-          List<String> header = postResponse.headers.get("Location");
-          if (header != null) {
-            String location = header.get(0);
-            int index = location.indexOf("?code=") + 6;
-            String authCode = location.substring(index, location.indexOf("&", index));
+          List<String> header = postResponse.headers.get("location");
+          if (header == null) {
+            System.out.println("Fail, cannot handle a redirect that does not have a Location header");
+            return false;
+          }
 
-            // Exchange auth code for a token
-            start = System.currentTimeMillis();
+          String location = header.get(0);
+          int index = location.indexOf("?code=") + 6;
+          String authCode = location.substring(index, location.indexOf("&", index));
 
-            client.connectTimeout = 7_000;
-            client.readTimeout = 7_000;
+          // Exchange auth code for a token
+          start = System.currentTimeMillis();
 
-            ClientResponse<AccessToken, OAuthError> tokenResponse = client.exchangeOAuthCodeForAccessToken(authCode, clientId, clientSecret, redirectURI);
-            if (tokenResponse.wasSuccessful()) {
-              timing.token += (System.currentTimeMillis() - start);
-              return true;
-            }
+          client.connectTimeout = 7_000;
+          client.readTimeout = 7_000;
 
-            System.out.println("/oauth2/token Fail [" + tokenResponse.status + "]");
+          ClientResponse<AccessToken, OAuthError> tokenResponse = client.exchangeOAuthCodeForAccessToken(authCode, clientId, clientSecret, redirectURI);
+          if (tokenResponse.wasSuccessful()) {
+            timing.token += (System.currentTimeMillis() - start);
+            return true;
+          }
+
+          System.out.println("/oauth2/token Fail [" + tokenResponse.status + "]");
+          if (tokenResponse.exception != null) {
+            System.out.println(tokenResponse.exception);
           }
         } else {
           System.out.println("Whoops! Post to /oauth2/authorized returned [" + postResponse.status + "]");
@@ -144,6 +150,8 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
 
       } else if (getResponse.status == 302) {
         System.out.println("Whoops, not coded for SSO redirect yet.");
+      } else {
+        System.out.println("Unexpected status code: " + getResponse.status);
       }
 
     } catch (Exception e) {
