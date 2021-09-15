@@ -124,7 +124,7 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
 
           String location = header.get(0);
           int index = location.indexOf("?code=") + 6;
-          String authCode = location.substring(index, location.indexOf("&", index));
+          String authCode = location.substring(index, location.indexOf('&', index));
 
           // Exchange auth code for a token
           start = System.currentTimeMillis();
