@@ -10,7 +10,7 @@ jacksonVersion = "2.12.2"
 jackson5Version = "2.4.8"
 javaErrorVersion = "2.2.2"
 logbackVersion = "1.2.3"
-restifyVersion = "3.7.2"
+restifyVersion = "3.8.0"
 slf4jVersion = "1.7.30"
 testngVersion = "7.3.0"
 
