@@ -11,4 +11,4 @@ for f in $(ls lib | grep .jar); do
   CLASSPATH=${CLASSPATH}:lib/$f
 done
 
-~/dev/java/current14/bin/java --enable-preview -cp ${CLASSPATH} io.fusionauth.load.LoadRunner $@
+~/dev/java/current17/bin/java -cp ${CLASSPATH} io.fusionauth.load.LoadRunner $@
