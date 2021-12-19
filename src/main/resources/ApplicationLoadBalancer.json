@@ -1,0 +1,23 @@
+{
+  "loopCount": 100,
+  "workerCount": 20,
+  "workerFactory": {
+    "className": "io.fusionauth.load.FusionAuthWorkerFactory",
+    "attributes": {
+      "directive": "simple-get",
+      "url": "https://testing-ha-es-ga-alb.fusionauth.dev",
+      "debug": true
+    }
+  },
+  "listeners": [
+    {
+      "className": "io.fusionauth.load.listeners.ThroughputListener"
+    }
+  ],
+  "reporter": {
+    "className": "io.fusionauth.load.reporters.DefaultReporter",
+    "attributes": {
+      "interval": 5
+    }
+  }
+}

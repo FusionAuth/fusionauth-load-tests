@@ -35,16 +35,23 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
 
   @ConfigurationInjected
   public FusionAuthWorkerFactory(Configuration configuration) {
-    this.client = new FusionAuthClient(configuration.getString("apiKey"), configuration.getString("url"), 5_000, 10_000);
+    String apiKey = configuration.getString("apiKey", null);
+    String tenantId = configuration.getString("tenantId", null);
+    String url = configuration.getString("url", null);
+    if (apiKey != null && url != null) {
+      this.client = new FusionAuthClient(apiKey, url, 5_000, 10_000);
+
+      if (tenantId != null) {
+        this.client.setTenantId(UUID.fromString(tenantId));
+      }
+    } else {
+      this.client = null;
+    }
+
     this.configuration = configuration;
     this.directive = configuration.getString("directive", "register");
     if (counter.intValue() == -1) {
       counter.set(configuration.getInteger("counter", 0));
-    }
-
-    String tenantId = configuration.getString("tenantId", null);
-    if (tenantId != null) {
-      this.client.setTenantId(UUID.fromString(tenantId));
     }
   }
 
@@ -53,8 +60,9 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
     return switch (directive) {
       case "create-application" -> new FusionAuthCreateApplicationWorker(client, configuration, counter);
       case "create-tenant" -> new FusionAuthCreateTenantWorker(client, configuration, counter);
-      case "oauth2/authorize" -> new FusionAuthOAuth2AuthorizeWorker(client, configuration);
+      case "simple-get" -> new FusionAuthSimpleGetWorker(configuration);
       case "login" -> new FusionAuthLoginWorker(client, configuration);
+      case "oauth2/authorize" -> new FusionAuthOAuth2AuthorizeWorker(client, configuration);
       case "register" -> new FusionAuthRegistrationWorker(client, configuration, counter);
       default -> throw new IllegalArgumentException("Invalid directive [" + directive + "]");
     };
