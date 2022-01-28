@@ -27,6 +27,8 @@ All of this is optional and will depend upon what you want your tests to do. How
    - If needed, update `./src/main/script/setupApplication.sh`. Change the name of the host where FusionAuth runs, if not running it locally.
    - Run `./src/main/script/setupApplication.sh`  
 
+You may also want to change the `factor` in the `User-Registrations.json` file. With no changes, it is `1` which is not very realistic. For a typical FusionAuth deployment, the default is `24000`.
+
 ### Configuring Load Tests For a Remote FusionAuth Instance
 
 The load tests are all configured to run against `local.fusionauth.io`. You can run load tests against a FusionAuth instance running at a different hostname, you just need to update the `url` key of each load test JSON file.
