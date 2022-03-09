@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2018-2020, FusionAuth., All Rights Reserved
+ * Copyright (c) 2018-2022, FusionAuth, All Rights Reserved
  */
 savantVersion = "1.0.0"
 fusionauthVersion = "1.35.0-{integration}"
 
 guavaVersion = "30.1.0-jre"
 guiceVersion = "5.0.1"
-jacksonVersion = "2.13.0"
+jacksonVersion = "2.13.2"
 jackson5Version = "2.6.1"
 javaErrorVersion = "2.2.3"
 logbackVersion = "1.3.0-alpha12"
@@ -69,7 +69,7 @@ release = loadPlugin(id: "org.savantbuild.plugin:release-git:${savantVersion}")
 file = loadPlugin(id: "org.savantbuild.plugin:file:1.0.2")
 
 idea.settings.moduleMap = [
-    "io.fusionauth:fusionauth-java-client:${fusionauthVersion}" : "fusionauth-java-client",
+    "io.fusionauth:fusionauth-java-client:${fusionauthVersion}": "fusionauth-java-client",
 ]
 
 java.settings.javaVersion = "17"
