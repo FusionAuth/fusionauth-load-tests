@@ -5,7 +5,7 @@ savantVersion = "1.0.0"
 fusionauthVersion = "1.35.0-{integration}"
 
 guavaVersion = "30.1.0-jre"
-guiceVersion = "5.0.1"
+guiceVersion = "5.1.0"
 jacksonVersion = "2.13.2"
 jackson5Version = "2.6.1"
 javaErrorVersion = "2.2.3"
