@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,12 +100,12 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
         ClientResponse<Void, String> postResponse = new RESTClient<>(Void.TYPE, String.class)
             .url(this.baseURL + "/oauth2/authorize")
             .bodyHandler(new FormDataBodyHandler(Map.of(
-                "client_id", clientId,
-                "client_secret", clientSecret,
-                "loginId", email,
-                "password", Password,
-                "redirect_uri", redirectURI,
-                "response_type", "code")))
+                "client_id", List.of(clientId),
+                "client_secret", List.of(clientSecret),
+                "loginId", List.of(email),
+                "password", List.of(Password),
+                "redirect_uri", List.of(redirectURI),
+                "response_type", List.of("code"))))
             .errorResponseHandler(new TextResponseHandler())
             .followRedirects(false)
             .connectTimeout(7_000)
