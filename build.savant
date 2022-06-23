@@ -2,7 +2,7 @@
  * Copyright (c) 2018-2022, FusionAuth, All Rights Reserved
  */
 savantVersion = "1.0.0"
-fusionauthVersion = "1.36.7"
+fusionauthVersion = "1.36.8-{integration}"
 
 guavaVersion = "30.1.0-jre"
 guiceVersion = "5.1.0"
@@ -15,7 +15,7 @@ restifyVersion = "3.9.0"
 slf4jVersion = "2.0.0-alpha5"
 testngVersion = "7.3.0"
 
-project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.36.7", licenses: ["ApacheV2_0"]) {
+project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.36.8", licenses: ["ApacheV2_0"]) {
   workflow {
     fetch {
       cache()
