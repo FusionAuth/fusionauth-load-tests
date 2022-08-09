@@ -99,13 +99,16 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
         start = System.currentTimeMillis();
         ClientResponse<Void, String> postResponse = new RESTClient<>(Void.TYPE, String.class)
             .url(this.baseURL + "/oauth2/authorize")
-            .bodyHandler(new FormDataBodyHandler(Map.of(
-                "client_id", clientId,
-                "client_secret", clientSecret,
-                "loginId", email,
-                "password", Password,
-                "redirect_uri", redirectURI,
-                "response_type", "code")))
+            .bodyHandler(new FormDataBodyHandler(
+                Map.of(
+                    "client_id", List.of(clientId),
+                    "client_secret", List.of(clientSecret),
+                    "loginId", List.of(email),
+                    "password", List.of(Password),
+                    "redirect_uri", List.of(redirectURI),
+                    "response_type", List.of("code")
+                )
+            ))
             .errorResponseHandler(new TextResponseHandler())
             .followRedirects(false)
             .connectTimeout(7_000)
