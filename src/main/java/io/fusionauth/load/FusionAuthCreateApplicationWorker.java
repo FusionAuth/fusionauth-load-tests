@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public class FusionAuthCreateApplicationWorker extends BaseWorker {
   @Override
   public boolean execute() {
     Application application = new Application().with(t -> t.name = "application_" + counter.incrementAndGet());
-    ClientResponse<ApplicationResponse, Errors> result = client.createApplication(null, new ApplicationRequest(null, application, null));
+    ClientResponse<ApplicationResponse, Errors> result = client.createApplication(null, new ApplicationRequest(null, application));
     if (result.wasSuccessful()) {
       return true;
     }
