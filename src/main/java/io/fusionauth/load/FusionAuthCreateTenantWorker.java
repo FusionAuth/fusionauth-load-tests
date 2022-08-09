@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,7 +82,7 @@ public class FusionAuthCreateTenantWorker extends BaseWorker {
                                 .with(t -> t.passwordValidationRules.requireNumber = true)
                                 .with(t -> t.passwordValidationRules.validateOnLogin = true)
                                 .with(t -> t.themeId = UUID.fromString(configuration.getString("themeId")));
-    ClientResponse<TenantResponse, Errors> result = client.createTenant(null, new TenantRequest(null, tenant));
+    ClientResponse<TenantResponse, Errors> result = client.createTenant(null, new TenantRequest(null, tenant, null));
     if (result.wasSuccessful()) {
       return true;
     }
