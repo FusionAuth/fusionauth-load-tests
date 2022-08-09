@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,9 +49,14 @@ public class Foreman implements Buildable<Foreman> {
     initialize();
     ExecutorService pool = Executors.newFixedThreadPool(workers.size());
 
+    // Gradually build up workers, to reduce the chance of failures while we get going.
     for (Worker worker : workers) {
       WorkerExecutor executor = new WorkerExecutor(worker, loopCount, listeners);
       pool.execute(executor);
+      try {
+        Thread.sleep(1123);
+      } catch (Exception ignore) {
+      }
     }
 
     if (this.reporter != null) {

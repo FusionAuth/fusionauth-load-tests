@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import java.util.Random;
 import java.util.UUID;
 
 import com.inversoft.error.Errors;
-import io.fusionauth.load.Configuration;
 import com.inversoft.rest.ClientResponse;
 import io.fusionauth.client.FusionAuthClient;
 import io.fusionauth.domain.api.LoginRequest;

@@ -1,5 +1,21 @@
 #!/usr/bin/env bash
 
+#
+# Copyright (c) 2022-2022, FusionAuth, All Rights Reserved
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the License for the specific
+# language governing permissions and limitations under the License.
+#
+
 # Grab the path
 if [[ ! -d lib ]]; then
   echo "Unable to locate library files needed to run the load tests. [lib]"
@@ -11,4 +27,10 @@ for f in $(ls lib | grep .jar); do
   CLASSPATH=${CLASSPATH}:lib/$f
 done
 
-~/dev/java/current17/bin/java -cp ${CLASSPATH} io.fusionauth.load.LoadRunner $@
+suspend=""
+if [[ $# > 1 && $1 == "--suspend" ]]; then
+  suspend="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000"
+  shift
+fi
+
+~/dev/java/current17/bin/java ${suspend} -cp ${CLASSPATH} io.fusionauth.load.LoadRunner $@

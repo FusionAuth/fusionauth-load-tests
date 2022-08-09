@@ -29,6 +29,17 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar://$USER_HOME$/.savant/cache/com/google/inject/guice/5.1.0/guice-5.1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.savant/cache/com/google/inject/guice/5.1.0/guice-5.1.0-src.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/java-error/2.2.3/java-error-2.2.3.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -40,33 +51,22 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/3.9.1/restify-3.9.1.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/4.2.0-{integration}/restify-4.2.0-{integration}.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/3.9.1/restify-3.9.1-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/4.2.0-{integration}/restify-4.2.0-{integration}-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/2.6.1/jackson5-2.6.1.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/3.0.0/jackson5-3.0.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/2.6.1/jackson5-2.6.1-src.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/google/inject/guice/5.1.0/guice-5.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/google/inject/guice/5.1.0/guice-5.1.0-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/jackson5/3.0.0/jackson5-3.0.0-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -332,4 +332,3 @@
     </orderEntry>
   </component>
 </module>
-
