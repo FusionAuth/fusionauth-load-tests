@@ -14,7 +14,6 @@
     </content>
     <orderEntry type="jdk" jdkName="Java 17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="fusionauth-java-client" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -26,6 +25,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="fusionauth-java-client" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -40,11 +40,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/4.2.0-{integration}/restify-4.2.0-{integration}.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/4.1.2/restify-4.1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/4.2.0-{integration}/restify-4.2.0-{integration}-src.jar!/" />
+          <root url="jar://$USER_HOME$/.savant/cache/com/inversoft/restify/4.1.2/restify-4.1.2-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
