@@ -54,7 +54,7 @@ public class Foreman implements Buildable<Foreman> {
       WorkerExecutor executor = new WorkerExecutor(worker, loopCount, listeners);
       pool.execute(executor);
       try {
-        Thread.sleep(1123);
+        Thread.sleep(117);
       } catch (Exception ignore) {
       }
     }
@@ -120,9 +120,11 @@ public class Foreman implements Buildable<Foreman> {
 
     System.out.println("  --> Prepare the factory for production....");
     workerFactory.prepare(loadDefinition);
+    System.out.println("  --> Done");
 
-    IntStream.range(0, this.workerCount).forEachOrdered((n) ->
-                                                            workers.add(this.workerFactory.createWorker()));
+    System.out.println("  --> Starting workers....");
+    IntStream.range(0, this.workerCount).forEachOrdered((n) -> workers.add(this.workerFactory.createWorker()));
+    System.out.println("  --> Done");
 
     if (reporter != null) {
       reporter.addSampleListeners(listeners);

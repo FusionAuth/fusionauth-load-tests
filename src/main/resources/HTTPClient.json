@@ -1,0 +1,24 @@
+{
+  "loopCount": 100000,
+  "workerCount": 10,
+  "workerFactory": {
+    "className": "io.fusionauth.load.FusionAuthWorkerFactory",
+    "attributes": {
+      "client": "apache",
+      "debug": true,
+      "directive": "status",
+      "url": "https://local.fusionauth.io"
+    }
+  },
+  "listeners": [
+    {
+      "className": "io.fusionauth.load.listeners.ThroughputListener"
+    }
+  ],
+  "reporter": {
+    "className": "io.fusionauth.load.reporters.DefaultReporter",
+    "attributes": {
+      "interval": 5
+    }
+  }
+}

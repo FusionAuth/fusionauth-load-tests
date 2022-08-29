@@ -15,9 +15,6 @@
  */
 package io.fusionauth.load;
 
-import com.inversoft.error.Errors;
-import io.fusionauth.load.Configuration;
-import io.fusionauth.load.Worker;
 import com.inversoft.rest.ClientResponse;
 
 /**
@@ -37,7 +34,7 @@ public abstract class BaseWorker implements Worker {
     this.configuration = configuration;
   }
 
-  void printErrors(ClientResponse<?, Errors> result) {
+  void printErrors(ClientResponse<?, ?> result) {
     if (debug || result.status == 400) {
       if (result.exception != null) {
         System.out.println(result.exception.getMessage());
