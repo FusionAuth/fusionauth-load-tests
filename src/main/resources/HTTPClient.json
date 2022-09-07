@@ -1,10 +1,10 @@
 {
-  "loopCount": 100000,
+  "loopCount": 500000,
   "workerCount": 10,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
     "attributes": {
-      "client": "apache",
+      "client": "fusionauth",
       "debug": true,
       "directive": "status",
       "url": "https://local.fusionauth.io"

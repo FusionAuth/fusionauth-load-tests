@@ -13,9 +13,13 @@
  * either express or implied. See the License for the specific
  * language governing permissions and limitations under the License.
  */
-package io.fusionauth.load.http.server;
+package io.fusionauth.load.http;
 
 public final class HTTPTools {
+  public static boolean isDigitCharacter(byte ch) {
+    return ch >= '0' && ch <= '9';
+  }
+
   /**
    * Determines if the given character (byte) is an allowed HTTP token character (header field names, methods, etc).
    * <p>
@@ -39,5 +43,9 @@ public final class HTTPTools {
   public static boolean isURICharacter(byte ch) {
     // TODO : Fully implement RFC 3986 to accurate parsing
     return ch >= '!' && ch <= '~';
+  }
+
+  public static boolean isValueCharacter(byte ch) {
+    return isURICharacter(ch) || ch == ' ' || ch == '\t' || ch == '\n';
   }
 }

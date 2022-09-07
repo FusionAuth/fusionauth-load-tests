@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import io.fusionauth.load.http.server.RequestParserState;
+import java.util.concurrent.CompletableFuture;
 
 public class HTTPData {
   public static final int BufferSize = 1024;
@@ -32,21 +31,33 @@ public class HTTPData {
 
   public final Map<String, List<String>> headers = new HashMap<>();
 
+  public int bodyBytes;
+
+  public int bodyLength;
+
+  public int bodyOffset;
+
+  public int code;
+
+  public CompletableFuture<Integer> future;
+
+  public boolean hasBody;
+
   public String headerName;
+
+  public String host;
 
   public long lastUsed;
 
-  public String method;
+  public String message;
 
   public int offset;
-
-  public String path;
 
   public String protocl;
 
   public ByteBuffer request;
 
-  public RequestParserState state = RequestParserState.RequestMethod;
+  public ResponseParserState state = ResponseParserState.ResponseProtocol;
 
   public ByteBuffer currentBuffer() {
     ByteBuffer last = buffers.isEmpty() ? null : buffers.get(buffers.size() - 1);
@@ -58,20 +69,30 @@ public class HTTPData {
     return last;
   }
 
-  public boolean isRequestComplete() {
+  public boolean isResponseComplete() {
     int index = offset / BufferSize;
     ByteBuffer buffer = buffers.get(index);
     byte[] array = buffer.array();
     for (int i = 0; i < buffer.position(); i++) {
+      if (hasBody) {
+        bodyBytes++;
+        offset++;
+        if (bodyBytes == bodyLength) {
+          return true;
+        }
+
+        continue;
+      }
+
       // If there is a state transition, store the value properly and reset the builder (if needed)
-      RequestParserState nextState = state.next(array[i]);
+      ResponseParserState nextState = state.next(array[i], headers);
       if (nextState != state) {
         switch (state) {
-          case RequestMethod -> method = builder.toString();
-          case RequestPath -> path = builder.toString();
-          case RequestProtocol -> protocl = builder.toString();
+          case ResponseStatusCode -> code = Integer.parseInt(builder.toString());
+          case ResponseStatusMessage -> message = builder.toString();
+          case ResponseProtocol -> protocl = builder.toString();
           case HeaderName -> headerName = builder.toString();
-          case HeaderValue -> headers.computeIfAbsent(headerName, key -> new ArrayList<>()).add(builder.toString());
+          case HeaderValue -> headers.computeIfAbsent(headerName.toLowerCase(), key -> new ArrayList<>()).add(builder.toString());
         }
 
         // If the next state is storing, reset the builder
@@ -85,8 +106,15 @@ public class HTTPData {
       }
 
       state = nextState;
-      if (state == RequestParserState.RequestComplete) {
-        return true;
+      if (state == ResponseParserState.ResponseComplete) {
+        hasBody = headers.containsKey("content-length");
+        bodyOffset = offset;
+        bodyLength = Integer.parseInt(headers.get("content-length").get(0));
+
+        // If there is a body, we continue in this loop, and we'll keep parsing
+        if (!hasBody) {
+          return true;
+        }
       }
 
       // Increment the offset across all the buffers
@@ -101,15 +129,19 @@ public class HTTPData {
   }
 
   public void reset() {
+    bodyBytes = 0;
+    bodyLength = 0;
+    bodyOffset = 0;
+    hasBody = false;
     buffers.clear();
     builder.delete(0, builder.length());
     headers.clear();
     headerName = null;
     lastUsed = 0;
-    method = null;
+    code = 0;
     offset = 0;
-    path = null;
+    message = null;
     protocl = null;
-    state = RequestParserState.RequestMethod;
+    state = ResponseParserState.ResponseStatusCode;
   }
 }

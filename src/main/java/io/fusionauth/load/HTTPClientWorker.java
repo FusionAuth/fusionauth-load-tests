@@ -24,6 +24,7 @@ import java.time.Duration;
 
 import com.inversoft.rest.RESTClient;
 import com.inversoft.rest.TextResponseHandler;
+import io.fusionauth.load.http.client.SimpleNIOClient;
 import io.fusionauth.load.http.server.NettyHTTPClient;
 import io.fusionauth.load.http.server.SimpleNIOServer;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -33,7 +34,7 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 /**
  * Worker to test status endpoint.
  *
- * @author Daniel DeGroff
+ * @author Brian Pontarelli
  */
 @SuppressWarnings("IfCanBeSwitch")
 public class HTTPClientWorker extends BaseWorker {
@@ -107,6 +108,12 @@ public class HTTPClientWorker extends BaseWorker {
       try (var nettyClient = new NettyHTTPClient()) {
         return nettyClient.go();
       }
+    } else if (clientType.equals("fusionauth")) {
+      SimpleNIOClient client = new SimpleNIOClient();
+      int result = client.url("http://localhost:9011/api/system/version")
+            .get()
+            .go();
+      return result == 200;
     } else {
       System.out.println("Invalid HTTP client type [" + clientType + "]");
     }

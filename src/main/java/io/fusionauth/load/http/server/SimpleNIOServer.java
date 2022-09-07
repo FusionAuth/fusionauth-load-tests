@@ -55,6 +55,8 @@ public class SimpleNIOServer extends Thread implements Closeable {
     channel.configureBlocking(false);
     channel.bind(new InetSocketAddress(InetAddress.getByName("localhost"), 9011));
     channel.register(selector, SelectionKey.OP_ACCEPT);
+
+    System.out.println("Server started");
   }
 
   @Override
@@ -99,6 +101,7 @@ public class SimpleNIOServer extends Thread implements Closeable {
         while (iterator.hasNext()) {
           var key = iterator.next();
           if (key.isAcceptable()) {
+            System.out.println("Accepting");
             accept();
           } else if (key.isReadable()) {
             read(key);

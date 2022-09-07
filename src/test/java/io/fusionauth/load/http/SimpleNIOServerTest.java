@@ -15,9 +15,7 @@
  */
 package io.fusionauth.load.http;
 
-import com.inversoft.rest.ClientResponse;
-import com.inversoft.rest.RESTClient;
-import com.inversoft.rest.TextResponseHandler;
+import io.fusionauth.load.http.client.SimpleNIOClient;
 import io.fusionauth.load.http.server.SimpleNIOServer;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
@@ -34,16 +32,23 @@ public class SimpleNIOServerTest {
       server.start();
 
       for (int i = 0; i < 1_000_000; i++) {
-        ClientResponse<String, String> response = new RESTClient<>(String.class, String.class)
-            .url("http://localhost:9011/api/system/version")
-            .successResponseHandler(new TextResponseHandler())
-            .errorResponseHandler(new TextResponseHandler())
-            .connectTimeout(1_000_000)
-            .readTimeout(1_000_000)
-            .get()
-            .go();
+        SimpleNIOClient client = new SimpleNIOClient();
+        int status = client.url("http://localhost:9011/api/system/version")
+                           .get()
+                           .go();
 
-        assertEquals(response.status, 200);
+        assertEquals(status, 200);
+
+//        ClientResponse<String, String> response = new RESTClient<>(String.class, String.class)
+//            .url("http://localhost:9011/api/system/version")
+//            .successResponseHandler(new TextResponseHandler())
+//            .errorResponseHandler(new TextResponseHandler())
+//            .connectTimeout(1_000_000)
+//            .readTimeout(1_000_000)
+//            .get()
+//            .go();
+//
+//        assertEquals(response.status, 200);
 
         if (i % 10_000 == 0) {
           System.out.println(i);

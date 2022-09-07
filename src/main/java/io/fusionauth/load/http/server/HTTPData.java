@@ -69,7 +69,7 @@ public class HTTPData {
           case RequestPath -> path = builder.toString();
           case RequestProtocol -> protocl = builder.toString();
           case HeaderName -> headerName = builder.toString();
-          case HeaderValue -> headers.computeIfAbsent(headerName, key -> new ArrayList<>()).add(builder.toString());
+          case HeaderValue -> headers.computeIfAbsent(headerName.toLowerCase(), key -> new ArrayList<>()).add(builder.toString());
         }
 
         // If the next state is storing, reset the builder

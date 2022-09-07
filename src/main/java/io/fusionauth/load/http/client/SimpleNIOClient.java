@@ -16,30 +16,41 @@
 package io.fusionauth.load.http.client;
 
 import java.io.IOException;
+import java.net.URI;
+import java.util.concurrent.Future;
 
 public class SimpleNIOClient {
-  private final NIOClientThread thread;
+  private static final NIOClientThread thread;
 
   public String method;
 
   public String url;
-
-  public SimpleNIOClient() throws IOException {
-    thread = new NIOClientThread();
-    thread.start();
-  }
 
   public SimpleNIOClient get() {
     this.method = "GET";
     return this;
   }
 
-  public SimpleNIOClient go() {
-    thread.add(url, method);
+  public int go() {
+    try {
+      Future<Integer> future = thread.add(URI.create(url), method);
+      return future.get();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public SimpleNIOClient url(String url) {
     this.url = url;
     return this;
+  }
+
+  static {
+    try {
+      thread = new NIOClientThread();
+      thread.start();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

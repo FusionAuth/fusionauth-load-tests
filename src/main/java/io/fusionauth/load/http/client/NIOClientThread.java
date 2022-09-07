@@ -24,7 +24,10 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
+@SuppressWarnings("resource")
 public class NIOClientThread extends Thread implements Closeable {
 //  final Queue<SelectionKey> clientKeys = new ConcurrentLinkedQueue<>();
 
@@ -33,25 +36,42 @@ public class NIOClientThread extends Thread implements Closeable {
   // TODO : clean up stale connections to servers
 //  private final ClientReaperThread clientReaper;
 
+  private final ChannelPool pool = new ChannelPool();
+
   private final Selector selector;
 
   public NIOClientThread() throws IOException {
     selector = Selector.open();
-    start();
+    System.out.println("Client started");
   }
 
-  public void add(URI uri, String method) throws IOException {
-    SocketChannel channel = SocketChannel.open();
-    channel.configureBlocking(false);
-    channel.connect(new InetSocketAddress(uri.getHost(), uri.getPort()));
-
-    SelectionKey key = channel.register(selector, SelectionKey.OP_CONNECT);
+  public Future<Integer> add(URI uri, String method) throws IOException {
     HTTPData data = new HTTPData();
-    data.request = ByteBuffer.wrap("""
-                                    GET /api/system/version HTTP/1.1\r
-                                    \r
-                                    """.getBytes());
-    key.attach(data);
+    data.request = ByteBuffer.wrap(
+        """
+            GET /api/system/version HTTP/1.1\r
+            \r
+            """.getBytes());
+    data.future = new CompletableFuture<>();
+    data.host = uri.getHost();
+
+    SocketChannel channel = pool.checkout(uri.getHost());
+    if (channel == null) {
+      channel = SocketChannel.open();
+      channel.configureBlocking(false);
+      channel.connect(new InetSocketAddress(uri.getHost(), uri.getPort()));
+
+      SelectionKey key = channel.register(selector, SelectionKey.OP_CONNECT);
+      key.attach(data);
+    } else {
+      SelectionKey key = channel.keyFor(selector);
+      key.attach(data);
+      key.interestOps(SelectionKey.OP_WRITE);
+    }
+
+    // Wakeup! Time to put on a little makeup!
+    selector.wakeup();
+    return data.future;
   }
 
   @Override
@@ -83,6 +103,7 @@ public class NIOClientThread extends Thread implements Closeable {
         while (iterator.hasNext()) {
           var key = iterator.next();
           if (key.isConnectable()) {
+            System.out.println("Connecting");
             connect(key);
           } else if (key.isReadable()) {
             read(key);
@@ -115,8 +136,9 @@ public class NIOClientThread extends Thread implements Closeable {
     }
 
     if (data.isResponseComplete()) {
-      data.reset();
-      key.interestOps(SelectionKey.OP_WRITE);
+      data.future.complete(data.code);
+      key.attach(null);
+      pool.checkin(data.host, (SocketChannel) key.channel());
     }
   }
 
