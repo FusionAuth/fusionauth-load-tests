@@ -15,7 +15,6 @@
  */
 package io.fusionauth.load;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -24,9 +23,10 @@ import java.time.Duration;
 
 import com.inversoft.rest.RESTClient;
 import com.inversoft.rest.TextResponseHandler;
+import io.fusionauth.http.server.HTTPHandler;
+import io.fusionauth.http.server.HTTPServer;
 import io.fusionauth.load.http.client.SimpleNIOClient;
 import io.fusionauth.load.http.server.NettyHTTPClient;
-import io.fusionauth.load.http.server.SimpleNIOServer;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
@@ -38,17 +38,13 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
  */
 @SuppressWarnings("IfCanBeSwitch")
 public class HTTPClientWorker extends BaseWorker {
-  public static final HttpRequest httpRequest;
+  private static HttpClient Client;
 
-  private static final HttpClient httpClient;
+  private static final byte[] Response = "{\"version\":\"42\"}".getBytes();
 
-//  private static final byte[] httpResponse = "{\"version\":\"42\"}".getBytes();
+  private static HttpRequest Request;
 
-//  private static final NettyHTTPClient nettyClient = new NettyHTTPClient();
-
-//  private static final HttpServer server;
-
-  private static final SimpleNIOServer nioServer;
+  private static HTTPServer Server;
 
   private final String clientType;
 
@@ -77,7 +73,7 @@ public class HTTPClientWorker extends BaseWorker {
       printErrors(response);
     } else if (clientType.equals("jdk")) {
       try {
-        var response = httpClient.send(httpRequest, BodyHandlers.ofString());
+        var response = Client.send(Request, BodyHandlers.ofString());
         if (response.statusCode() == 200) {
           return true;
         }
@@ -111,8 +107,8 @@ public class HTTPClientWorker extends BaseWorker {
     } else if (clientType.equals("fusionauth")) {
       SimpleNIOClient client = new SimpleNIOClient();
       int result = client.url("http://localhost:9011/api/system/version")
-            .get()
-            .go();
+                         .get()
+                         .go();
       return result == 200;
     } else {
       System.out.println("Invalid HTTP client type [" + clientType + "]");
@@ -131,35 +127,23 @@ public class HTTPClientWorker extends BaseWorker {
 
   static {
     System.setProperty("jdk.httpclient.allowRestrictedHeaders", "connection");
-    httpClient = HttpClient.newBuilder()
-                           .connectTimeout(Duration.ofSeconds(3))
-                           .build();
-    httpRequest = HttpRequest.newBuilder(URI.create("http://localhost:9011/api/system/version"))
-                             .header("Authorization", "bf69486b-4733-4470-a592-f1bfce7af580")
-                             .header("Connection", "keep-alive")
-                             .GET()
-                             .build();
+    Client = HttpClient.newBuilder()
+                       .connectTimeout(Duration.ofSeconds(3))
+                       .build();
+    Request = HttpRequest.newBuilder(URI.create("http://localhost:9011/api/system/version"))
+                         .header("Authorization", "bf69486b-4733-4470-a592-f1bfce7af580")
+                         .header("Connection", "keep-alive")
+                         .GET()
+                         .build();
 
-    try {
-      nioServer = new SimpleNIOServer();
-      nioServer.start();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    HTTPHandler handler = (req, res) -> {
+      res.setContentLength(Response.length);
+      res.setContentType("application/json");
+      res.getOutputStream().write(Response);
+      res.getOutputStream().close();
+    };
 
-//    try {
-//      server = HttpServer.create(new InetSocketAddress(9011), 1024);
-//      server.createContext("/", exchange -> {
-//        exchange.getResponseHeaders().add("Content-Type", "application/json");
-//        exchange.getResponseHeaders().add("Content-Length", "" + httpResponse.length);
-//        exchange.sendResponseHeaders(200, httpResponse.length);
-//        exchange.getResponseBody().write(httpResponse);
-//        exchange.getResponseBody().flush();
-//        exchange.getResponseBody().close();
-//      });
-//      server.start();
-//    } catch (IOException e) {
-//      throw new RuntimeException(e);
-//    }
+    Server = new HTTPServer().withPort(9011).withNumberOfWorkerThreads(200).withHandler(handler);
+    Server.start();
   }
 }

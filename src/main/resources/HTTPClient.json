@@ -4,7 +4,7 @@
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
     "attributes": {
-      "client": "fusionauth",
+      "client": "restify",
       "debug": true,
       "directive": "status",
       "url": "https://local.fusionauth.io"
