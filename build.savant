@@ -14,11 +14,7 @@
  * language governing permissions and limitations under the License.
  */
 savantVersion = "1.0.0"
-<<<<<<< HEAD
 fusionauthVersion = "1.41.0-{integration}"
-=======
-fusionauthVersion = "1.40.2"
->>>>>>> master
 
 guavaVersion = "30.1.0-jre"
 guiceVersion = "5.1.0"
@@ -30,11 +26,7 @@ restifyVersion = "4.1.2"
 slf4jVersion = "2.0.0-alpha5"
 testngVersion = "7.3.0"
 
-<<<<<<< HEAD
 project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.41.0", licenses: ["ApacheV2_0"]) {
-=======
-project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.40.2", licenses: ["ApacheV2_0"]) {
->>>>>>> master
   workflow {
     fetch {
       cache()
