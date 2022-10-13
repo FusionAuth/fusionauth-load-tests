@@ -142,6 +142,10 @@ target(name: "int", description: "Releases a local integration build of the proj
   }
 }
 
+target(name: "app", description: "Builds the app", dependsOn: ["int"]) {
+  // No-op
+}
+
 target(name: "release", description: "Releases a full version of the project", dependsOn: ["int"]) {
   release.release()
 }

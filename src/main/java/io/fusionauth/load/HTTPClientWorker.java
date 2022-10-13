@@ -23,7 +23,6 @@ import java.time.Duration;
 
 import com.inversoft.rest.RESTClient;
 import com.inversoft.rest.TextResponseHandler;
-import io.fusionauth.http.server.HTTPHandler;
 import io.fusionauth.http.server.HTTPServer;
 import io.fusionauth.load.http.client.SimpleNIOClient;
 import io.fusionauth.load.http.server.NettyHTTPClient;
@@ -38,11 +37,11 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
  */
 @SuppressWarnings("IfCanBeSwitch")
 public class HTTPClientWorker extends BaseWorker {
-  private static HttpClient Client;
-
   private static final byte[] Response = "{\"version\":\"42\"}".getBytes();
 
-  private static HttpRequest Request;
+  private static final HttpClient Client;
+
+  private static final HttpRequest Request;
 
   private static HTTPServer Server;
 
@@ -57,8 +56,7 @@ public class HTTPClientWorker extends BaseWorker {
   public boolean execute() {
     if (clientType.equals("restify")) {
       var response = new RESTClient<>(String.class, String.class)
-          .url("http://localhost:9011/api/system/version")
-          .authorization("bf69486b-4733-4470-a592-f1bfce7af580")
+          .url("http://localhost:8080/api/status")
           .header("Connection", "keep-alive")
           .successResponseHandler(new TextResponseHandler())
           .errorResponseHandler(new TextResponseHandler())
@@ -130,20 +128,19 @@ public class HTTPClientWorker extends BaseWorker {
     Client = HttpClient.newBuilder()
                        .connectTimeout(Duration.ofSeconds(3))
                        .build();
-    Request = HttpRequest.newBuilder(URI.create("http://localhost:9011/api/system/version"))
-                         .header("Authorization", "bf69486b-4733-4470-a592-f1bfce7af580")
+    Request = HttpRequest.newBuilder(URI.create("http://localhost:8080/api/status"))
                          .header("Connection", "keep-alive")
                          .GET()
                          .build();
 
-    HTTPHandler handler = (req, res) -> {
-      res.setContentLength(Response.length);
-      res.setContentType("application/json");
-      res.getOutputStream().write(Response);
-      res.getOutputStream().close();
-    };
+//    HTTPHandler handler = (req, res) -> {
+//      res.setContentLength(Response.length);
+//      res.setContentType("application/json");
+//      res.getOutputStream().write(Response);
+//      res.getOutputStream().close();
+//    };
 
-    Server = new HTTPServer().withPort(9011).withNumberOfWorkerThreads(200).withHandler(handler);
-    Server.start();
+//    Server = new HTTPServer().withListener(new HTTPListenerConfiguration()).withNumberOfWorkerThreads(200).withHandler(handler);
+//    Server.start();
   }
 }
