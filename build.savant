@@ -56,7 +56,7 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.41.0-
       dependency(id: "ch.qos.logback:logback-classic:${logbackVersion}")
       dependency(id: "ch.qos.logback:logback-core:${logbackVersion}")
     }
-    group(name: "test-compile") {
+    group(name: "test-compile", export: false) {
       dependency(id: "com.google.guava:guava:${guavaVersion}", skipCompatibilityCheck: true)
       dependency(id: "org.testng:testng:${testngVersion}")
     }
