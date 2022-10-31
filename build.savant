@@ -13,6 +13,7 @@
  * either express or implied. See the License for the specific
  * language governing permissions and limitations under the License.
  */
+
 fusionauthVersion = "1.41.0-EAP.20221027.{integration}"
 
 guavaVersion = "30.1.0-jre"
@@ -51,7 +52,7 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.41.0-
       dependency(id: "com.inversoft:java-error:${javaErrorVersion}")
       dependency(id: "com.inversoft:restify:${restifyVersion}")
       dependency(id: "io.fusionauth:fusionauth-java-client:${fusionauthVersion}")
-      dependency(id: "org.slf4j:slf4j-api:${slf4jVersion}")
+      dependency(id: "org.slf4j:slf4j-api:${slf4jVersion}", skipCompatibilityCheck: true)
     }
     group(name: "runtime") {
       dependency(id: "ch.qos.logback:logback-classic:${logbackVersion}")
