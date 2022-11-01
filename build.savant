@@ -25,7 +25,7 @@ javaErrorVersion = "2.2.3"
 logbackVersion = "1.4.4"
 restifyVersion = "4.1.2"
 slf4jVersion = "2.0.3"
-testngVersion = "7.6.1"
+testngVersion = "7.3.0"
 
 project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.41.0-EAP.20221027", licenses: ["ApacheV2_0"]) {
   workflow {
