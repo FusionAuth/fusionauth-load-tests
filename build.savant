@@ -13,20 +13,21 @@
  * either express or implied. See the License for the specific
  * language governing permissions and limitations under the License.
  */
-savantVersion = "1.0.0"
-fusionauthVersion = "1.40.2"
+
+fusionauthVersion = "1.41.0-{integration}"
 
 guavaVersion = "30.1.0-jre"
 guiceVersion = "5.1.0"
-jacksonVersion = "2.13.3"
+jacksonVersion = "2.13.4"
+jacksonDatabindVersion = "2.13.4+2"
 jackson5Version = "3.0.1"
 javaErrorVersion = "2.2.3"
-logbackVersion = "1.3.0-alpha12"
+logbackVersion = "1.4.4"
 restifyVersion = "4.1.2"
-slf4jVersion = "2.0.0-alpha5"
+slf4jVersion = "2.0.3"
 testngVersion = "7.3.0"
 
-project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.40.2", licenses: ["ApacheV2_0"]) {
+project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.41.0", licenses: ["ApacheV2_0"]) {
   workflow {
     fetch {
       cache()
@@ -45,19 +46,19 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.40.2"
     group(name: "compile") {
       dependency(id: "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}")
       dependency(id: "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}")
-      dependency(id: "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+      dependency(id: "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}")
       dependency(id: "com.google.inject:guice:${guiceVersion}")
       dependency(id: "com.inversoft:jackson5:${jackson5Version}")
       dependency(id: "com.inversoft:java-error:${javaErrorVersion}")
       dependency(id: "com.inversoft:restify:${restifyVersion}")
       dependency(id: "io.fusionauth:fusionauth-java-client:${fusionauthVersion}")
-      dependency(id: "org.slf4j:slf4j-api:${slf4jVersion}")
+      dependency(id: "org.slf4j:slf4j-api:${slf4jVersion}", skipCompatibilityCheck: true)
     }
     group(name: "runtime") {
       dependency(id: "ch.qos.logback:logback-classic:${logbackVersion}")
       dependency(id: "ch.qos.logback:logback-core:${logbackVersion}")
     }
-    group(name: "test-compile") {
+    group(name: "test-compile", export: false) {
       dependency(id: "com.google.guava:guava:${guavaVersion}", skipCompatibilityCheck: true)
       dependency(id: "org.testng:testng:${testngVersion}")
     }
@@ -69,13 +70,13 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.40.2"
 }
 
 // Plugins
-database = loadPlugin(id: "org.savantbuild.plugin:database:1.0.6")
-dependency = loadPlugin(id: "org.savantbuild.plugin:dependency:1.0.2")
-java = loadPlugin(id: "org.savantbuild.plugin:java:1.2.0")
-javaTestNG = loadPlugin(id: "org.savantbuild.plugin:java-testng:1.0.9")
-idea = loadPlugin(id: "org.savantbuild.plugin:idea:1.0.1")
-release = loadPlugin(id: "org.savantbuild.plugin:release-git:${savantVersion}")
-file = loadPlugin(id: "org.savantbuild.plugin:file:1.0.2")
+database = loadPlugin(id: "org.savantbuild.plugin:database:2.0.0-RC.4")
+dependency = loadPlugin(id: "org.savantbuild.plugin:dependency:2.0.0-RC.4")
+java = loadPlugin(id: "org.savantbuild.plugin:java:2.0.0-RC.4")
+javaTestNG = loadPlugin(id: "org.savantbuild.plugin:java-testng:2.0.0-RC.4")
+idea = loadPlugin(id: "org.savantbuild.plugin:idea:2.0.0-RC.4")
+release = loadPlugin(id: "org.savantbuild.plugin:release-git:2.0.0-RC.4")
+file = loadPlugin(id: "org.savantbuild.plugin:file:2.0.0-RC.4")
 
 idea.settings.moduleMap = [
     "io.fusionauth:fusionauth-java-client:${fusionauthVersion}": "fusionauth-java-client",
