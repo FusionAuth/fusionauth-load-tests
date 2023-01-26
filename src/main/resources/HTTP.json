@@ -1,0 +1,22 @@
+{
+  "loopCount": 500000,
+  "workerCount": 20,
+  "workerFactory": {
+    "className": "io.fusionauth.load.HTTPWorkerFactory",
+    "attributes": {
+      "directive": "java-http-load-test",
+      "url": "http://localhost:8080/load"
+    }
+  },
+  "listeners": [
+    {
+      "className": "io.fusionauth.load.listeners.ThroughputListener"
+    }
+  ],
+  "reporter": {
+    "className": "io.fusionauth.load.reporters.DefaultReporter",
+    "attributes": {
+      "interval": 5
+    }
+  }
+}

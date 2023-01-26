@@ -23,8 +23,8 @@ if [[ ! -d lib ]]; then
 fi
 
 CLASSPATH=.
-for f in $(ls lib | grep .jar); do
-  CLASSPATH=${CLASSPATH}:lib/$f
+for f in lib/*.jar; do
+  CLASSPATH=${CLASSPATH}:$f
 done
 
 suspend=""
@@ -33,4 +33,4 @@ if [[ $# > 1 && $1 == "--suspend" ]]; then
   shift
 fi
 
-~/dev/java/current17/bin/java ${suspend} -cp ${CLASSPATH} io.fusionauth.load.LoadRunner $@
+~/dev/java/current17/bin/java ${suspend} -cp "${CLASSPATH}" io.fusionauth.load.LoadRunner $@
