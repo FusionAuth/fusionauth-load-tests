@@ -14,7 +14,7 @@
  * language governing permissions and limitations under the License.
  */
 
-fusionauthVersion = "1.43.0-{integration}"
+fusionauthVersion = "1.43.0"
 
 guavaVersion = "30.1.0-jre"
 guiceVersion = "5.1.0"
