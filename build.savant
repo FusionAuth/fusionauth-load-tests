@@ -29,8 +29,17 @@ testngVersion = "7.7.1"
 project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.46.0", licenses: ["ApacheV2_0"]) {
   workflow {
     fetch {
+      // Dependency resolution order:
+      //
+      // 1. Hit the savant cache, and then maven cache
       cache()
+      mavenCache()
+      //
+      // 2. Look in public savant repo
       url(url: "https://repository.savantbuild.org")
+      //
+      // 3. No dice, see if we can find it in Maven central
+      maven()
     }
     publish {
       cache()
@@ -69,13 +78,13 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.46.0"
 }
 
 // Plugins
-database = loadPlugin(id: "org.savantbuild.plugin:database:2.0.0-RC.4")
-dependency = loadPlugin(id: "org.savantbuild.plugin:dependency:2.0.0-RC.4")
-java = loadPlugin(id: "org.savantbuild.plugin:java:2.0.0-RC.4")
-javaTestNG = loadPlugin(id: "org.savantbuild.plugin:java-testng:2.0.0-RC.4")
-idea = loadPlugin(id: "org.savantbuild.plugin:idea:2.0.0-RC.4")
-release = loadPlugin(id: "org.savantbuild.plugin:release-git:2.0.0-RC.4")
-file = loadPlugin(id: "org.savantbuild.plugin:file:2.0.0-RC.4")
+database = loadPlugin(id: "org.savantbuild.plugin:database:2.0.0-RC.6")
+dependency = loadPlugin(id: "org.savantbuild.plugin:dependency:2.0.0-RC.6")
+java = loadPlugin(id: "org.savantbuild.plugin:java:2.0.0-RC.6")
+javaTestNG = loadPlugin(id: "org.savantbuild.plugin:java-testng:2.0.0-RC.6")
+idea = loadPlugin(id: "org.savantbuild.plugin:idea:2.0.0-RC.6")
+release = loadPlugin(id: "org.savantbuild.plugin:release-git:2.0.0-RC.6")
+file = loadPlugin(id: "org.savantbuild.plugin:file:2.0.0-RC.6")
 
 idea.settings.moduleMap = [
     "io.fusionauth:fusionauth-java-client:${fusionauthVersion}": "fusionauth-java-client",
