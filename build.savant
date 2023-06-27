@@ -31,9 +31,8 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.46.0"
     fetch {
       // Dependency resolution order:
       //
-      // 1. Hit the savant cache, and then maven cache
+      // 1. Hit the savant cache
       cache()
-      mavenCache()
       //
       // 2. Look in public savant repo
       url(url: "https://repository.savantbuild.org")
