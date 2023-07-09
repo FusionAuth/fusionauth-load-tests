@@ -5,3 +5,4 @@ heap*
 lib/*
 *.csv
 **/.DS_Store
+.savant/cache
