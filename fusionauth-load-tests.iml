@@ -17,11 +17,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/inject/guice/5.1.0/guice-5.1.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/inject/guice/6.0.0/guice-6.0.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/inject/guice/5.1.0/guice-5.1.0-src.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/inject/guice/6.0.0/guice-6.0.0-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -106,11 +106,22 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/guava/guava/30.1.0-jre/guava-30.1.0-jre.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/guava/guava/32.1.2-jre/guava-32.1.2-jre.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/guava/guava/30.1.0-jre/guava-30.1.0-jre-src.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/guava/guava/32.1.2-jre/guava-32.1.2-jre-src.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -137,44 +148,33 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/j2objc/j2objc-annotations/1.3.0/j2objc-annotations-1.3.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/org/checkerframework/checker-qual/3.33.0/checker-qual-3.33.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/j2objc/j2objc-annotations/1.3.0/j2objc-annotations-1.3.0-src.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/org/checkerframework/checker-qual/3.33.0/checker-qual-3.33.0-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/org/checkerframework/checker-qual/3.5.0/checker-qual-3.5.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/errorprone/error_prone_annotations/2.18.0/error_prone_annotations-2.18.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/org/checkerframework/checker-qual/3.5.0/checker-qual-3.5.0-src.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/errorprone/error_prone_annotations/2.18.0/error_prone_annotations-2.18.0-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/j2objc/j2objc-annotations/2.8.0/j2objc-annotations-2.8.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1-src.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/errorprone/error_prone_annotations/2.3.4/error_prone_annotations-2.3.4.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/errorprone/error_prone_annotations/2.3.4/error_prone_annotations-2.3.4-src.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/google/j2objc/j2objc-annotations/2.8.0/j2objc-annotations-2.8.0-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -225,11 +225,22 @@
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/org/aopalliance/aopalliance/1.0.0/aopalliance-1.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/org/aopalliance/aopalliance/1.0.0/aopalliance-1.0.0-src.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1-src.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/.savant/cache/aopalliance/aopalliance/1.0.0/aopalliance-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/.savant/cache/aopalliance/aopalliance/1.0.0/aopalliance-1.0.0-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
