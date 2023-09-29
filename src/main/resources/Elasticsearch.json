@@ -1,0 +1,27 @@
+{
+  "loopCount": 2000,
+  "workerCount": 25,
+  "workerFactory": {
+    "className": "io.fusionauth.load.FusionAuthWorkerFactory",
+    "attributes": {
+      "directive": "elasticsearch",
+      "url": "http://localhost:9021",
+      "queryString": "email:${email}",
+      "indexName": "fusionauth_user",
+      "loginLowerBound": 1,
+      "loginUpperBound": 2500,
+      "debug": true
+    }
+  },
+  "listeners": [
+    {
+      "className": "io.fusionauth.load.listeners.ThroughputListener"
+    }
+  ],
+  "reporter": {
+    "className": "io.fusionauth.load.reporters.DefaultReporter",
+    "attributes": {
+      "interval": 5
+    }
+  }
+}

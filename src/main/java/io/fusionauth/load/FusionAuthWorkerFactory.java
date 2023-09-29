@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2023, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,6 +64,8 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
       case "login" -> new FusionAuthLoginWorker(client, configuration);
       case "oauth2/authorize" -> new FusionAuthOAuth2AuthorizeWorker(client, configuration);
       case "register" -> new FusionAuthRegistrationWorker(client, configuration, counter);
+      case "search" -> new FusionAuthSearchWorker(client, configuration);
+      case "elasticsearch" -> new ElasticsearchWorker(configuration);
       default -> throw new IllegalArgumentException("Invalid directive [" + directive + "]");
     };
   }
