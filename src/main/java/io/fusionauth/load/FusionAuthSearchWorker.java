@@ -25,7 +25,7 @@ import io.fusionauth.domain.api.user.SearchResponse;
 import io.fusionauth.domain.search.UserSearchCriteria;
 
 /**
- * Worker to test searching for users by email address.
+ * Worker to test search.
  *
  * @author Daniel DeGroff
  */
