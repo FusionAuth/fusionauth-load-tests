@@ -15,7 +15,7 @@
  */
 package io.fusionauth.load;
 
-import java.util.Random;
+import java.util.List;
 
 import com.inversoft.error.Errors;
 import com.inversoft.rest.ClientResponse;
@@ -25,39 +25,40 @@ import io.fusionauth.domain.api.user.SearchResponse;
 import io.fusionauth.domain.search.UserSearchCriteria;
 
 /**
- * Worker to test searching for users by email address.
+ * Worker to test searching based on an external Id in user data.
  *
- * @author Daniel DeGroff
+ * @author Spencer Witt
  */
-public class FusionAuthSearchWorker extends BaseWorker {
+public class FusionAuthSearchDataWorker extends BaseWorker {
   private final FusionAuthClient client;
 
-  private final int loginLowerBound;
-
-  private final int loginUpperBound;
+  // Populate this with a subset of valid external Ids from the database and randomly select one to return valid search results
+  private final List<String> externalIds = List.of();
 
   private final int numberOfResults;
 
+  // You can simulate tests using the query search parameter rather than query string by using this value with UserSearchCriteria.query
+  private final String query;
+
   private final String queryString;
 
-  public FusionAuthSearchWorker(FusionAuthClient client, Configuration configuration) {
+  public FusionAuthSearchDataWorker(FusionAuthClient client, Configuration configuration) {
     super(configuration);
     this.client = client;
     this.numberOfResults = configuration.getInteger("numberOfResults");
     this.queryString = configuration.getString("queryString");
-    this.loginLowerBound = configuration.getInteger("loginLowerBound", 0);
-    this.loginUpperBound = configuration.getInteger("loginUpperBound", 1_000_000);
+    this.query = configuration.getString("query");
   }
 
   @Override
   public boolean execute() {
-    int random = new Random().nextInt((loginUpperBound - loginLowerBound) + 1) + loginLowerBound;
-    String email = "load_user_" + random + "@fusionauth.io";
+    // By default, this test will generate a random external Id, which is unlikely to return any results.
+    // Populate externalIds with a set of valid Ids and randomly select one of those to simulate finding a user.
+    String externalId = secureString(20, ALPHA_NUMERIC_CHARACTERS);
 
-    String query = queryString.replace("${email}", email);
     ClientResponse<SearchResponse, Errors> result = client.searchUsersByQuery(new SearchRequest(new UserSearchCriteria()
                                                                                                     .with(c -> c.numberOfResults = numberOfResults)
-                                                                                                    .with(c -> c.queryString = query)));
+                                                                                                    .with(c -> c.queryString = queryString.replace("${externalId}", externalId))));
     if (result.wasSuccessful()) {
       return true;
     }

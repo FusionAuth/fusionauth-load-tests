@@ -1,0 +1,29 @@
+{
+  "loopCount": 2000,
+  "workerCount": 25,
+  "workerFactory": {
+    "className": "io.fusionauth.load.FusionAuthWorkerFactory",
+    "attributes": {
+      "directive": "search-data",
+      "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
+      "url": "https://local.fusionauth.io",
+      "numberOfResults": 1,
+      "queryString": "${externalId}",
+      "query": "{\n  \"match\": {\n    \"data.externalId\": {\n      \"query\": \"${externalId}\"\n    }\n  }\n}\n",
+      "loginLowerBound": 1,
+      "loginUpperBound": 2500,
+      "debug": false
+    }
+  },
+  "listeners": [
+    {
+      "className": "io.fusionauth.load.listeners.ThroughputListener"
+    }
+  ],
+  "reporter": {
+    "className": "io.fusionauth.load.reporters.DefaultReporter",
+    "attributes": {
+      "interval": 5
+    }
+  }
+}

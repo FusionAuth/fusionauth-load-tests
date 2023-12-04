@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2023, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,8 @@ import io.fusionauth.domain.api.user.RegistrationRequest;
 import io.fusionauth.domain.api.user.RegistrationResponse;
 
 /**
+ * Worker to test creating users and registrations. The user data includes a randomly generated external Id.
+ *
  * @author Daniel DeGroff
  */
 public class FusionAuthRegistrationWorker extends BaseWorker {
@@ -56,6 +58,7 @@ public class FusionAuthRegistrationWorker extends BaseWorker {
     user.password = Password;
     user.encryptionScheme = encryptionScheme;
     user.factor = factor;
+    user.data.put("externalId", secureString(20, ALPHA_NUMERIC_CHARACTERS));
 
     UserRegistration userRegistration = new UserRegistration().with(r -> r.applicationId = applicationId)
                                                               .with(r -> r.roles.add("user"));

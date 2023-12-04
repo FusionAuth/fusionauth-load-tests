@@ -20,31 +20,23 @@ import java.util.Random;
 import com.inversoft.error.Errors;
 import com.inversoft.rest.ClientResponse;
 import io.fusionauth.client.FusionAuthClient;
-import io.fusionauth.domain.api.user.SearchRequest;
-import io.fusionauth.domain.api.user.SearchResponse;
-import io.fusionauth.domain.search.UserSearchCriteria;
+import io.fusionauth.domain.api.UserResponse;
 
 /**
- * Worker to test searching for users by email address.
+ * Worker to test retrieving user by email address.
  *
- * @author Daniel DeGroff
+ * @author Spencer Witt
  */
-public class FusionAuthSearchWorker extends BaseWorker {
+public class FusionAuthRetrieveEmailWorker extends BaseWorker {
   private final FusionAuthClient client;
 
   private final int loginLowerBound;
 
   private final int loginUpperBound;
 
-  private final int numberOfResults;
-
-  private final String queryString;
-
-  public FusionAuthSearchWorker(FusionAuthClient client, Configuration configuration) {
+  public FusionAuthRetrieveEmailWorker(FusionAuthClient client, Configuration configuration) {
     super(configuration);
     this.client = client;
-    this.numberOfResults = configuration.getInteger("numberOfResults");
-    this.queryString = configuration.getString("queryString");
     this.loginLowerBound = configuration.getInteger("loginLowerBound", 0);
     this.loginUpperBound = configuration.getInteger("loginUpperBound", 1_000_000);
   }
@@ -54,10 +46,7 @@ public class FusionAuthSearchWorker extends BaseWorker {
     int random = new Random().nextInt((loginUpperBound - loginLowerBound) + 1) + loginLowerBound;
     String email = "load_user_" + random + "@fusionauth.io";
 
-    String query = queryString.replace("${email}", email);
-    ClientResponse<SearchResponse, Errors> result = client.searchUsersByQuery(new SearchRequest(new UserSearchCriteria()
-                                                                                                    .with(c -> c.numberOfResults = numberOfResults)
-                                                                                                    .with(c -> c.queryString = query)));
+    ClientResponse<UserResponse, Errors> result = client.retrieveUserByEmail(email);
     if (result.wasSuccessful()) {
       return true;
     }
