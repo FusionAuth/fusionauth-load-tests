@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2023, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
  */
 package io.fusionauth.load;
 
+import java.security.SecureRandom;
+
 import com.inversoft.error.Errors;
-import io.fusionauth.load.Configuration;
-import io.fusionauth.load.Worker;
 import com.inversoft.rest.ClientResponse;
 
 /**
@@ -28,6 +28,10 @@ import com.inversoft.rest.ClientResponse;
 public abstract class BaseWorker implements Worker {
   public final static String Password = "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd11e7ea7b-784d-4687-bf2d-4f8ee479a4dd";
 
+  protected static final String ALPHA_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  protected static final String ALPHA_NUMERIC_CHARACTERS = "0123456789" + ALPHA_CHARACTERS;
+
   final Configuration configuration;
 
   private final boolean debug;
@@ -35,6 +39,16 @@ public abstract class BaseWorker implements Worker {
   protected BaseWorker(Configuration configuration) {
     this.debug = configuration.getBoolean("debug", false);
     this.configuration = configuration;
+  }
+
+  protected static String secureString(int length, String sourceCharacterSet) {
+    SecureRandom random = new SecureRandom();
+    StringBuilder sb = new StringBuilder();
+    while (sb.length() < length) {
+      sb.append(sourceCharacterSet.charAt(random.nextInt(sourceCharacterSet.length())));
+    }
+
+    return sb.substring(0, length);
   }
 
   void printErrors(ClientResponse<?, Errors> result) {
