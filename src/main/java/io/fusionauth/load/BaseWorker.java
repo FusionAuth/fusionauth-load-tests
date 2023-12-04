@@ -28,9 +28,9 @@ import com.inversoft.rest.ClientResponse;
 public abstract class BaseWorker implements Worker {
   public final static String Password = "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd11e7ea7b-784d-4687-bf2d-4f8ee479a4dd";
 
-  protected static final String ALPHA_CHARACTERS = "BCDFGHJKLMNPQRSTVWXYZ";
+  protected static final String ALPHA_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-  protected static final String ALPHA_NUMERIC_CHARACTERS = "23456789" + ALPHA_CHARACTERS;
+  protected static final String ALPHA_NUMERIC_CHARACTERS = "0123456789" + ALPHA_CHARACTERS;
 
   final Configuration configuration;
 
