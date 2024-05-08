@@ -66,7 +66,7 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -77,7 +77,7 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -88,7 +88,7 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -99,7 +99,7 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -262,7 +262,7 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/ch/qos/logback/logback-classic/1.5.6/logback-classic-1.5.6-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/ch/qos/logback/logback-classic/1.5.6/logback-classic-1.5.6-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -273,7 +273,7 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/.savant/cache/ch/qos/logback/logback-core/1.5.6/logback-core-1.5.6-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/.savant/cache/ch/qos/logback/logback-core/1.5.6/logback-core-1.5.6-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
