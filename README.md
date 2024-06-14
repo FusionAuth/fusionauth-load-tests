@@ -73,9 +73,9 @@ If you want to dig into the code further, the `FusionAuthWorkerFactory` is what 
 ```bash
 mkdir ~/savant
 cd ~/savant
-wget http://savant.inversoft.org/org/savantbuild/savant-core/2.0.0-RC.6/savant-2.0.0-RC.6.tar.gz
-tar xvfz savant-2.0.0-RC.6.tar.gz
-ln -s ./savant-2.0.0-RC.6 current
+wget http://savant.inversoft.org/org/savantbuild/savant-core/2.0.0-RC.7/savant-2.0.0-RC.7.tar.gz
+tar xvfz savant-2.0.0-RC.7.tar.gz
+ln -s ./savant-2.0.0-RC.7 current
 export PATH=$PATH:~/savant/current/bin/
 ```
 
