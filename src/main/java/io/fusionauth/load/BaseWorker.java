@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2023, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2024, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import com.inversoft.rest.ClientResponse;
  * @author Brian Pontarelli
  */
 public abstract class BaseWorker implements Worker {
-  public final static String Password = "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd11e7ea7b-784d-4687-bf2d-4f8ee479a4dd";
+  public static final String Password = "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd11e7ea7b-784d-4687-bf2d-4f8ee479a4dd";
 
   protected static final String ALPHA_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
