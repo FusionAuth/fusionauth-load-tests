@@ -1,6 +1,6 @@
 {
-  "loopCount": 1000,
-  "workerCount": 50,
+  "loopCount": 5000,
+  "workerCount": 60,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
     "attributes": {
