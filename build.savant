@@ -81,13 +81,13 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.54.0"
 }
 
 // Plugins
-database = loadPlugin(id: "org.savantbuild.plugin:database:2.0.0-RC.6")
-dependency = loadPlugin(id: "org.savantbuild.plugin:dependency:2.0.0-RC.7")
-java = loadPlugin(id: "org.savantbuild.plugin:java:2.0.0-RC.6")
-javaTestNG = loadPlugin(id: "org.savantbuild.plugin:java-testng:2.0.0-RC.6")
-idea = loadPlugin(id: "org.savantbuild.plugin:idea:2.0.0-RC.7")
-release = loadPlugin(id: "org.savantbuild.plugin:release-git:2.0.0-RC.6")
-file = loadPlugin(id: "org.savantbuild.plugin:file:2.0.0-RC.7")
+database = loadPlugin(id: "org.savantbuild.plugin:database:2.0.0")
+dependency = loadPlugin(id: "org.savantbuild.plugin:dependency:2.0.0")
+java = loadPlugin(id: "org.savantbuild.plugin:java:2.0.0")
+javaTestNG = loadPlugin(id: "org.savantbuild.plugin:java-testng:2.0.0")
+idea = loadPlugin(id: "org.savantbuild.plugin:idea:2.0.0")
+release = loadPlugin(id: "org.savantbuild.plugin:release-git:2.0.0")
+file = loadPlugin(id: "org.savantbuild.plugin:file:2.0.0")
 
 idea.settings.moduleMap = [
     "io.fusionauth:fusionauth-java-client:${fusionauthVersion}": "fusionauth-java-client",
