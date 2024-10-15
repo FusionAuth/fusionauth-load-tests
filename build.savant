@@ -93,8 +93,8 @@ idea.settings.moduleMap = [
     "io.fusionauth:fusionauth-java-client:${fusionauthVersion}": "fusionauth-java-client",
 ]
 
-java.settings.javaVersion = "17"
-javaTestNG.settings.javaVersion = "17"
+java.settings.javaVersion = "21"
+javaTestNG.settings.javaVersion = "21"
 
 target(name: "clean", description: "Cleans the build directory") {
   java.clean()
