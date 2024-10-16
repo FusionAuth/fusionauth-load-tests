@@ -63,24 +63,21 @@ function parse_args() {
   echo ""
 
   if [[ -z ${FA_URL:-} ]]; then
-    echo "⛔️ missing required --url param"
-    show_help
-    exit 1
+    FA_URL="https://local.fusionauth.io"
+    echo "⚠️ --url was not set, using default value"
   else
     if ! [[ ${FA_URL} == "http"* ]]; then
       echo "⛔️ URL must be in the format https://your.fusionauth.host"
       exit 1
     fi
-    echo "✅ URL = ${FA_URL}"
   fi
+  echo "✅ URL = ${FA_URL}"
 
   if [[ -z ${FA_API_KEY:-} ]]; then
-    echo "⛔️ missing required --key param"
-    show_help
-    exit 1
-  else
-    echo "✅ API Key = ${FA_API_KEY}"
+    FA_API_KEY="bf69486b-4733-4470-a592-f1bfce7af580"
+    echo "⚠️ --key was not set, using default value"
   fi
+  echo "✅ API Key = ${FA_API_KEY}"
 
   if [[ -z ${FA_TENANT_ID:-} ]]; then
     FA_TENANT_ID="efb21cfc-fa60-46f4-9598-889151e58517"
@@ -111,12 +108,15 @@ function set_json_parser() {
 function check_connection() {
   echo -e "\nChecking connection"
 
-  RESPONSE=$(curl -X GET -s -o /dev/null -w "%{http_code}" \
+  if ! RESPONSE=$(curl -X GET -s -o /dev/null -w "%{http_code}" \
     -H "Content-Type: application/json" \
     -H "Authorization: ${FA_API_KEY}" \
     -H "X-FusionAuth-TenantId: ${FA_TENANT_ID}" \
     -H "Cache-Control: no-cache" \
-    "${FA_URL}/api/tenant/${FA_TENANT_ID}")
+    "${FA_URL}/api/tenant/${FA_TENANT_ID}"); then
+    echo "⛔️ Cannot connect to ${FA_URL}"
+    exit 1
+  fi
 
   if [[ ${RESPONSE} == "200" ]]; then
     echo "✅ OK!"
