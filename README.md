@@ -11,16 +11,14 @@ You will need a working FusionAuth instance. If you want to run load tests, you 
 
 ### Configure FusionAuth
 
-#### Create an API Key.
+#### Create an API Key
 
 1. Go to `https://[your.fusionauth.url]/admin/api-key`.
 1. Click the green + button to create a new API Key.
 1. On the **Add API Key** screen, don't modify or input any values, just click the Save icon.
 1. You should now see your API key. Click on the Key name to reveal the key.
 
-Notes:
-* If you don't want to create a Super User key, make sure the key at least has permissions to add applications, add users, and log in users, for all tenants.
-* If you're a FusionAuth developer, you can run `sb config` to insert an API key into the database.
+⚠️ If you don't want to create a Super User key, make sure the key at least has permissions to add applications, add users, and log in users, for all tenants.
 
 #### Run the setup script
 
@@ -31,7 +29,7 @@ All parameters are optional and will default to values used by FusionAuth's inte
 ./setup.sh --url https://[your.fusionauth.url] --key [your-api-key]
 ```
 
-⚠️ If your `Default` tenant ID is different from what the script expects, you may get a `400` response code when running the script. In this case, get the ID from your `Default` tenant and pass that in with the `--tenant` flag.
+⚠️ If your `Default` tenant Id is different from what the script expects, you may get a `400` response code when running the script. In this case, get the Id from your `Default` tenant and pass that in with the `--tenant` flag.
 
 If the script was successful, you should see a new **FusionAuthLoadTesting** Application in your FusionAuth instance's Admin portal.
 
@@ -40,7 +38,7 @@ If the script was successful, you should see a new **FusionAuthLoadTesting** App
 
 The setup script will configure two common tests for you, [User-Registrations](src/main/resources/User-Registrations.json) and [User-Logins](src/main/resources/User-Logins.json). If you want to run other tests, you'll need to modify them with your authentication data.
 
-Check the test JSON files in [src/main/resources](src/main/resources). Update each JSON file you want to use with your URL, api key, and tenant ID value as needed.
+Check the test JSON files in [src/main/resources](src/main/resources). Update each JSON file you want to use with your URL, api key, and tenant Id value as needed.
 
 You may also wish to adjust the load test run by modifying the `loopCount` and `workerCount` values.
 
@@ -58,13 +56,17 @@ See [Installing Savant](#installing-savant) below if you do not have Savant inst
 
 ## Run a Load Test
 
-Before you can log users in, you need to create users. Run the User-Registrations test to create users.
+Before you can log users in, you need to create users.
+
+⚠️ **IMPORTANT!** If you have configured SMTP in your Tenant with a valid public SMTP server, performing a user registration test could get you flagged for abuse, and negatively impact your email deliverability. You should remove your SMTP configuration before running the user registration test.
+
+To create users, run the User-Registrations test:
 ```
 cd build/dist
 ./load-test.sh User-Registrations.json
 ```
 
-Now that you have users, you can run the User-Logins test.
+Now that you have users, you can run the User-Logins test:
 ```
 cd build/dist
 ./load-test.sh User-Logins.json
