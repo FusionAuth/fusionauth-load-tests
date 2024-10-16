@@ -1,31 +1,49 @@
-## FusionAuth Load Tests ![semver 2.0.0 compliant](http://img.shields.io/badge/semver-2.0.0-brightgreen.svg?style=flat-square)
+# FusionAuth Load Tests ![semver 2.0.0 compliant](http://img.shields.io/badge/semver-2.0.0-brightgreen.svg?style=flat-square)
 
-## Examples Usages:
+This repo contains load tests you can run against any FusionAuth instance.
 
-### Build
+## Setup
 
-See the Savant setup below if you do not yet have Savant configured. 
+### Start FusionAuth
 
-```
-sb int
-```
+You will need a working FusionAuth deployment. If you want to run load tests, you have probably already figured this part out.
 
-### Setup FusionAuth
+### Configure FusionAuth
 
-If you want to run load tests, you have probably already figured this part out.
+In order to run the examples provided in this readme, you'll need to do at least the following:
 
-### Configure FusionAuth for load tests
- 
-All of this is optional and will depend upon what you want your tests to do. However, to use the provided examples here, start with these setup steps. 
+1. Create an API Key.
 
-1. Setup an API key. 
-   - If you're a FusionAuth developer, run `sb config` which will insert an API key into the database. 
-   - If you're just an everyday average FusionAuth enthusiast, add an API key however you know how. The examples will expect an API key of `bf69486b-4733-4470-a592-f1bfce7af580` but this can be modified to your liking. 
-   - The key must be a super user key or have permissions to add users and applications as well as log users in. It must work for all tenants.
-2. Set up a tenant. The examples will expect a tenant id of `efb21cfc-fa60-46f4-9598-889151e58517` but that can be modified if you want.
-3. Setup an Application
-   - If needed, update `./src/main/script/setupApplication.sh`. Change the name of the host where FusionAuth runs, if not running it locally.
-   - Run `./src/main/script/setupApplication.sh`  
+   - Go to `https://[your.fusionauth.url]/admin/api-key`.
+   - Click the green + button to create a new API Key.
+   - On the **Add API Key** screen, don't modify or input any values, just click the Save icon.
+   - You should now see your API key. Click on the Key name to reveal the key.
+   - Copy that value and set it in your shell.
+   ```
+   export FA_API_KEY=[your-api-key]
+   ```
+
+   Notes:
+   * If you don't want to create a Super User key, make sure the key has permissions to add applications, add users, and log in users, for all tenants.
+   * If you're a FusionAuth developer, you can run `sb config` to insert an API key into the database.
+
+1. Set the URL of your FusionAuth instance in your shell.
+   ```
+   export FA_URL=https://[your.fusionauth.url]
+   ```
+
+1. Optionally, set the tenant ID for your `Default` tenant.
+
+   If the ID for your `Default` tenant is `efb21cfc-fa60-46f4-9598-889151e58517`, you don't need to set this. If yours is different, you will need to set it.
+   ```
+   export FA_TENANT_ID=[your-tenant-id]
+   ```
+
+1. Run the setup.sh script to create the Application required for the load tests.
+
+   If the script was successful, you should see a new `FusionAuthLoadTesting` application at `https://[your.fusionauth.url]/admin/applications`.
+
+
 
 You may also want to change the `factor` in the `User-Registrations.json` file. With no changes, it is `1` which is not very realistic. For a typical FusionAuth deployment, the default is `24000`.
 
@@ -36,6 +54,17 @@ The load tests are all configured to run against `local.fusionauth.io`. You can 
 ```
       "url": "https://local.fusionauth.io",
 ```
+
+
+### Build
+
+See the Savant setup below if you do not yet have Savant configured.
+
+```
+sb int
+```
+
+
 
 ### Run a load test
 
