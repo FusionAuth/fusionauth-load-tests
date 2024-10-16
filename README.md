@@ -26,6 +26,7 @@ Notes:
 
 Run the `setup.sh` script to create the FusionAuth Application required for the load tests.
 
+All parameters are optional and will default to values used by FusionAuth's internal development team. If you're not on our development team (and maybe even if you are, if you're not running FusionAuth locally, or not using default values) you'll have to pass in at least `--url` and `--key`:
 ```
 ./setup.sh --url https://[your.fusionauth.url] --key [your-api-key]
 ```
