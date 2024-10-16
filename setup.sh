@@ -25,7 +25,7 @@ function show_help() {
   echo -e "    -h --help      Show this help message"
   echo -e "    -u --url       Required, URL of your FusionAuth instance"
   echo -e "    -k --key       Required, FusionAuth API key"
-  echo -e "    -t --tenant    Optional, FusionAuth Tenant ID"
+  echo -e "    -t --tenant    Optional, FusionAuth Tenant Id"
   exit
 }
 
@@ -52,7 +52,7 @@ function parse_args() {
       ;;
     -t | --tenant)
       shift
-      if (($# < 1)); then argerr "--tenant requires your FusionAuth Default tenant ID"; fi
+      if (($# < 1)); then argerr "--tenant requires the Tenant Id for the 'Default' tenant"; fi
       FA_TENANT_ID="${1:-}"
       shift
       ;;
@@ -83,7 +83,7 @@ function parse_args() {
     FA_TENANT_ID="efb21cfc-fa60-46f4-9598-889151e58517"
     echo "⚠️ --tenant was not set, using default value"
   fi
-  echo "✅ Tenant ID = ${FA_TENANT_ID}"
+  echo "✅ Tenant Id = ${FA_TENANT_ID}"
 }
 
 function set_json_parser() {
@@ -123,7 +123,7 @@ function check_connection() {
   else
     echo "⛔️ Got a ${RESPONSE} response code"
     echo "  - Check that the API key is correct, and has necessary permissions"
-    echo "  - Check that the tenant ID for the 'Default' tenant is correct"
+    echo "  - Check that the Tenant Id for the 'Default' tenant is correct"
     exit 1
   fi
 }
