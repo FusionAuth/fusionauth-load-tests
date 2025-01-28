@@ -47,9 +47,7 @@ public class Foreman implements Buildable<Foreman> {
 
   public Foreman execute() throws InterruptedException {
     initialize();
-    // Note that we are going to use virtual threads, so in theory we don't need a pool, but we are trying to simulate clients or workers
-    // so keep the thread pool and just use a virtual factory.
-    try (ExecutorService pool = Executors.newFixedThreadPool(workers.size())) {
+    try (ExecutorService pool = Executors.newVirtualThreadPerTaskExecutor()) {
 
       // Gradually build up workers, to reduce the chance of failures while we get going.
       for (Worker worker : workers) {
