@@ -116,12 +116,21 @@ public class Foreman implements Buildable<Foreman> {
       throw new IllegalStateException("Please provide a worker factory if you are going to specify a worker count");
     }
 
+    String directive = null;
+    String url = null;
+    String apiKey = null;
+    if (loadDefinition != null && loadDefinition.workerFactory != null) {
+      directive = loadDefinition.workerFactory.getString("directive", null);
+      url = loadDefinition.workerFactory.getString("url", null);
+      apiKey = loadDefinition.workerFactory.getString("apiKey", null);
+    }
+
     System.out.println("  --> Worker count:\t" + df.format(workerCount));
     System.out.println("  --> Total iterations:\t" + df.format((long) workerCount * loopCount));
     System.out.println("  --> Worker factory:\t" + workerFactory.getClass().getCanonicalName());
-    System.out.println("  --> Worker directive:\t" + loadDefinition.workerFactory.getString("directive"));
-    System.out.println("  --> Worker url:\t" + loadDefinition.workerFactory.getString("url"));
-    System.out.println("  --> Target version:\t" + fetchVersion());
+    System.out.println("  --> Worker directive:\t" + directive);
+    System.out.println("  --> Worker url:\t" + url);
+    System.out.println("  --> Target version:\t" + fetchVersion(url, apiKey));
 
     System.out.println("  --> Prepare the factory for production....");
     workerFactory.prepare(loadDefinition);
@@ -134,9 +143,7 @@ public class Foreman implements Buildable<Foreman> {
     }
   }
 
-  protected String fetchVersion() {
-    String apiKey = loadDefinition.workerFactory.getString("apiKey", null);
-    String url = loadDefinition.workerFactory.getString("url", null);
+  protected String fetchVersion(String url, String apiKey) {
     if (apiKey != null && url != null) {
       var client = new FusionAuthClient(apiKey, url, 5_000, 10_000);
       var response = client.retrieveSystemStatusUsingAPIKey();
