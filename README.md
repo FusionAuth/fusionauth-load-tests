@@ -72,6 +72,11 @@ cd build/dist
 ./load-test.sh User-Logins.json
 ```
 
+## Tuning a Load Test
+
+The load test spins up individual Worker threads as specified in the configuration file. Each Worker synchronously makes repeated API requests. If your request latency is high (e.g., running a remote instance), this can limit your maximum potential throughput. Increasing the number of worker threads alleviates this (unless you hit local system limitations).
+
+For example, if the request latency is 250 ms and you have 10 worker threads, you'll have a max throughput of 40 requests per second. Increasing the number of worker threads to 100 increases the max throughput to 400 requests per second.
 
 ## Cleanup
 

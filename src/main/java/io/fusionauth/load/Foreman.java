@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
+
+import io.fusionauth.client.FusionAuthClient;
 
 /**
  * @author Troy Hill
@@ -54,7 +56,7 @@ public class Foreman implements Buildable<Foreman> {
       WorkerExecutor executor = new WorkerExecutor(worker, loopCount, listeners);
       pool.execute(executor);
       try {
-        Thread.sleep(1123);
+        Thread.sleep(9);
       } catch (Exception ignore) {
       }
     }
@@ -115,8 +117,11 @@ public class Foreman implements Buildable<Foreman> {
     }
 
     System.out.println("  --> Worker count:\t" + df.format(workerCount));
-    System.out.println("  --> Total iterations:\t" + df.format(workerCount * loopCount));
+    System.out.println("  --> Total iterations:\t" + df.format((long) workerCount * loopCount));
     System.out.println("  --> Worker factory:\t" + workerFactory.getClass().getCanonicalName());
+    System.out.println("  --> Worker directive:\t" + loadDefinition.workerFactory.getString("directive"));
+    System.out.println("  --> Worker url:\t" + loadDefinition.workerFactory.getString("url"));
+    System.out.println("  --> Target version:\t" + fetchVersion());
 
     System.out.println("  --> Prepare the factory for production....");
     workerFactory.prepare(loadDefinition);
@@ -127,5 +132,18 @@ public class Foreman implements Buildable<Foreman> {
     if (reporter != null) {
       reporter.addSampleListeners(listeners);
     }
+  }
+
+  protected String fetchVersion() {
+    String apiKey = loadDefinition.workerFactory.getString("apiKey", null);
+    String url = loadDefinition.workerFactory.getString("url", null);
+    if (apiKey != null && url != null) {
+      var client = new FusionAuthClient(apiKey, url, 5_000, 10_000);
+      var response = client.retrieveSystemStatusUsingAPIKey();
+      if (response.wasSuccessful() && response.successResponse != null) {
+        return response.successResponse.get("version").toString();
+      }
+    }
+    return "unavailable";
   }
 }
