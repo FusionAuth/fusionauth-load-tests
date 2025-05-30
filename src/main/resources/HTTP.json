@@ -1,11 +1,12 @@
 {
-  "loopCount": 500000,
+  "loopCount": 100000,
   "workerCount": 100,
   "workerFactory": {
     "className": "io.fusionauth.load.HTTPWorkerFactory",
     "attributes": {
       "directive": "java-http-load-test",
-      "url": "http://localhost:8080/load"
+      "url": "http://localhost:8080/",
+      "restClient": "restify"
     }
   },
   "listeners": [
