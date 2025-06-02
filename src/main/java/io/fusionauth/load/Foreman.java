@@ -23,8 +23,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-import io.fusionauth.client.FusionAuthClient;
-
 /**
  * @author Troy Hill
  */
@@ -78,7 +76,6 @@ public class Foreman implements Buildable<Foreman> {
       reporter.stop();
     }
 
-
     // Temp hack to get some general timings on the OAuth2 Authorize worker broken down by component
     if (workers.get(0) instanceof FusionAuthOAuth2AuthorizeWorker) {
       System.out.println("\n\n");
@@ -116,21 +113,9 @@ public class Foreman implements Buildable<Foreman> {
       throw new IllegalStateException("Please provide a worker factory if you are going to specify a worker count");
     }
 
-    String directive = null;
-    String url = null;
-    String apiKey = null;
-    if (loadDefinition != null && loadDefinition.workerFactory != null) {
-      directive = loadDefinition.workerFactory.getString("directive", null);
-      url = loadDefinition.workerFactory.getString("url", null);
-      apiKey = loadDefinition.workerFactory.getString("apiKey", null);
-    }
-
     System.out.println("  --> Worker count:\t" + df.format(workerCount));
     System.out.println("  --> Total iterations:\t" + df.format((long) workerCount * loopCount));
     System.out.println("  --> Worker factory:\t" + workerFactory.getClass().getCanonicalName());
-    System.out.println("  --> Worker directive:\t" + directive);
-    System.out.println("  --> Worker url:\t" + url);
-    System.out.println("  --> Target version:\t" + fetchVersion(url, apiKey));
 
     System.out.println("  --> Prepare the factory for production....");
     workerFactory.prepare(loadDefinition);
@@ -141,16 +126,5 @@ public class Foreman implements Buildable<Foreman> {
     if (reporter != null) {
       reporter.addSampleListeners(listeners);
     }
-  }
-
-  protected String fetchVersion(String url, String apiKey) {
-    if (apiKey != null && url != null) {
-      var client = new FusionAuthClient(apiKey, url, 5_000, 10_000);
-      var response = client.retrieveSystemStatusUsingAPIKey();
-      if (response.wasSuccessful() && response.successResponse != null) {
-        return response.successResponse.get("version").toString();
-      }
-    }
-    return "unavailable";
   }
 }
