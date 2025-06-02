@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,11 @@ public class Foreman implements Buildable<Foreman> {
 
   public int loopCount;
 
+  /**
+   * The number of ms to wait between starting up the workers.
+   */
+  public int rampWait;
+
   public Reporter reporter;
 
   public int workerCount;
@@ -53,6 +58,10 @@ public class Foreman implements Buildable<Foreman> {
       for (Worker worker : workers) {
         WorkerExecutor executor = new WorkerExecutor(worker, loopCount, listeners);
         pool.execute(executor);
+        try {
+          Thread.sleep(rampWait);
+        } catch (InterruptedException ignore) {
+        }
       }
 
       if (this.reporter != null) {
@@ -111,7 +120,7 @@ public class Foreman implements Buildable<Foreman> {
     }
 
     System.out.println("  --> Worker count:\t" + df.format(workerCount));
-    System.out.println("  --> Total iterations:\t" + df.format(workerCount * loopCount));
+    System.out.println("  --> Total iterations:\t" + df.format((long) workerCount * loopCount));
     System.out.println("  --> Worker factory:\t" + workerFactory.getClass().getCanonicalName());
 
     System.out.println("  --> Prepare the factory for production....");
