@@ -15,18 +15,21 @@
  */
 package io.fusionauth.load;
 
+import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Redirect;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
-import com.inversoft.rest.ByteArrayBodyHandler;
 import com.inversoft.rest.ClientResponse;
 import com.inversoft.rest.RESTClient;
 import com.inversoft.rest.TextResponseHandler;
+import io.fusionauth.load.http.ChunkedBodyHandler;
+import io.fusionauth.load.http.FixedLengthRequestHandler;
 
 /**
  * Worker to test our HTTP server implementations.
@@ -34,6 +37,12 @@ import com.inversoft.rest.TextResponseHandler;
  * @author Daniel DeGroff
  */
 public class JavaHTTPLoadTestWorker extends BaseWorker {
+  private final String body = "This is a small body for a load test request.";
+
+  private final byte[] bodyBytes = body.getBytes(StandardCharsets.UTF_8);
+
+  private final boolean chunked;
+
   private final HttpClient javaHTTPClient = HttpClient.newBuilder()
                                                       .connectTimeout(Duration.ofSeconds(10))
                                                       .followRedirects(Redirect.ALWAYS)
@@ -46,7 +55,11 @@ public class JavaHTTPLoadTestWorker extends BaseWorker {
   public JavaHTTPLoadTestWorker(Configuration configuration) {
     super(configuration);
     this.url = configuration.getString("url");
-    this.restClient = configuration.getString("restClient");
+    this.chunked = configuration.getBoolean("chunked", false);
+    this.restClient = configuration.getString("restClient", "restify");
+    if (!restClient.equals("restify") && !restClient.equals("java")) {
+      throw new IllegalArgumentException("Invalid restClient: " + restClient + ". Must be 'restify' or 'java'");
+    }
   }
 
   @Override
@@ -55,7 +68,7 @@ public class JavaHTTPLoadTestWorker extends BaseWorker {
       ClientResponse<String, String> response = new RESTClient<>(String.class, String.class)
           .url(this.url)
           .setHeader("Content-Type", "text/plain")
-          .bodyHandler(new ByteArrayBodyHandler("This is a body that is hashed".getBytes()))
+          .bodyHandler(chunked ? new ChunkedBodyHandler(body) : new FixedLengthRequestHandler(body))
           .connectTimeout(15_000)
           .readTimeout(15_000)
           .successResponseHandler(new TextResponseHandler())
@@ -75,12 +88,16 @@ public class JavaHTTPLoadTestWorker extends BaseWorker {
       }
       return false;
     } else if ("java".equals(restClient)) {
+      // This isn't very explicit, but in my testing I have proven that using the ofByteArray() will add a Content-Length
+      // request header, and the ofInputStream() will not.
+      var publisher = chunked
+          ? BodyPublishers.ofInputStream(() -> new ByteArrayInputStream(bodyBytes))
+          : BodyPublishers.ofByteArray(bodyBytes);
       var request = HttpRequest.newBuilder()
-                               .method("GET", BodyPublishers.ofByteArray("This is a body that is hashed".getBytes()))
+                               .method("GET", publisher)
                                .timeout(Duration.ofSeconds(10))
                                .uri(URI.create(this.url))
                                .build();
-
       try {
         var response = javaHTTPClient.send(request, BodyHandlers.ofByteArray());
         return response.statusCode() >= 200 && response.statusCode() <= 399;

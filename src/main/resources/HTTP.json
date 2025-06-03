@@ -6,7 +6,8 @@
     "attributes": {
       "directive": "java-http-load-test",
       "url": "http://localhost:8080/",
-      "restClient": "restify"
+      "restClient": "restify",
+      "chunked": false
     }
   },
   "listeners": [
