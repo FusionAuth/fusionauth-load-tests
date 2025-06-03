@@ -92,7 +92,7 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
       var client = new FusionAuthClient(apiKey, url, 5_000, 10_000);
       var response = client.retrieveSystemStatusUsingAPIKey();
       if (response.wasSuccessful() && response.successResponse != null) {
-        return response.successResponse.get("version").toString();
+        return response.successResponse.getOrDefault("version", "unavailable").toString();
       }
     }
     return "unavailable";

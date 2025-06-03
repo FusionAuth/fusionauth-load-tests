@@ -1,14 +1,14 @@
 {
-  "loopCount": 100,
-  "workerCount": 100,
+  "loopCount": 10,
+  "workerCount": 1,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
     "attributes": {
       "directive": "create-tenant",
-      "apiKey": "create-tenant-api-key",
-      "keyId": "af99528c-bb19-79eb-1d09-4e582da0eab7",
+      "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
+      "keyId": "b871576b-1729-4fb3-9d5a-768481663c88",
       "themeId": "75a068fd-e94b-451a-9aeb-3ddb9a3b5987",
-      "url": "local.fusionauth.io",
+      "url": "https://local.fusionauth.io",
       "loginLowerBound": 1,
       "loginUpperBound": 2500,
       "debug": true

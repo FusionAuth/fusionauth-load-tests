@@ -1,6 +1,6 @@
 {
-  "loopCount": 1000,
-  "workerCount": 100,
+  "loopCount": 100,
+  "workerCount": 10,
   "rampWait": 9,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
@@ -13,7 +13,9 @@
       "counter": 0,
       "encryptionScheme": "salted-pbkdf2-hmac-sha256",
       "factor": 1,
-      "debug": true
+      "debug": true,
+      "numberOfApplications": 100,
+      "numberOfTenants": 10
     }
   },
   "listeners": [

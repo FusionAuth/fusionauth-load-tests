@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2023, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,9 +32,9 @@ import io.fusionauth.domain.api.user.RegistrationResponse;
  * @author Daniel DeGroff
  */
 public class FusionAuthRegistrationWorker extends BaseWorker {
-  private final UUID applicationId;
-
   private final FusionAuthClient client;
+
+  private final UUID configuredApplicationId;
 
   private final AtomicInteger counter;
 
@@ -42,27 +42,55 @@ public class FusionAuthRegistrationWorker extends BaseWorker {
 
   private final int factor;
 
+  private final int numberOfApplications;
+
+  private final int numberOfTenants;
+
   public FusionAuthRegistrationWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
     super(configuration);
     this.client = client;
     this.counter = counter;
-    this.applicationId = UUID.fromString(configuration.getString("applicationId"));
+    this.configuredApplicationId = UUID.fromString(configuration.getString("applicationId"));
     this.factor = configuration.getInteger("factor");
     this.encryptionScheme = configuration.getString("encryptionScheme");
+    this.numberOfApplications = configuration.getInteger("numberOfApplications", 0);
+    this.numberOfTenants = configuration.getInteger("numberOfTenants", 0);
   }
 
   @Override
   public boolean execute() {
+    int userIndex = counter.incrementAndGet();
+    FusionAuthClient scopedClient = client;
+
     User user = new User();
-    user.email = "load_user_" + counter.incrementAndGet() + "@fusionauth.io";
+    user.email = "load_user_" + userIndex + "@fusionauth.io";
     user.password = Password;
     user.encryptionScheme = encryptionScheme;
     user.factor = factor;
     user.data.put("externalId", secureString(20, ALPHA_NUMERIC_CHARACTERS));
 
+    UUID applicationId;
+    if (numberOfApplications > 0 && numberOfTenants > 0) {
+      int applicationIndex = userIndex % numberOfApplications;
+      if (applicationIndex == 0) {
+        applicationIndex = numberOfApplications; // indexes are 1-based
+      }
+      int tenantIndex = applicationIndex % numberOfTenants;
+      if (tenantIndex == 0) {
+        tenantIndex = numberOfTenants; // indexes are 1-based
+      }
+
+      applicationId = UUIDTools.applicationUUID(applicationIndex);
+      UUID tenantId = UUIDTools.tenantUUID(tenantIndex);
+      user.tenantId = tenantId;
+      scopedClient = client.setTenantId(tenantId);
+    } else {
+      applicationId = configuredApplicationId;
+    }
+
     UserRegistration userRegistration = new UserRegistration().with(r -> r.applicationId = applicationId)
                                                               .with(r -> r.roles.add("user"));
-    ClientResponse<RegistrationResponse, Errors> result = client.register(null, new RegistrationRequest(null, user, userRegistration));
+    ClientResponse<RegistrationResponse, Errors> result = scopedClient.register(null, new RegistrationRequest(null, user, userRegistration));
     if (result.wasSuccessful()) {
       return true;
     }

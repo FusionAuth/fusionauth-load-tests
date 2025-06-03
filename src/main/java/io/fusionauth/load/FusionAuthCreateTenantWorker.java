@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,8 @@ public class FusionAuthCreateTenantWorker extends BaseWorker {
 
   @Override
   public boolean execute() {
-    Tenant tenant = new Tenant().with(t -> t.name = "tenant_" + counter.incrementAndGet())
+    int tenantIndex = counter.incrementAndGet();
+    Tenant tenant = new Tenant().with(t -> t.name = "tenant_" + tenantIndex)
                                 .with(t -> t.emailConfiguration.host = "localhost")
                                 .with(t -> t.emailConfiguration.port = 25)
                                 .with(t -> t.externalIdentifierConfiguration.authorizationGrantIdTimeToLiveInSeconds = 60)
@@ -77,12 +78,12 @@ public class FusionAuthCreateTenantWorker extends BaseWorker {
                                 .with(t -> t.jwtConfiguration.timeToLiveInSeconds = 60)
                                 .with(t -> t.passwordValidationRules.maxLength = 200)
                                 .with(t -> t.passwordValidationRules.minLength = 10)
-                                .with(t -> t.passwordValidationRules.requireMixedCase = true)
-                                .with(t -> t.passwordValidationRules.requireNonAlpha = true)
-                                .with(t -> t.passwordValidationRules.requireNumber = true)
-                                .with(t -> t.passwordValidationRules.validateOnLogin = true)
+                                .with(t -> t.passwordValidationRules.requireMixedCase = false)
+                                .with(t -> t.passwordValidationRules.requireNonAlpha = false)
+                                .with(t -> t.passwordValidationRules.requireNumber = false)
+                                .with(t -> t.passwordValidationRules.validateOnLogin = false)
                                 .with(t -> t.themeId = UUID.fromString(configuration.getString("themeId")));
-    ClientResponse<TenantResponse, Errors> result = client.createTenant(null, new TenantRequest(null, tenant, null));
+    ClientResponse<TenantResponse, Errors> result = client.createTenant(UUIDTools.tenantUUID(tenantIndex), new TenantRequest(null, tenant, null));
     if (result.wasSuccessful()) {
       return true;
     }
