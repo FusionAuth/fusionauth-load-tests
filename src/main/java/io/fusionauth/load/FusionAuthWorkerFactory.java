@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2023, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,5 +74,27 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
 
   @Override
   public void prepare(LoadDefinition loadDefinition) {
+    String directive = null;
+    String url = null;
+    String apiKey = null;
+    if (loadDefinition != null && loadDefinition.workerFactory != null) {
+      directive = loadDefinition.workerFactory.getString("directive", null);
+      url = loadDefinition.workerFactory.getString("url", null);
+      apiKey = loadDefinition.workerFactory.getString("apiKey", null);
+    }
+    System.out.println("  --> Worker directive:\t" + directive);
+    System.out.println("  --> Worker url:\t" + url);
+    System.out.println("  --> Target version:\t" + fetchVersion(url, apiKey));
+  }
+
+  protected String fetchVersion(String url, String apiKey) {
+    if (apiKey != null && url != null) {
+      var client = new FusionAuthClient(apiKey, url, 5_000, 10_000);
+      var response = client.retrieveSystemStatusUsingAPIKey();
+      if (response.wasSuccessful() && response.successResponse != null) {
+        return response.successResponse.get("version").toString();
+      }
+    }
+    return "unavailable";
   }
 }
