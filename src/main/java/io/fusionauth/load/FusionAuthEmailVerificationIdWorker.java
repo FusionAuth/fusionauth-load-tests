@@ -15,88 +15,34 @@
  */
 package io.fusionauth.load;
 
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.inversoft.error.Errors;
 import com.inversoft.rest.ClientResponse;
 import io.fusionauth.client.FusionAuthClient;
-import io.fusionauth.domain.User;
-import io.fusionauth.domain.UserRegistration;
-import io.fusionauth.domain.api.user.RegistrationRequest;
-import io.fusionauth.domain.api.user.RegistrationResponse;
+import io.fusionauth.domain.api.user.VerifyEmailResponse;
 
 /**
- * Worker to test creating users and registrations. The user data includes a randomly generated external Id.
+ * Worker to test creating EmailVerification Ids for users.
  *
- * @author Daniel DeGroff
+ * @author Brent Halsey
  */
-public class FusionAuthRegistrationWorker extends BaseWorker {
-  private final FusionAuthClient client;
-
-  private final UUID configuredApplicationId;
-
+public class FusionAuthEmailVerificationIdWorker extends FusionAuthBaseWorker {
   private final AtomicInteger counter;
 
-  private final String encryptionScheme;
-
-  private final int factor;
-
-  private final int numberOfApplications;
-
-  private final int numberOfTenants;
-
-  public FusionAuthRegistrationWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
-    super(configuration);
-    this.client = client;
+  public FusionAuthEmailVerificationIdWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
+    super(client, configuration);
     this.counter = counter;
-    this.configuredApplicationId = UUID.fromString(configuration.getString("applicationId"));
-    this.factor = configuration.getInteger("factor");
-    this.encryptionScheme = configuration.getString("encryptionScheme");
-    this.numberOfApplications = configuration.getInteger("numberOfApplications", 0);
-    this.numberOfTenants = configuration.getInteger("numberOfTenants", 0);
   }
 
   @Override
   public boolean execute() {
     int userIndex = counter.incrementAndGet();
-    FusionAuthClient scopedClient = client;
 
-    User user = new User();
-    user.email = "load_user_" + userIndex + "@fusionauth.io";
-    user.password = Password;
-    user.encryptionScheme = encryptionScheme;
-    user.factor = factor;
-    user.data.put("externalId", secureString(20, ALPHA_NUMERIC_CHARACTERS));
+    setUserIndex(userIndex);
+    String email = "load_user_" + userIndex + "@fusionauth.io";
 
-    UUID applicationId;
-    if (numberOfApplications > 0 && numberOfTenants > 0) {
-      int applicationIndex = userIndex % numberOfApplications;
-      if (applicationIndex == 0) {
-        applicationIndex = numberOfApplications; // indexes are 1-based
-      }
-      int tenantIndex = applicationIndex % numberOfTenants;
-      if (tenantIndex == 0) {
-        tenantIndex = numberOfTenants; // indexes are 1-based
-      }
-
-      applicationId = UUIDTools.applicationUUID(applicationIndex);
-      UUID tenantId = UUIDTools.tenantUUID(tenantIndex);
-      user.tenantId = tenantId;
-      scopedClient = client.setTenantId(tenantId);
-    } else {
-      applicationId = configuredApplicationId;
-    }
-
-    UserRegistration userRegistration = new UserRegistration().with(r -> r.applicationId = applicationId)
-                                                              .with(r -> r.roles.add("user"));
-    ClientResponse<RegistrationResponse, Errors> result = scopedClient.register(null, new RegistrationRequest(null, user, userRegistration));
-    if (result.wasSuccessful()) {
-      return true;
-    }
-
-    printErrors(result);
-    return false;
+    ClientResponse<VerifyEmailResponse, Void> result = scopedClient.generateEmailVerificationId(email);
+    return result.wasSuccessful();
   }
 
   @Override

@@ -33,20 +33,19 @@ import io.fusionauth.domain.api.TenantResponse;
 /**
  * @author Daniel DeGroff
  */
-public class FusionAuthCreateTenantWorker extends BaseWorker {
-  private final FusionAuthClient client;
-
+public class FusionAuthCreateTenantWorker extends FusionAuthBaseWorker {
   private final AtomicInteger counter;
 
   public FusionAuthCreateTenantWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
-    super(configuration);
-    this.client = client;
+    super(client, configuration);
     this.counter = counter;
   }
 
   @Override
   public boolean execute() {
     int tenantIndex = counter.incrementAndGet();
+    setTenantIndex(tenantIndex);
+
     Tenant tenant = new Tenant().with(t -> t.name = "tenant_" + tenantIndex)
                                 .with(t -> t.emailConfiguration.host = "localhost")
                                 .with(t -> t.emailConfiguration.port = 25)
@@ -83,7 +82,7 @@ public class FusionAuthCreateTenantWorker extends BaseWorker {
                                 .with(t -> t.passwordValidationRules.requireNumber = false)
                                 .with(t -> t.passwordValidationRules.validateOnLogin = false)
                                 .with(t -> t.themeId = UUID.fromString(configuration.getString("themeId")));
-    ClientResponse<TenantResponse, Errors> result = client.createTenant(UUIDTools.tenantUUID(tenantIndex), new TenantRequest(null, tenant, null));
+    ClientResponse<TenantResponse, Errors> result = client.createTenant(tenantId, new TenantRequest(null, tenant, null));
     if (result.wasSuccessful()) {
       return true;
     }

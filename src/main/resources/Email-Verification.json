@@ -5,14 +5,11 @@
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
     "attributes": {
-      "directive": "register",
+      "directive": "email-verification",
       "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
-      "applicationId": "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd",
       "tenantId": "efb21cfc-fa60-46f4-9598-889151e58517",
       "url": "https://local.fusionauth.io",
       "counter": 0,
-      "encryptionScheme": "salted-pbkdf2-hmac-sha256",
-      "factor": 1,
       "debug": true,
       "numberOfApplications": 100,
       "numberOfTenants": 10

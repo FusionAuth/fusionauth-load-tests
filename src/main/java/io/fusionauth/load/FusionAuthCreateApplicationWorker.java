@@ -28,38 +28,25 @@ import io.fusionauth.domain.api.ApplicationResponse;
 /**
  * @author Daniel DeGroff
  */
-public class FusionAuthCreateApplicationWorker extends BaseWorker {
-  private final FusionAuthClient client;
-
+public class FusionAuthCreateApplicationWorker extends FusionAuthBaseWorker {
   private final AtomicInteger counter;
 
-  private final int numberOfTenants;
-
   public FusionAuthCreateApplicationWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
-    super(configuration);
-    this.client = client;
+    super(client, configuration);
     this.counter = counter;
-    this.numberOfTenants = configuration.getInteger("numberOfTenants", 0);
   }
 
   @Override
   public boolean execute() {
     int applicationIndex = counter.incrementAndGet();
-    FusionAuthClient scopedClient = client;
 
     Application application = new Application().with(t -> t.name = "application_" + applicationIndex)
                                                .with(a -> a.roles.add(new ApplicationRole("admin")))
                                                .with(a -> a.roles.add(new ApplicationRole("user")));
 
-    if (numberOfTenants > 0) {
-      int tenantIndex = applicationIndex % numberOfTenants;
-      if (tenantIndex == 0) {
-        tenantIndex = numberOfTenants; // indexes are 1-based
-      }
-      application.tenantId = UUIDTools.tenantUUID(tenantIndex);
-      scopedClient = client.setTenantId(application.tenantId);
-    }
-    ClientResponse<ApplicationResponse, Errors> result = scopedClient.createApplication(UUIDTools.applicationUUID(applicationIndex), new ApplicationRequest(null, application));
+    setApplicationIndex(applicationIndex);
+    application.tenantId = tenantId;
+    ClientResponse<ApplicationResponse, Errors> result = scopedClient.createApplication(applicationId, new ApplicationRequest(null, application));
     if (result.wasSuccessful()) {
       return true;
     }

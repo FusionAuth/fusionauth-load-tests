@@ -10,7 +10,9 @@
       "url": "https://local.fusionauth.io",
       "loginLowerBound": 1,
       "loginUpperBound": 2500,
-      "debug": true
+      "debug": true,
+      "numberOfApplications": 100,
+      "numberOfTenants": 10
     }
   },
   "listeners": [

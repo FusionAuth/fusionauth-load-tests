@@ -60,6 +60,7 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
     return switch (directive) {
       case "create-application" -> new FusionAuthCreateApplicationWorker(client, configuration, counter);
       case "create-tenant" -> new FusionAuthCreateTenantWorker(client, configuration, counter);
+      case "email-verification" -> new FusionAuthEmailVerificationIdWorker(client, configuration, counter);
       case "simple-get" -> new FusionAuthSimpleGetWorker(configuration);
       case "login" -> new FusionAuthLoginWorker(client, configuration);
       case "oauth2/authorize" -> new FusionAuthOAuth2AuthorizeWorker(client, configuration);
