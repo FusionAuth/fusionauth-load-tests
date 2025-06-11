@@ -46,7 +46,7 @@ public class FusionAuthCreateApplicationWorker extends FusionAuthBaseWorker {
 
     setApplicationIndex(applicationIndex);
     application.tenantId = tenantId;
-    ClientResponse<ApplicationResponse, Errors> result = scopedClient.createApplication(applicationId, new ApplicationRequest(null, application));
+    ClientResponse<ApplicationResponse, Errors> result = tenantScopedClient.createApplication(applicationId, new ApplicationRequest(null, application));
     if (result.wasSuccessful()) {
       return true;
     }

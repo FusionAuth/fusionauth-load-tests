@@ -35,18 +35,18 @@ public abstract class FusionAuthBaseWorker extends BaseWorker {
 
   protected int applicationIndex;
 
-  protected FusionAuthClient scopedClient;
-
   protected UUID tenantId;
 
   protected int tenantIndex;
+
+  protected FusionAuthClient tenantScopedClient;
 
   public FusionAuthBaseWorker(FusionAuthClient client, Configuration configuration) {
     super(configuration);
     this.client = client;
     this.numberOfApplications = configuration.getInteger("numberOfApplications", 0);
     this.numberOfTenants = configuration.getInteger("numberOfTenants", 0);
-    this.scopedClient = client;
+    this.tenantScopedClient = client;
   }
 
   public static UUID applicationUUID(int tenantIndex) {
@@ -58,20 +58,21 @@ public abstract class FusionAuthBaseWorker extends BaseWorker {
   }
 
   protected void setApplicationIndex(int applicationIndex) {
+    this.applicationIndex = applicationIndex;
     if (numberOfTenants > 0) {
       int tenantIndex = applicationIndex % numberOfTenants;
       if (tenantIndex == 0) {
         tenantIndex = numberOfTenants; // indexes are 1-based
       }
       applicationId = applicationUUID(applicationIndex);
-      tenantId = tenantUUID(tenantIndex);
-      scopedClient = client.setTenantId(tenantId);
+      setTenantIndex(tenantIndex);
     }
   }
 
   protected void setTenantIndex(int tenantIndex) {
+    this.tenantIndex = tenantIndex;
     tenantId = tenantUUID(tenantIndex);
-    scopedClient = client.setTenantId(tenantId);
+    tenantScopedClient = client.setTenantId(tenantId); // this returns a new client with the tenant set
   }
 
   protected void setUserIndex(int userIndex) {
@@ -80,15 +81,7 @@ public abstract class FusionAuthBaseWorker extends BaseWorker {
       if (applicationIndex == 0) {
         applicationIndex = numberOfApplications; // indexes are 1-based
       }
-      applicationId = applicationUUID(applicationIndex);
-
-      tenantIndex = applicationIndex % numberOfTenants;
-      if (tenantIndex == 0) {
-        tenantIndex = numberOfTenants; // indexes are 1-based
-      }
-      tenantId = tenantUUID(tenantIndex);
-
-      scopedClient = client.setTenantId(tenantId); // this returns a new client with the tenant set
+      setApplicationIndex(applicationIndex);
     }
   }
 

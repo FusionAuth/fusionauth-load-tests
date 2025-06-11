@@ -51,7 +51,7 @@ public class FusionAuthLoginWorker extends FusionAuthBaseWorker {
 
     UUID registrationAppId = applicationId != null ? applicationId : configuredApplicationId;
 
-    ClientResponse<LoginResponse, Errors> result = scopedClient.login(new LoginRequest(registrationAppId, email, Password));
+    ClientResponse<LoginResponse, Errors> result = tenantScopedClient.login(new LoginRequest(registrationAppId, email, Password));
     if (result.wasSuccessful()) {
       return true;
     }

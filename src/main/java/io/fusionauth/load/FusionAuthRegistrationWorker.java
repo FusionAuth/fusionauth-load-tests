@@ -64,7 +64,7 @@ public class FusionAuthRegistrationWorker extends FusionAuthBaseWorker {
     UUID registrationAppId = applicationId != null ? applicationId : configuredApplicationId;
     UserRegistration userRegistration = new UserRegistration().with(r -> r.applicationId = registrationAppId)
                                                               .with(r -> r.roles.add("user"));
-    ClientResponse<RegistrationResponse, Errors> result = scopedClient.register(null, new RegistrationRequest(null, user, userRegistration));
+    ClientResponse<RegistrationResponse, Errors> result = tenantScopedClient.register(null, new RegistrationRequest(null, user, userRegistration));
     if (result.wasSuccessful()) {
       return true;
     }
