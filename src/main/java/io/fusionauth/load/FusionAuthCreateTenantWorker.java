@@ -54,7 +54,7 @@ public class FusionAuthCreateTenantWorker extends FusionAuthBaseWorker {
                                 .with(t -> t.externalIdentifierConfiguration.deviceCodeTimeToLiveInSeconds = 60)
                                 .with(t -> t.externalIdentifierConfiguration.deviceUserCodeIdGenerator = new SecureGeneratorConfiguration(10, SecureGeneratorType.randomAlphaNumeric))
                                 .with(t -> t.externalIdentifierConfiguration.emailVerificationIdGenerator = new SecureGeneratorConfiguration(10, SecureGeneratorType.randomAlphaNumeric))
-                                .with(t -> t.externalIdentifierConfiguration.emailVerificationIdTimeToLiveInSeconds = 60)
+                                .with(t -> t.externalIdentifierConfiguration.emailVerificationIdTimeToLiveInSeconds = 100000000)
                                 .with(t -> t.externalIdentifierConfiguration.externalAuthenticationIdTimeToLiveInSeconds = 60)
                                 .with(t -> t.externalIdentifierConfiguration.oneTimePasswordTimeToLiveInSeconds = 60)
                                 .with(t -> t.externalIdentifierConfiguration.passwordlessLoginGenerator = new SecureGeneratorConfiguration(10, SecureGeneratorType.randomAlphaNumeric))

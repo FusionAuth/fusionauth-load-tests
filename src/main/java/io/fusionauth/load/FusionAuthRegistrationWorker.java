@@ -43,7 +43,11 @@ public class FusionAuthRegistrationWorker extends FusionAuthBaseWorker {
   public FusionAuthRegistrationWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
     super(client, configuration);
     this.counter = counter;
-    this.configuredApplicationId = UUID.fromString(configuration.getString("applicationId"));
+    if (configuration.hasProperty("applicationId")) {
+      this.configuredApplicationId = UUID.fromString(configuration.getString("applicationId"));
+    } else {
+      this.configuredApplicationId = null;
+    }
     this.factor = configuration.getInteger("factor");
     this.encryptionScheme = configuration.getString("encryptionScheme");
   }

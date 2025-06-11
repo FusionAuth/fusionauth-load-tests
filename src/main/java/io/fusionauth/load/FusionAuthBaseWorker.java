@@ -41,6 +41,8 @@ public abstract class FusionAuthBaseWorker extends BaseWorker {
 
   protected FusionAuthClient tenantScopedClient;
 
+  protected int userIndex;
+
   public FusionAuthBaseWorker(FusionAuthClient client, Configuration configuration) {
     super(configuration);
     this.client = client;
@@ -50,11 +52,11 @@ public abstract class FusionAuthBaseWorker extends BaseWorker {
   }
 
   public static UUID applicationUUID(int index) {
-    return new UUID(1, tenantIndex);
+    return new UUID(1, index);
   }
 
-  public static UUID tenantUUID(int tenantIndex) {
-    return new UUID(0, tenantIndex);
+  public static UUID tenantUUID(int index) {
+    return new UUID(0, index);
   }
 
   protected void setApplicationIndex(int applicationIndex) {
@@ -76,6 +78,7 @@ public abstract class FusionAuthBaseWorker extends BaseWorker {
   }
 
   protected void setUserIndex(int userIndex) {
+    this.userIndex = userIndex;
     if (numberOfApplications > 0 && numberOfTenants > 0) {
       applicationIndex = userIndex % numberOfApplications;
       if (applicationIndex == 0) {

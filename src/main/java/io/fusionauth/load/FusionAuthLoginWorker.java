@@ -38,7 +38,11 @@ public class FusionAuthLoginWorker extends FusionAuthBaseWorker {
 
   public FusionAuthLoginWorker(FusionAuthClient client, Configuration configuration) {
     super(client, configuration);
-    this.configuredApplicationId = UUID.fromString(configuration.getString("applicationId"));
+    if (configuration.hasProperty("applicationId")) {
+      this.configuredApplicationId = UUID.fromString(configuration.getString("applicationId"));
+    } else {
+      this.configuredApplicationId = null;
+    }
     this.loginLowerBound = configuration.getInteger("loginLowerBound", 0);
     this.loginUpperBound = configuration.getInteger("loginUpperBound", 1_000_000);
   }

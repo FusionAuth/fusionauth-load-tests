@@ -6,11 +6,12 @@
     "attributes": {
       "directive": "login",
       "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
-      "applicationId": "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd",
       "url": "https://local.fusionauth.io",
       "loginLowerBound": 1,
       "loginUpperBound": 100000,
-      "debug": true
+      "debug": true,
+      "numberOfApplications": 100,
+      "numberOfTenants": 10
     }
   },
   "listeners": [
