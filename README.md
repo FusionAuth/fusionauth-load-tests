@@ -96,6 +96,7 @@ Before you can log users in, you need to create users.
 To create users, run the User-Registrations test:
 ```
 cd build/dist
+# optionally run ./set-url-host.sh <new_host> to change the host in the JSON files
 ./load-test.sh User-Registrations.json
 ```
 

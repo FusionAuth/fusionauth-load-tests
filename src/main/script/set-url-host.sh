@@ -17,10 +17,10 @@
 #
 
 # Set the url host value across all the json config files
-# Usage: ./set-url-host.sh <new_url>
+# Usage: cd build/dist; ./set-url-host.sh <new_url>
 
 if [ $# -ne 1 ]; then
-  echo "Usage: $0 <new_url>"
+  echo "Usage: cd build/dist; $0 <new_url>"
   exit 1
 fi
 
