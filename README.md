@@ -48,7 +48,7 @@ To test user registrations with less CPU load, you can change the `factor` value
 
 If you want to run the load tests against a specific Tenant, Application, or User, you can modify the JSON files in [src/main/resources](src/main/resources) to include the `tenantId`, `applicationId` values. This is the legacy configuration in `User-Registrations.json` and `User-Logins.json`.
 
-If you want to run load tests against a set of users divided amongst applications and tenants, then setting the `numberOfApplications` and `numberOfTenants` values will allow you to create a set of users that are divided amongst the specified number of applications and tenants following these steps:
+If you want to run load tests against a set of users divided amongst applications and tenants, then don't set a specific `applicationId` and `tenantId`. Instead, setting the `numberOfApplications` and `numberOfTenants` values will allow you to create a set of users that are divided amongst the specified number of applications and tenants following these steps:
 
 1. Run `Create-Tenants.json` to create the desired number of tenants.
 2. Run `Create-Applications.json` with `numberOfTenants` set to create the desired number of applications distributed across the tenants. 

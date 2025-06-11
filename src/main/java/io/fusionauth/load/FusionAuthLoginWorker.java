@@ -54,7 +54,7 @@ public class FusionAuthLoginWorker extends FusionAuthBaseWorker {
     setUserIndex(index);
     String email = "load_user_" + userIndex + "@fusionauth.io";
 
-    UUID registrationAppId = applicationId != null ? applicationId : configuredApplicationId;
+    UUID registrationAppId = configuredApplicationId != null ? configuredApplicationId : applicationId;
 
     ClientResponse<LoginResponse, Errors> result = tenantScopedClient.login(new LoginRequest(registrationAppId, email, Password));
     if (result.wasSuccessful()) {

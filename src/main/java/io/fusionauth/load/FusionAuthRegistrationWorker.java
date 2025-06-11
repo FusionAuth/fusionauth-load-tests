@@ -64,7 +64,7 @@ public class FusionAuthRegistrationWorker extends FusionAuthBaseWorker {
     user.data.put("externalId", secureString(20, ALPHA_NUMERIC_CHARACTERS));
     user.tenantId = tenantId;
 
-    UUID registrationAppId = applicationId != null ? applicationId : configuredApplicationId;
+    UUID registrationAppId = configuredApplicationId != null ? configuredApplicationId : applicationId;
     UserRegistration userRegistration = new UserRegistration().with(r -> r.applicationId = registrationAppId)
                                                               .with(r -> r.roles.add("user"));
     ClientResponse<RegistrationResponse, Errors> result = tenantScopedClient.register(null, new RegistrationRequest(null, user, userRegistration));
