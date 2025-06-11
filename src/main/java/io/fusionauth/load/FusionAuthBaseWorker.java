@@ -20,7 +20,7 @@ import java.util.UUID;
 import io.fusionauth.client.FusionAuthClient;
 
 /**
- * Worker to test creating EmailVerification Ids for users.
+ * Base worker to create deterministic Ids for FusionAuth load tests.
  *
  * @author Brent Halsey
  */
