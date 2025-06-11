@@ -49,7 +49,7 @@ public abstract class FusionAuthBaseWorker extends BaseWorker {
     this.tenantScopedClient = client;
   }
 
-  public static UUID applicationUUID(int tenantIndex) {
+  public static UUID applicationUUID(int index) {
     return new UUID(1, tenantIndex);
   }
 

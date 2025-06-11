@@ -38,14 +38,12 @@ public class FusionAuthCreateApplicationWorker extends FusionAuthBaseWorker {
 
   @Override
   public boolean execute() {
-    int applicationIndex = counter.incrementAndGet();
+    setApplicationIndex(counter.incrementAndGet());
 
-    Application application = new Application().with(t -> t.name = "application_" + applicationIndex)
+    Application application = new Application().with(a -> a.name = "application_" + applicationIndex)
+                                               .with(a -> a.tenantId = tenantId)
                                                .with(a -> a.roles.add(new ApplicationRole("admin")))
                                                .with(a -> a.roles.add(new ApplicationRole("user")));
-
-    setApplicationIndex(applicationIndex);
-    application.tenantId = tenantId;
     ClientResponse<ApplicationResponse, Errors> result = tenantScopedClient.createApplication(applicationId, new ApplicationRequest(null, application));
     if (result.wasSuccessful()) {
       return true;

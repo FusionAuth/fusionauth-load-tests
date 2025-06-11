@@ -36,9 +36,7 @@ public class FusionAuthEmailVerificationIdWorker extends FusionAuthBaseWorker {
 
   @Override
   public boolean execute() {
-    int userIndex = counter.incrementAndGet();
-
-    setUserIndex(userIndex);
+    setUserIndex(counter.incrementAndGet());
     String email = "load_user_" + userIndex + "@fusionauth.io";
 
     ClientResponse<VerifyEmailResponse, Void> result = tenantScopedClient.generateEmailVerificationId(email);

@@ -43,8 +43,7 @@ public class FusionAuthCreateTenantWorker extends FusionAuthBaseWorker {
 
   @Override
   public boolean execute() {
-    int tenantIndex = counter.incrementAndGet();
-    setTenantIndex(tenantIndex);
+    setTenantIndex(counter.incrementAndGet());
 
     Tenant tenant = new Tenant().with(t -> t.name = "tenant_" + tenantIndex)
                                 .with(t -> t.emailConfiguration.host = "localhost")

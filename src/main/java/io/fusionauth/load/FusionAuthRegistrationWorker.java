@@ -50,8 +50,7 @@ public class FusionAuthRegistrationWorker extends FusionAuthBaseWorker {
 
   @Override
   public boolean execute() {
-    int userIndex = counter.incrementAndGet();
-    setUserIndex(userIndex);
+    setUserIndex(counter.incrementAndGet());
 
     User user = new User();
     user.email = "load_user_" + userIndex + "@fusionauth.io";

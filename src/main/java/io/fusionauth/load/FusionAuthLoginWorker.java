@@ -45,9 +45,10 @@ public class FusionAuthLoginWorker extends FusionAuthBaseWorker {
 
   @Override
   public boolean execute() {
-    int userIndex = new Random().nextInt((loginUpperBound - loginLowerBound) + 1) + loginLowerBound;
+    // Pick a random user to log in
+    int index = new Random().nextInt((loginUpperBound - loginLowerBound) + 1) + loginLowerBound;
+    setUserIndex(index);
     String email = "load_user_" + userIndex + "@fusionauth.io";
-    setUserIndex(userIndex);
 
     UUID registrationAppId = applicationId != null ? applicationId : configuredApplicationId;
 
