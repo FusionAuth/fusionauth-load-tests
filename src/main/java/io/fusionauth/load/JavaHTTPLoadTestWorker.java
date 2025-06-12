@@ -44,14 +44,7 @@ public class JavaHTTPLoadTestWorker extends BaseWorker {
 
   private final boolean chunked;
 
-  private final HttpClient javaHTTPClient = HttpClient.newBuilder()
-                                                      .connectTimeout(Duration.ofSeconds(10))
-                                                      // Use virtual threads
-                                                      // - This seems to improve the performance of this REST client by nearly 100%.
-                                                      //   With 100 workers, I could get ~ 25-30k RPS, with this change I can get 58k.
-                                                      .executor(Executors.newVirtualThreadPerTaskExecutor())
-                                                      .followRedirects(Redirect.ALWAYS)
-                                                      .build();
+  private final HttpClient javaRESTClient;
 
   private final String restClient;
 
@@ -65,6 +58,16 @@ public class JavaHTTPLoadTestWorker extends BaseWorker {
     if (!restClient.equals("restify") && !restClient.equals("java")) {
       throw new IllegalArgumentException("Invalid restClient: " + restClient + ". Must be 'restify' or 'java'");
     }
+
+    // Build a single REST client for this worker.
+    javaRESTClient = HttpClient.newBuilder()
+                               .connectTimeout(Duration.ofSeconds(10))
+                               // Use virtual threads
+                               // - This seems to improve the performance of this REST client by nearly 100%.
+                               //   With 100 workers, I could get ~ 25-30k RPS, with this change I can get 58k.
+                               .executor(Executors.newVirtualThreadPerTaskExecutor())
+                               .followRedirects(Redirect.ALWAYS)
+                               .build();
   }
 
   @Override
@@ -104,7 +107,7 @@ public class JavaHTTPLoadTestWorker extends BaseWorker {
                                .uri(URI.create(this.url))
                                .build();
       try {
-        var response = javaHTTPClient.send(request, BodyHandlers.ofByteArray());
+        var response = javaRESTClient.send(request, BodyHandlers.ofByteArray());
         return response.statusCode() >= 200 && response.statusCode() <= 399;
       } catch (Exception e) {
         throw new RuntimeException(e);
