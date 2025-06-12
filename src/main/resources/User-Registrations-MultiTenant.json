@@ -12,8 +12,8 @@
       "encryptionScheme": "salted-pbkdf2-hmac-sha256",
       "factor": 1,
       "debug": true,
-      "numberOfApplications": 1000,
-      "numberOfTenants": 10
+      "applicationCount": 1000,
+      "tenantCount": 10
     }
   },
   "listeners": [

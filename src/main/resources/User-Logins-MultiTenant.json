@@ -10,8 +10,8 @@
       "loginLowerBound": 1,
       "loginUpperBound": 100000,
       "debug": true,
-      "numberOfApplications": 1000,
-      "numberOfTenants": 10
+      "applicationCount": 1000,
+      "tenantCount": 10
     }
   },
   "listeners": [

@@ -27,9 +27,9 @@ import io.fusionauth.client.FusionAuthClient;
 public abstract class FusionAuthBaseWorker extends BaseWorker {
   protected final FusionAuthClient client;
 
-  private final int numberOfApplications;
+  private final int applicationCount;
 
-  private final int numberOfTenants;
+  private final int tenantCount;
 
   protected UUID applicationId;
 
@@ -46,8 +46,8 @@ public abstract class FusionAuthBaseWorker extends BaseWorker {
   public FusionAuthBaseWorker(FusionAuthClient client, Configuration configuration) {
     super(configuration);
     this.client = client;
-    this.numberOfApplications = configuration.getInteger("numberOfApplications", 0);
-    this.numberOfTenants = configuration.getInteger("numberOfTenants", 0);
+    this.applicationCount = configuration.getInteger("applicationCount", 0);
+    this.tenantCount = configuration.getInteger("tenantCount", 0);
     this.tenantScopedClient = client;
   }
 
@@ -61,10 +61,10 @@ public abstract class FusionAuthBaseWorker extends BaseWorker {
 
   protected void setApplicationIndex(int index) {
     this.applicationIndex = index;
-    if (numberOfTenants > 0) {
-      int tenantIndex = applicationIndex % numberOfTenants;
+    if (tenantCount > 0) {
+      int tenantIndex = applicationIndex % tenantCount;
       if (tenantIndex == 0) {
-        tenantIndex = numberOfTenants; // indexes are 1-based
+        tenantIndex = tenantCount; // indexes are 1-based
       }
       applicationId = applicationUUID(applicationIndex);
       setTenantIndex(tenantIndex);
@@ -79,10 +79,10 @@ public abstract class FusionAuthBaseWorker extends BaseWorker {
 
   protected void setUserIndex(int index) {
     this.userIndex = index;
-    if (numberOfApplications > 0 && numberOfTenants > 0) {
-      applicationIndex = userIndex % numberOfApplications;
+    if (applicationCount > 0 && tenantCount > 0) {
+      applicationIndex = userIndex % applicationCount;
       if (applicationIndex == 0) {
-        applicationIndex = numberOfApplications; // indexes are 1-based
+        applicationIndex = applicationCount; // indexes are 1-based
       }
       setApplicationIndex(applicationIndex);
     }

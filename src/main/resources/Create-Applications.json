@@ -9,7 +9,7 @@
       "keyId": "b871576b-1729-4fb3-9d5a-768481663c88",
       "themeId": "75a068fd-e94b-451a-9aeb-3ddb9a3b5987",
       "url": "https://local.fusionauth.io",
-      "numberOfTenants": 10,
+      "tenantCount": 10,
       "debug": true
     }
   },

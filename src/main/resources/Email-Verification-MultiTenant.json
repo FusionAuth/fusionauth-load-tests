@@ -11,8 +11,8 @@
       "url": "https://local.fusionauth.io",
       "counter": 0,
       "debug": true,
-      "numberOfApplications": 1000,
-      "numberOfTenants": 10
+      "applicationCount": 1000,
+      "tenantCount": 10
     }
   },
   "listeners": [
