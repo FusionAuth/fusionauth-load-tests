@@ -24,6 +24,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.concurrent.Executors;
 
 import com.inversoft.rest.ClientResponse;
 import com.inversoft.rest.RESTClient;
@@ -45,6 +46,10 @@ public class JavaHTTPLoadTestWorker extends BaseWorker {
 
   private final HttpClient javaHTTPClient = HttpClient.newBuilder()
                                                       .connectTimeout(Duration.ofSeconds(10))
+                                                      // Use virtual threads
+                                                      // - This seems to improve the performance of this REST client by nearly 100%.
+                                                      //   With 100 workers, I could get ~ 25-30k RPS, with this change I can get 58k.
+                                                      .executor(Executors.newVirtualThreadPerTaskExecutor())
                                                       .followRedirects(Redirect.ALWAYS)
                                                       .build();
 
