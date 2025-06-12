@@ -46,6 +46,7 @@ public class FusionAuthCreateTenantWorker extends FusionAuthBaseWorker {
     setTenantIndex(counter.incrementAndGet());
 
     Tenant tenant = new Tenant().with(t -> t.name = "tenant_" + tenantIndex)
+                                .with(t -> t.emailConfiguration.verifyEmail = false) // Verifying email in load test can harm your email reputation
                                 .with(t -> t.emailConfiguration.host = "localhost")
                                 .with(t -> t.emailConfiguration.port = 25)
                                 .with(t -> t.externalIdentifierConfiguration.authorizationGrantIdTimeToLiveInSeconds = 60)
