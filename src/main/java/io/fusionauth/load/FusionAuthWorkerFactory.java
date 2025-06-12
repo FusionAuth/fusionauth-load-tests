@@ -60,6 +60,7 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
     return switch (directive) {
       case "create-application" -> new FusionAuthCreateApplicationWorker(client, configuration, counter);
       case "create-tenant" -> new FusionAuthCreateTenantWorker(client, configuration, counter);
+      case "email-verification" -> new FusionAuthEmailVerificationIdWorker(client, configuration, counter);
       case "simple-get" -> new FusionAuthSimpleGetWorker(configuration);
       case "login" -> new FusionAuthLoginWorker(client, configuration);
       case "oauth2/authorize" -> new FusionAuthOAuth2AuthorizeWorker(client, configuration);
@@ -92,7 +93,7 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
       var client = new FusionAuthClient(apiKey, url, 5_000, 10_000);
       var response = client.retrieveSystemStatusUsingAPIKey();
       if (response.wasSuccessful() && response.successResponse != null) {
-        return response.successResponse.get("version").toString();
+        return response.successResponse.getOrDefault("version", "unavailable").toString();
       }
     }
     return "unavailable";

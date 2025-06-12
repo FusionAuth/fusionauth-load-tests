@@ -1,15 +1,18 @@
 {
-  "loopCount": 10,
-  "workerCount": 1,
+  "loopCount": 1000,
+  "workerCount": 10,
+  "rampWait": 9,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
     "attributes": {
-      "directive": "create-tenant",
+      "directive": "email-verification",
       "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
-      "keyId": "b871576b-1729-4fb3-9d5a-768481663c88",
-      "themeId": "75a068fd-e94b-451a-9aeb-3ddb9a3b5987",
+      "tenantId": "efb21cfc-fa60-46f4-9598-889151e58517",
       "url": "https://local.fusionauth.io",
-      "debug": true
+      "counter": 0,
+      "debug": true,
+      "applicationCount": 1000,
+      "tenantCount": 10
     }
   },
   "listeners": [
