@@ -12,7 +12,7 @@
       "encryptionScheme": "salted-pbkdf2-hmac-sha256",
       "factor": 1,
       "debug": true,
-      "numberOfApplications": 100,
+      "numberOfApplications": 1000,
       "numberOfTenants": 10
     }
   },
