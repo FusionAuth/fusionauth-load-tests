@@ -52,7 +52,7 @@ If you want to run load tests against a set of users divided amongst application
 
 1. Run `Create-Tenants.json` to create the desired number of tenants.
 2. Run `Create-Applications.json` with `numberOfTenants` set to create the desired number of applications distributed across the tenants. 
-3. Run `User-Registrations-Multi.json` with `numberOfApplications` and `numberOfTenants` set to create the desired number of users distributed across the applications and tenants. 
+3. Run `User-Registrations-MultiTenant.json` with `numberOfApplications` and `numberOfTenants` set to create the desired number of users distributed across the applications and tenants. 
 
 The names of tenants, applications, and users will be of the formats: `tenant_{n}`, `application_{n}`, and `load_user_[n]@fusionauth.io`, where `[n]` is a decimal number starting from 1.
 
@@ -76,7 +76,7 @@ An example set of users with 10 tenants, 1000 applications, and 10,000 users wou
 | load_user_1001@fusionauth.io | 00000000-0000-0001-0000-00000001   | 00000000-0000-0000-0000-00000001   |
 | ...                          |                                    |                                    |
 
-The `User-Logins-Multi.json` configuration will test the login endpoint with these users.
+The `User-Logins-MultiTenant.json` configuration will test the login endpoint with these users.
 
 ### Building the Tests
 
