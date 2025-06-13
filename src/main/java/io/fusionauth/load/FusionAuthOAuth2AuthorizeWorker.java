@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.inversoft.http.Cookie;
 import com.inversoft.rest.ClientResponse;
 import com.inversoft.rest.FormDataBodyHandler;
 import com.inversoft.rest.RESTClient;
@@ -130,16 +129,11 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
 
           // Handle consent
           if (location.startsWith("/oauth2/consent")) {
-            Cookie loginIntent = postResponse.getCookies()
-                                             .stream()
-                                             .filter(c -> c.name.equals("fusionauth.li"))
-                                             .findFirst()
-                                             .orElseThrow();
-
             ClientResponse<Void, Void> consentResponse = new RESTClient<>(Void.TYPE, Void.TYPE)
                 .url(this.baseURL + location)
                 .followRedirects(false)
-                .cookie(loginIntent)
+                // Make sure we pick up the fusionauth.li cookie
+                .cookies(postResponse.getCookies())
                 .connectTimeout(7_000)
                 .readTimeout(7_000)
                 .get()
