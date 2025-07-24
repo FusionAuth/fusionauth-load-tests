@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,6 +122,17 @@ public class Configuration {
     }
 
     return value.toString();
+  }
+
+  /**
+   * Checks if the configuration has a property.
+   *
+   * @param property The property to check.
+   * @return true if the property exists in the configuration, false otherwise.
+   */
+  public boolean hasProperty(String property) {
+    Object value = attributes.get(property);
+    return value != null;
   }
 
   @Override

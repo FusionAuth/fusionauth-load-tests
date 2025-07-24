@@ -1,18 +1,17 @@
 {
-  "loopCount": 100,
+  "loopCount": 1000,
   "workerCount": 100,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
     "attributes": {
-      "directive": "oauth2/authorize",
+      "directive": "login",
       "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
-      "client_id": "11e7ea7b-784d-4687-bf2d-4f8ee479a4dd",
-      "client_secret": "ZDA5Yzk0NTUtYzg4ZS00ZmNhLThmOGUtZDFkN2M3YTllNDY1",
-      "redirect_uri": "https://acme.com/redirect",
       "url": "https://local.fusionauth.io",
-      "loginLowerBound": 100,
-      "loginUpperBound": 2500,
-      "debug": true
+      "loginLowerBound": 1,
+      "loginUpperBound": 100000,
+      "debug": true,
+      "applicationCount": 1000,
+      "tenantCount": 10
     }
   },
   "listeners": [

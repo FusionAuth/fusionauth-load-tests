@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2023, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,10 +31,8 @@ import io.fusionauth.domain.api.user.RegistrationResponse;
  *
  * @author Daniel DeGroff
  */
-public class FusionAuthRegistrationWorker extends BaseWorker {
-  private final UUID applicationId;
-
-  private final FusionAuthClient client;
+public class FusionAuthRegistrationWorker extends FusionAuthBaseWorker {
+  private final UUID configuredApplicationId;
 
   private final AtomicInteger counter;
 
@@ -43,26 +41,33 @@ public class FusionAuthRegistrationWorker extends BaseWorker {
   private final int factor;
 
   public FusionAuthRegistrationWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
-    super(configuration);
-    this.client = client;
+    super(client, configuration);
     this.counter = counter;
-    this.applicationId = UUID.fromString(configuration.getString("applicationId"));
+    if (configuration.hasProperty("applicationId")) {
+      this.configuredApplicationId = UUID.fromString(configuration.getString("applicationId"));
+    } else {
+      this.configuredApplicationId = null;
+    }
     this.factor = configuration.getInteger("factor");
     this.encryptionScheme = configuration.getString("encryptionScheme");
   }
 
   @Override
   public boolean execute() {
+    setUserIndex(counter.incrementAndGet());
+
     User user = new User();
-    user.email = "load_user_" + counter.incrementAndGet() + "@fusionauth.io";
+    user.email = "load_user_" + userIndex + "@fusionauth.io";
     user.password = Password;
     user.encryptionScheme = encryptionScheme;
     user.factor = factor;
     user.data.put("externalId", secureString(20, ALPHA_NUMERIC_CHARACTERS));
+    user.tenantId = tenantId;
 
-    UserRegistration userRegistration = new UserRegistration().with(r -> r.applicationId = applicationId)
+    UUID registrationAppId = configuredApplicationId != null ? configuredApplicationId : applicationId;
+    UserRegistration userRegistration = new UserRegistration().with(r -> r.applicationId = registrationAppId)
                                                               .with(r -> r.roles.add("user"));
-    ClientResponse<RegistrationResponse, Errors> result = client.register(null, new RegistrationRequest(null, user, userRegistration));
+    ClientResponse<RegistrationResponse, Errors> result = tenantScopedClient.register(null, new RegistrationRequest(null, user, userRegistration));
     if (result.wasSuccessful()) {
       return true;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,28 +29,34 @@ import io.fusionauth.domain.api.LoginResponse;
  *
  * @author Daniel DeGroff
  */
-public class FusionAuthLoginWorker extends BaseWorker {
-  private final UUID applicationId;
-
-  private final FusionAuthClient client;
+public class FusionAuthLoginWorker extends FusionAuthBaseWorker {
+  private final UUID configuredApplicationId;
 
   private final int loginLowerBound;
 
   private final int loginUpperBound;
 
   public FusionAuthLoginWorker(FusionAuthClient client, Configuration configuration) {
-    super(configuration);
-    this.client = client;
-    this.applicationId = UUID.fromString(configuration.getString("applicationId"));
+    super(client, configuration);
+    if (configuration.hasProperty("applicationId")) {
+      this.configuredApplicationId = UUID.fromString(configuration.getString("applicationId"));
+    } else {
+      this.configuredApplicationId = null;
+    }
     this.loginLowerBound = configuration.getInteger("loginLowerBound", 0);
     this.loginUpperBound = configuration.getInteger("loginUpperBound", 1_000_000);
   }
 
   @Override
   public boolean execute() {
-    int random = new Random().nextInt((loginUpperBound - loginLowerBound) + 1) + loginLowerBound;
-    String email = "load_user_" + random + "@fusionauth.io";
-    ClientResponse<LoginResponse, Errors> result = client.login(new LoginRequest(applicationId, email, Password));
+    // Pick a random user to log in
+    int index = new Random().nextInt((loginUpperBound - loginLowerBound) + 1) + loginLowerBound;
+    setUserIndex(index);
+    String email = "load_user_" + userIndex + "@fusionauth.io";
+
+    UUID registrationAppId = configuredApplicationId != null ? configuredApplicationId : applicationId;
+
+    ClientResponse<LoginResponse, Errors> result = tenantScopedClient.login(new LoginRequest(registrationAppId, email, Password));
     if (result.wasSuccessful()) {
       return true;
     }

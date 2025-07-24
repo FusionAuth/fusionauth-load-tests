@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,11 @@ public class Foreman implements Buildable<Foreman> {
 
   public int loopCount;
 
+  /**
+   * The number of ms to wait between starting up the workers.
+   */
+  public int rampWait;
+
   public Reporter reporter;
 
   public int workerCount;
@@ -47,55 +52,55 @@ public class Foreman implements Buildable<Foreman> {
 
   public Foreman execute() throws InterruptedException {
     initialize();
-    ExecutorService pool = Executors.newFixedThreadPool(workers.size());
+    try (ExecutorService pool = Executors.newVirtualThreadPerTaskExecutor()) {
 
-    // Gradually build up workers, to reduce the chance of failures while we get going.
-    for (Worker worker : workers) {
-      WorkerExecutor executor = new WorkerExecutor(worker, loopCount, listeners);
-      pool.execute(executor);
-      try {
-        Thread.sleep(1123);
-      } catch (Exception ignore) {
+      // Gradually build up workers, to reduce the chance of failures while we get going.
+      for (Worker worker : workers) {
+        WorkerExecutor executor = new WorkerExecutor(worker, loopCount, listeners);
+        pool.execute(executor);
+        try {
+          Thread.sleep(rampWait);
+        } catch (InterruptedException ignore) {
+        }
       }
+
+      if (this.reporter != null) {
+        this.reporter.schedule();
+      }
+
+      pool.shutdown();
+      pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+
+      listeners.forEach(SampleListener::done);
+
+      if (reporter != null) {
+        reporter.report();
+      }
+
+      if (reporter != null) {
+        reporter.stop();
+      }
+
+      // Temp hack to get some general timings on the OAuth2 Authorize worker broken down by component
+      if (workers.get(0) instanceof FusionAuthOAuth2AuthorizeWorker) {
+        System.out.println("\n\n");
+        long total = FusionAuthOAuth2AuthorizeWorker.timing.render + FusionAuthOAuth2AuthorizeWorker.timing.post + FusionAuthOAuth2AuthorizeWorker.timing.token;
+        long iterationCount = (long) workers.size() * loopCount;
+
+        int renderPercent = (int) (FusionAuthOAuth2AuthorizeWorker.timing.render * 100.0 / total + 0.5);
+        int postPercent = (int) (FusionAuthOAuth2AuthorizeWorker.timing.post * 100.0 / total + 0.5);
+        int tokenPercent = (int) (FusionAuthOAuth2AuthorizeWorker.timing.token * 100.0 / total + 0.5);
+
+        System.out.println("Render: " + FusionAuthOAuth2AuthorizeWorker.timing.render + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.render / (iterationCount) + " ms, " + (renderPercent) + "%");
+        System.out.println("Post: " + FusionAuthOAuth2AuthorizeWorker.timing.post + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.post / (iterationCount) + " ms, " + (postPercent) + "%");
+        System.out.println("Token: " + FusionAuthOAuth2AuthorizeWorker.timing.token + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.token / (iterationCount) + " ms, " + (tokenPercent) + "%");
+        System.out.println("\n\n");
+      }
+
+      done = true;
+      initialized = true;
+      return this;
     }
-
-    if (this.reporter != null) {
-      this.reporter.schedule();
-    }
-
-    pool.shutdown();
-    pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-
-    listeners.forEach(SampleListener::done);
-
-    if (reporter != null) {
-      reporter.report();
-    }
-
-    if (reporter != null) {
-      reporter.stop();
-    }
-
-
-    // Temp hack to get some general timings on the OAuth2 Authorize worker broken down by component
-    if (workers.get(0) instanceof FusionAuthOAuth2AuthorizeWorker) {
-      System.out.println("\n\n");
-      long total = FusionAuthOAuth2AuthorizeWorker.timing.render + FusionAuthOAuth2AuthorizeWorker.timing.post + FusionAuthOAuth2AuthorizeWorker.timing.token;
-      long iterationCount = (long) workers.size() * loopCount;
-
-      int renderPercent = (int) (FusionAuthOAuth2AuthorizeWorker.timing.render * 100.0 / total + 0.5);
-      int postPercent = (int) (FusionAuthOAuth2AuthorizeWorker.timing.post * 100.0 / total + 0.5);
-      int tokenPercent = (int) (FusionAuthOAuth2AuthorizeWorker.timing.token * 100.0 / total + 0.5);
-
-      System.out.println("Render: " + FusionAuthOAuth2AuthorizeWorker.timing.render + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.render / (iterationCount) + " ms, " + (renderPercent) + "%");
-      System.out.println("Post: " + FusionAuthOAuth2AuthorizeWorker.timing.post + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.post / (iterationCount) + " ms, " + (postPercent) + "%");
-      System.out.println("Token: " + FusionAuthOAuth2AuthorizeWorker.timing.token + " ms, Average: " + FusionAuthOAuth2AuthorizeWorker.timing.token / (iterationCount) + " ms, " + (tokenPercent) + "%");
-      System.out.println("\n\n");
-    }
-
-    done = true;
-    initialized = true;
-    return this;
   }
 
   public void initialize() {
@@ -115,7 +120,7 @@ public class Foreman implements Buildable<Foreman> {
     }
 
     System.out.println("  --> Worker count:\t" + df.format(workerCount));
-    System.out.println("  --> Total iterations:\t" + df.format(workerCount * loopCount));
+    System.out.println("  --> Total iterations:\t" + df.format((long) workerCount * loopCount));
     System.out.println("  --> Worker factory:\t" + workerFactory.getClass().getCanonicalName());
 
     System.out.println("  --> Prepare the factory for production....");
