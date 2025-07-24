@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Copyright (c) 2022-2025, FusionAuth, All Rights Reserved
+# Copyright (c) 2025, FusionAuth, All Rights Reserved
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,21 +16,13 @@
 # language governing permissions and limitations under the License.
 #
 
-# Grab the path
-if [[ ! -d lib ]]; then
-  echo "Unable to locate library files needed to run the load tests. [lib]"
+# Set the url host value across all the json config files
+# Usage: cd build/dist; ./set-url-host.sh <new_url>
+
+if [ $# -ne 1 ]; then
+  echo "Usage: cd build/dist; $0 <new_url>"
   exit 1
 fi
 
-CLASSPATH=.
-for f in lib/*.jar; do
-  CLASSPATH=${CLASSPATH}:$f
-done
-
-suspend=""
-if [[ $# > 1 && $1 == "--suspend" ]]; then
-  suspend="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000"
-  shift
-fi
-
-~/dev/java/current21/bin/java ${suspend} -cp "${CLASSPATH}" io.fusionauth.load.LoadRunner $@
+NEW_URL="$1"
+find . -type f -name "*.json" -print0 | xargs -0 sed -i '' "s|local\.fusionauth\.io|$NEW_URL|g"

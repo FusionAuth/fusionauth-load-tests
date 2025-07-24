@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,27 +21,30 @@ import com.inversoft.error.Errors;
 import com.inversoft.rest.ClientResponse;
 import io.fusionauth.client.FusionAuthClient;
 import io.fusionauth.domain.Application;
+import io.fusionauth.domain.ApplicationRole;
 import io.fusionauth.domain.api.ApplicationRequest;
 import io.fusionauth.domain.api.ApplicationResponse;
 
 /**
  * @author Daniel DeGroff
  */
-public class FusionAuthCreateApplicationWorker extends BaseWorker {
-  private final FusionAuthClient client;
-
+public class FusionAuthCreateApplicationWorker extends FusionAuthBaseWorker {
   private final AtomicInteger counter;
 
   public FusionAuthCreateApplicationWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
-    super(configuration);
-    this.client = client;
+    super(client, configuration);
     this.counter = counter;
   }
 
   @Override
   public boolean execute() {
-    Application application = new Application().with(t -> t.name = "application_" + counter.incrementAndGet());
-    ClientResponse<ApplicationResponse, Errors> result = client.createApplication(null, new ApplicationRequest(null, application));
+    setApplicationIndex(counter.incrementAndGet());
+
+    Application application = new Application().with(a -> a.name = "application_" + applicationIndex)
+                                               .with(a -> a.tenantId = tenantId)
+                                               .with(a -> a.roles.add(new ApplicationRole("admin")))
+                                               .with(a -> a.roles.add(new ApplicationRole("user")));
+    ClientResponse<ApplicationResponse, Errors> result = tenantScopedClient.createApplication(applicationId, new ApplicationRequest(null, application));
     if (result.wasSuccessful()) {
       return true;
     }

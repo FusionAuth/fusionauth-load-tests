@@ -44,6 +44,39 @@ You may also wish to adjust the load test run by modifying the `loopCount` and `
 
 To test user registrations with less CPU load, you can change the `factor` value in [User-Registrations](src/main/resources/User-Registrations.json). The default of `24000` is meant to mimic an actual user registration. You can turn that down as low as `1` to allow for faster registrations with less CPU load. This can be useful if you need to hit the database hard without being constrained by CPU.
 
+#### Configuring FusionAuth Tenants, Applications, and Users
+
+If you want to run the load tests against a specific Tenant, Application, or User, you can modify the JSON files in [src/main/resources](src/main/resources) to include the `tenantId`, `applicationId` values. This is the legacy configuration in `User-Registrations.json` and `User-Logins.json`.
+
+If you want to run load tests against a set of users divided amongst applications and tenants, then don't set a specific `applicationId` and `tenantId`. Instead, setting the `applicationCount` and `tenantCount` values will allow you to create a set of users that are divided amongst the specified number of applications and tenants following these steps:
+
+1. Run `Create-Tenants.json` to create the desired number of tenants.
+2. Run `Create-Applications.json` with `tenantCount` set to create the desired number of applications distributed across the tenants. 
+3. Run `User-Registrations-MultiTenant.json` with `applicationCount` and `tenantCount` set to create the desired number of users distributed across the applications and tenants. 
+
+The names of tenants, applications, and users will be of the formats: `tenant_{n}`, `application_{n}`, and `load_user_[n]@fusionauth.io`, where `[n]` is a decimal number starting from 1.
+
+The UUIDs are hexadecimal and follow a 1-based index modulus pattern so we can deterministically determine which tenantId and applicationId to provide.
+An example set of users with 10 tenants, 1000 applications, and 10,000 users would produce entries like this:
+
+| User Email                   | Application Id                     | Tenant Id                          |
+|------------------------------|------------------------------------|------------------------------------|
+| load_user_1@fusionauth.io    | 00000000-0000-0001-0000-00000001   | 00000000-0000-0000-0000-00000001   |
+| load_user_2@fusionauth.io    | 00000000-0000-0001-0000-00000002   | 00000000-0000-0000-0000-00000002   |
+| load_user_3@fusionauth.io    | 00000000-0000-0001-0000-00000003   | 00000000-0000-0000-0000-00000003   |
+| ...                          |                                    |                                    |
+| load_user_9@fusionauth.io    | 00000000-0000-0001-0000-00000009   | 00000000-0000-0000-0000-00000009   |
+| load_user_10@fusionauth.io   | 00000000-0000-0001-0000-0000000a   | 00000000-0000-0000-0000-0000000a   |
+| load_user_11@fusionauth.io   | 00000000-0000-0001-0000-0000000b   | 00000000-0000-0000-0000-00000001   |
+| ...                          |                                    |                                    |
+| load_user_99@fusionauth.io   | 00000000-0000-0001-0000-00000063   | 00000000-0000-0000-0000-00000009   |
+| load_user_100@fusionauth.io  | 00000000-0000-0001-0000-00000064   | 00000000-0000-0000-0000-0000000a   |
+| ...                          |                                    |                                    |
+| load_user_1000@fusionauth.io | 00000000-0000-0001-0000-000003e8   | 00000000-0000-0000-0000-0000000a   |
+| load_user_1001@fusionauth.io | 00000000-0000-0001-0000-00000001   | 00000000-0000-0000-0000-00000001   |
+| ...                          |                                    |                                    |
+
+The `User-Logins-MultiTenant.json` configuration will test the login endpoint with these users.
 
 ### Building the Tests
 
@@ -63,6 +96,7 @@ Before you can log users in, you need to create users.
 To create users, run the User-Registrations test:
 ```
 cd build/dist
+# optionally run ./set-url-host.sh <new_host> to change the host in the JSON files
 ./load-test.sh User-Registrations.json
 ```
 
@@ -72,6 +106,11 @@ cd build/dist
 ./load-test.sh User-Logins.json
 ```
 
+## Tuning a Load Test
+
+The load test spins up individual Worker threads as specified in the configuration file. Each Worker synchronously makes repeated API requests. If your request latency is high (e.g., running a remote instance), this can limit your maximum potential throughput. Increasing the number of worker threads alleviates this (unless you hit local system limitations).
+
+For example, if the request latency is 250 ms and you have 10 worker threads, you'll have a max throughput of 40 requests per second. Increasing the number of worker threads to 100 increases the max throughput to 400 requests per second.
 
 ## Cleanup
 
