@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,6 +62,7 @@ public class ForemanTest {
                  .with((f) -> f.workerFactory = new MockWorkerFactory())
                  .with((f) -> f.listeners.add(new MockListener()))
                  .with((f) -> f.loopCount = 1)
+                 .with((f) -> f.rampWait = 10)
                  .execute();
 
     Thread.sleep(1000);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2022, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,20 +33,20 @@ import io.fusionauth.domain.api.TenantResponse;
 /**
  * @author Daniel DeGroff
  */
-public class FusionAuthCreateTenantWorker extends BaseWorker {
-  private final FusionAuthClient client;
-
+public class FusionAuthCreateTenantWorker extends FusionAuthBaseWorker {
   private final AtomicInteger counter;
 
   public FusionAuthCreateTenantWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
-    super(configuration);
-    this.client = client;
+    super(client, configuration);
     this.counter = counter;
   }
 
   @Override
   public boolean execute() {
-    Tenant tenant = new Tenant().with(t -> t.name = "tenant_" + counter.incrementAndGet())
+    setTenantIndex(counter.incrementAndGet());
+
+    Tenant tenant = new Tenant().with(t -> t.name = "tenant_" + tenantIndex)
+                                .with(t -> t.emailConfiguration.verifyEmail = false) // Verifying email in load test can harm your email reputation
                                 .with(t -> t.emailConfiguration.host = "localhost")
                                 .with(t -> t.emailConfiguration.port = 25)
                                 .with(t -> t.externalIdentifierConfiguration.authorizationGrantIdTimeToLiveInSeconds = 60)
@@ -55,7 +55,7 @@ public class FusionAuthCreateTenantWorker extends BaseWorker {
                                 .with(t -> t.externalIdentifierConfiguration.deviceCodeTimeToLiveInSeconds = 60)
                                 .with(t -> t.externalIdentifierConfiguration.deviceUserCodeIdGenerator = new SecureGeneratorConfiguration(10, SecureGeneratorType.randomAlphaNumeric))
                                 .with(t -> t.externalIdentifierConfiguration.emailVerificationIdGenerator = new SecureGeneratorConfiguration(10, SecureGeneratorType.randomAlphaNumeric))
-                                .with(t -> t.externalIdentifierConfiguration.emailVerificationIdTimeToLiveInSeconds = 60)
+                                .with(t -> t.externalIdentifierConfiguration.emailVerificationIdTimeToLiveInSeconds = 100000000)
                                 .with(t -> t.externalIdentifierConfiguration.externalAuthenticationIdTimeToLiveInSeconds = 60)
                                 .with(t -> t.externalIdentifierConfiguration.oneTimePasswordTimeToLiveInSeconds = 60)
                                 .with(t -> t.externalIdentifierConfiguration.passwordlessLoginGenerator = new SecureGeneratorConfiguration(10, SecureGeneratorType.randomAlphaNumeric))
@@ -77,12 +77,12 @@ public class FusionAuthCreateTenantWorker extends BaseWorker {
                                 .with(t -> t.jwtConfiguration.timeToLiveInSeconds = 60)
                                 .with(t -> t.passwordValidationRules.maxLength = 200)
                                 .with(t -> t.passwordValidationRules.minLength = 10)
-                                .with(t -> t.passwordValidationRules.requireMixedCase = true)
-                                .with(t -> t.passwordValidationRules.requireNonAlpha = true)
-                                .with(t -> t.passwordValidationRules.requireNumber = true)
-                                .with(t -> t.passwordValidationRules.validateOnLogin = true)
+                                .with(t -> t.passwordValidationRules.requireMixedCase = false)
+                                .with(t -> t.passwordValidationRules.requireNonAlpha = false)
+                                .with(t -> t.passwordValidationRules.requireNumber = false)
+                                .with(t -> t.passwordValidationRules.validateOnLogin = false)
                                 .with(t -> t.themeId = UUID.fromString(configuration.getString("themeId")));
-    ClientResponse<TenantResponse, Errors> result = client.createTenant(null, new TenantRequest(null, tenant, null));
+    ClientResponse<TenantResponse, Errors> result = client.createTenant(tenantId, new TenantRequest(null, tenant, null));
     if (result.wasSuccessful()) {
       return true;
     }

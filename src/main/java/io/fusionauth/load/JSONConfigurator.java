@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,6 @@ import java.nio.file.Paths;
 import java.security.InvalidParameterException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.fusionauth.load.Configuration;
-import io.fusionauth.load.Foreman;
-import io.fusionauth.load.LoadDefinition;
-import io.fusionauth.load.Reporter;
-import io.fusionauth.load.SampleListener;
-import io.fusionauth.load.WorkerFactory;
 import io.fusionauth.load.reporters.DefaultReporter;
 
 /**
@@ -57,7 +51,8 @@ public class JSONConfigurator {
     configureListeners();
   }
 
-  private void configureListeners() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
+  private void configureListeners()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
     for (Configuration configuration : definition.listeners) {
       Object instance = newInstance(configuration);
       if (instance instanceof SampleListener) {
@@ -68,7 +63,8 @@ public class JSONConfigurator {
     }
   }
 
-  private void configureReporter() throws InvocationTargetException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+  private void configureReporter()
+      throws InvocationTargetException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     if (definition.reporter != null) {
       Object instance = newInstance(definition.reporter);
       if (instance instanceof Reporter) {
@@ -81,12 +77,14 @@ public class JSONConfigurator {
     }
   }
 
-  private void configureWorkerFactory() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
+  private void configureWorkerFactory()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
     Object instance = newInstance(definition.workerFactory);
     if (instance instanceof WorkerFactory) {
       foreman.with((f) -> f.workerFactory = (WorkerFactory) instance)
              .with((f) -> f.workerCount = definition.workerCount)
-             .with((f) -> f.loopCount = definition.loopCount);
+             .with((f) -> f.loopCount = definition.loopCount)
+             .with((f) -> f.rampWait = definition.rampWait);
     } else {
       throw new IllegalArgumentException("class in configuration does not extend WorkerFactory [" + definition.workerFactory.className + ']');
     }
