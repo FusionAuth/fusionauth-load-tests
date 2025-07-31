@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -125,7 +125,25 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
             return false;
           }
 
-          String location = header.get(0);
+          String location = header.getFirst();
+
+          // Handle consent
+          if (location.startsWith("/oauth2/consent")) {
+            ClientResponse<Void, Void> consentResponse = new RESTClient<>(Void.TYPE, Void.TYPE)
+                .url(this.baseURL + location)
+                .followRedirects(false)
+                // Make sure we pick up the fusionauth.li cookie
+                .cookies(postResponse.getCookies())
+                .connectTimeout(7_000)
+                .readTimeout(7_000)
+                .get()
+                .go();
+
+            if (consentResponse.status == 302) {
+              location = consentResponse.headers.get("location").getFirst();
+            }
+          }
+
           int index = location.indexOf("?code=") + 6;
           String authCode = location.substring(index, location.indexOf('&', index));
 
