@@ -60,14 +60,16 @@ public class JavaHTTPLoadTestWorker extends BaseWorker {
     }
 
     // Build a single REST client for this worker.
-    javaRESTClient = HttpClient.newBuilder()
-                               .connectTimeout(Duration.ofSeconds(10))
-                               // Use virtual threads
-                               // - This seems to improve the performance of this REST client by nearly 100%.
-                               //   With 100 workers, I could get ~ 25-30k RPS, with this change I can get 58k.
-                               .executor(Executors.newVirtualThreadPerTaskExecutor())
-                               .followRedirects(Redirect.ALWAYS)
-                               .build();
+    javaRESTClient = restClient.equals("java")
+        ? HttpClient.newBuilder()
+                    .connectTimeout(Duration.ofSeconds(10))
+                    // Use virtual threads
+                    // - This seems to improve the performance of this REST client by nearly 100%.
+                    //   With 100 workers, I could get ~ 25-30k RPS, with this change I can get 58k.
+                    .executor(Executors.newVirtualThreadPerTaskExecutor())
+                    .followRedirects(Redirect.ALWAYS)
+                    .build()
+        : null;
   }
 
   @Override
@@ -114,7 +116,8 @@ public class JavaHTTPLoadTestWorker extends BaseWorker {
       }
     }
 
-    throw new IllegalStateException("Unknown value [" + restClient + "] for [restClient]. Supported values include [restify, java]. Default is restify.");
+    // Note, this is not expected since we are validating this in the constructor.
+    return false;
   }
 
   @Override
