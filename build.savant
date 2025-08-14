@@ -20,6 +20,7 @@ guavaVersion = "32.1.2-jre"
 guiceVersion = "6.0.0"
 jacksonVersion = "2.15.4"
 jackson5Version = "3.0.1"
+fusionauthJWTVersion = "5.3.2"
 javaErrorVersion = "2.2.3"
 logbackVersion = "1.5.6"
 restifyVersion = "4.3.0"
@@ -62,6 +63,7 @@ project(group: "io.fusionauth", name: "fusionauth-load-tests", version: "1.59.0"
       dependency(id: "com.inversoft:jackson5:${jackson5Version}")
       dependency(id: "com.inversoft:java-error:${javaErrorVersion}")
       dependency(id: "com.inversoft:restify:${restifyVersion}")
+      dependency(id: "io.fusionauth:fusionauth-jwt:${fusionauthJWTVersion}")
       dependency(id: "io.fusionauth:fusionauth-java-client:${fusionauthVersion}")
       dependency(id: "org.slf4j:slf4j-api:${slf4jVersion}", skipCompatibilityCheck: true)
     }
