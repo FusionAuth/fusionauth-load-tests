@@ -24,6 +24,7 @@ import io.fusionauth.client.FusionAuthClient;
 import io.fusionauth.domain.RefreshTokenExpirationPolicy;
 import io.fusionauth.domain.RefreshTokenRevocationPolicy;
 import io.fusionauth.domain.RefreshTokenUsagePolicy;
+import io.fusionauth.domain.RememberPreviousPasswords;
 import io.fusionauth.domain.SecureGeneratorConfiguration;
 import io.fusionauth.domain.SecureGeneratorType;
 import io.fusionauth.domain.Tenant;
@@ -44,6 +45,10 @@ public class FusionAuthCreateTenantWorker extends FusionAuthBaseWorker {
   @Override
   public boolean execute() {
     setTenantIndex(counter.incrementAndGet());
+
+    RememberPreviousPasswords rememberPreviousPasswords = new RememberPreviousPasswords();
+    rememberPreviousPasswords.enabled = true;
+    rememberPreviousPasswords.count = 100;
 
     Tenant tenant = new Tenant().with(t -> t.name = "tenant_" + tenantIndex)
                                 .with(t -> t.emailConfiguration.verifyEmail = false) // Verifying email in load test can harm your email reputation
@@ -75,6 +80,7 @@ public class FusionAuthCreateTenantWorker extends FusionAuthBaseWorker {
                                 .with(t -> t.jwtConfiguration.refreshTokenTimeToLiveInMinutes = 60)
                                 .with(t -> t.jwtConfiguration.refreshTokenUsagePolicy = RefreshTokenUsagePolicy.OneTimeUse)
                                 .with(t -> t.jwtConfiguration.timeToLiveInSeconds = 60)
+                                .with(t -> t.passwordValidationRules.rememberPreviousPasswords = rememberPreviousPasswords)
                                 .with(t -> t.passwordValidationRules.maxLength = 200)
                                 .with(t -> t.passwordValidationRules.minLength = 10)
                                 .with(t -> t.passwordValidationRules.requireMixedCase = false)
