@@ -25,11 +25,11 @@ import io.fusionauth.client.FusionAuthClient;
  * @author Brent Halsey
  */
 public abstract class FusionAuthBaseWorker extends BaseWorker {
+  protected final int applicationCount;
+
   protected final FusionAuthClient client;
 
-  private final int applicationCount;
-
-  private final int tenantCount;
+  protected final int tenantCount;
 
   protected UUID applicationId;
 

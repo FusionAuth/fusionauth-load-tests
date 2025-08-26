@@ -70,6 +70,7 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
       case "search" -> new FusionAuthSearchWorker(client, configuration);
       case "search-data" -> new FusionAuthSearchDataWorker(client, configuration);
       case "retrieve-email" -> new FusionAuthRetrieveEmailWorker(client, configuration);
+      case "user-import" -> new FusionAuthUserImportWorker(client, configuration, counter);
       case "elasticsearch" -> new ElasticsearchWorker(configuration);
       default -> throw new IllegalArgumentException("Invalid directive [" + directive + "]");
     };

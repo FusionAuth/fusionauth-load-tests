@@ -1,0 +1,31 @@
+{
+  "loopCount": 5,
+  "workerCount": 1,
+  "rampWait": 9,
+  "workerFactory": {
+    "className": "io.fusionauth.load.FusionAuthWorkerFactory",
+    "attributes": {
+      "directive": "user-import",
+      "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
+      "url": "https://local.fusionauth.io",
+      "counter": 1,
+      "encryptionScheme": "salted-pbkdf2-hmac-sha256",
+      "factor": 1,
+      "debug": true,
+      "applicationCount": 1000,
+      "tenantCount": 10,
+      "batchSize": 1000
+    }
+  },
+  "listeners": [
+    {
+      "className": "io.fusionauth.load.listeners.ThroughputListener"
+    }
+  ],
+  "reporter": {
+    "className": "io.fusionauth.load.reporters.DefaultReporter",
+    "attributes": {
+      "interval": 5
+    }
+  }
+}
