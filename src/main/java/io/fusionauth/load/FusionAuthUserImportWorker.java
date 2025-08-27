@@ -28,9 +28,9 @@ import io.fusionauth.domain.UserRegistration;
 import io.fusionauth.domain.api.user.ImportRequest;
 
 /**
- * Worker to test creating users and registrations. The user data includes a randomly generated external Id.
+ * Worker to test importing users
  *
- * @author Daniel DeGroff
+ * @author Brent Halsey
  */
 public class FusionAuthUserImportWorker extends FusionAuthBaseWorker {
   private final int batchSize;
@@ -78,7 +78,6 @@ public class FusionAuthUserImportWorker extends FusionAuthBaseWorker {
                                                                   .with(r -> r.roles.add("user"));
         user.getRegistrations().add(userRegistration);
         users.add(user);
-
       }
 
       ClientResponse<Void, Errors> result = tenantScopedClient.importUsers(new ImportRequest(users));

@@ -17,7 +17,6 @@ package io.fusionauth.load;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
 import com.inversoft.error.Errors;
 import com.inversoft.rest.ClientResponse;
@@ -25,24 +24,18 @@ import io.fusionauth.client.FusionAuthClient;
 import io.fusionauth.domain.api.UserResponse;
 
 /**
- * Worker to test logins.
+ * Worker to test updating passwords for users. This can be useful for generating a lot of previous passwords
+ * (if the tenant is configured to store previous passwords).
  *
- * @author Daniel DeGroff
+ * @author Brent Halsey
  */
 public class FusionAuthUpdatePasswordWorker extends FusionAuthBaseWorker {
-  private final UUID configuredApplicationId;
-
   private final int loginLowerBound;
 
   private final int loginUpperBound;
 
   public FusionAuthUpdatePasswordWorker(FusionAuthClient client, Configuration configuration) {
     super(client, configuration);
-    if (configuration.hasProperty("applicationId")) {
-      this.configuredApplicationId = UUID.fromString(configuration.getString("applicationId"));
-    } else {
-      this.configuredApplicationId = null;
-    }
     this.loginLowerBound = configuration.getInteger("loginLowerBound", 0);
     this.loginUpperBound = configuration.getInteger("loginUpperBound", 1_000_000);
   }
