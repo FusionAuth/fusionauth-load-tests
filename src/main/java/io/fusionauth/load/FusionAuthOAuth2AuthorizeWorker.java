@@ -182,14 +182,6 @@ public class FusionAuthOAuth2AuthorizeWorker extends BaseWorker {
     return false;
   }
 
-  @Override
-  public void finished() {
-  }
-
-  @Override
-  public void prepare() {
-  }
-
   public static class OAUth2Timing {
     public long post;
 

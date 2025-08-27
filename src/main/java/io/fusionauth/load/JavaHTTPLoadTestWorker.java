@@ -119,12 +119,4 @@ public class JavaHTTPLoadTestWorker extends BaseWorker {
     // Note, this is not expected since we are validating this in the constructor.
     return false;
   }
-
-  @Override
-  public void finished() {
-  }
-
-  @Override
-  public void prepare() {
-  }
 }

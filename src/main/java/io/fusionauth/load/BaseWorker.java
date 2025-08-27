@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2024, FusionAuth, All Rights Reserved
+ * Copyright (c) 2012-2025, FusionAuth, All Rights Reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,6 +49,14 @@ public abstract class BaseWorker implements Worker {
     }
 
     return sb.substring(0, length);
+  }
+
+  @Override
+  public void finished() {
+  }
+
+  @Override
+  public void prepare() {
   }
 
   void printErrors(ClientResponse<?, Errors> result) {

@@ -75,12 +75,4 @@ public class FusionAuthRegistrationWorker extends FusionAuthBaseWorker {
     printErrors(result);
     return false;
   }
-
-  @Override
-  public void finished() {
-  }
-
-  @Override
-  public void prepare() {
-  }
 }

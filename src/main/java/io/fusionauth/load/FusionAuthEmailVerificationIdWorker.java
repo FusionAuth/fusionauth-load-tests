@@ -42,12 +42,4 @@ public class FusionAuthEmailVerificationIdWorker extends FusionAuthBaseWorker {
     ClientResponse<VerifyEmailResponse, Void> result = tenantScopedClient.generateEmailVerificationId(email);
     return result.wasSuccessful();
   }
-
-  @Override
-  public void finished() {
-  }
-
-  @Override
-  public void prepare() {
-  }
 }
