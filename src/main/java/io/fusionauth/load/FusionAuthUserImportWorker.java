@@ -91,12 +91,4 @@ public class FusionAuthUserImportWorker extends FusionAuthBaseWorker {
     counter.addAndGet(batchSize * tenantCount);
     return true;
   }
-
-  @Override
-  public void finished() {
-  }
-
-  @Override
-  public void prepare() {
-  }
 }

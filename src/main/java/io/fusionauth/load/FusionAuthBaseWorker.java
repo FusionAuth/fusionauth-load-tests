@@ -87,5 +87,4 @@ public abstract class FusionAuthBaseWorker extends BaseWorker {
       setApplicationIndex(applicationIndex);
     }
   }
-
 }

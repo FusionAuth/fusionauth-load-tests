@@ -64,12 +64,4 @@ public class FusionAuthUpdatePasswordWorker extends FusionAuthBaseWorker {
 
     return false;
   }
-
-  @Override
-  public void finished() {
-  }
-
-  @Override
-  public void prepare() {
-  }
 }
