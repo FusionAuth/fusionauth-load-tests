@@ -1,4 +1,1 @@
-# This is a managed file. Manual changes will be overwritten.
-# https://github.com/FusionAuth/fusionauth-public-repos/
-
-* @fusionauth/owners
+* @fusionauth/owners @fusionauth/codeowners-fusionauth-engineering
