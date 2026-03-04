@@ -1,15 +1,20 @@
 {
-  "loopCount": 1000,
-  "workerCount": 1,
+  "loopCount": 100,
+  "workerCount": 10,
+  "rampWait": 9,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
     "attributes": {
-      "directive": "create-tenant",
+      "directive": "patch-idp",
       "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
-      "keyId": "b871576b-1729-4fb3-9d5a-768481663c88",
-      "themeId": "75a068fd-e94b-451a-9aeb-3ddb9a3b5987",
       "url": "https://local.fusionauth.io",
-      "debug": true
+      "counter": 0,
+      "factor": 1,
+      "idpId": "82339786-3dff-42a6-aac6-1f1ceecb6c46",
+      "maxAttempts": 10,
+      "debug": true,
+      "applicationCount": 10000,
+      "tenantCount": 1000
     }
   },
   "listeners": [

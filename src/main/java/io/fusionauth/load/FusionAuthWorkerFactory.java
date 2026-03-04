@@ -65,6 +65,7 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
       case "login" -> new FusionAuthLoginWorker(client, configuration);
       case "update-password" -> new FusionAuthUpdatePasswordWorker(client, configuration);
       case "oauth2/authorize" -> new FusionAuthOAuth2AuthorizeWorker(client, configuration);
+      case "patch-idp" -> new FusionAuthPatchIdentityProviderWorker(client, configuration, counter);
       case "refresh" -> new FusionAuthRefreshWorker(client, configuration);
       case "register" -> new FusionAuthRegistrationWorker(client, configuration, counter);
       case "search" -> new FusionAuthSearchWorker(client, configuration);
