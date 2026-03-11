@@ -15,36 +15,47 @@
  */
 package io.fusionauth.load;
 
+import java.net.URI;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.inversoft.error.Errors;
 import com.inversoft.rest.ClientResponse;
 import io.fusionauth.client.FusionAuthClient;
+import io.fusionauth.domain.api.IdentityProviderRequest;
 import io.fusionauth.domain.api.IdentityProviderResponse;
+import io.fusionauth.domain.provider.IdentityProviderLimitUserLinkingPolicy;
+import io.fusionauth.domain.provider.IdentityProviderLinkingStrategy;
+import io.fusionauth.domain.provider.IdentityProviderOauth2Configuration;
+import io.fusionauth.domain.provider.IdentityProviderTenantConfiguration;
+import io.fusionauth.domain.provider.OpenIdConnectApplicationConfiguration;
+import io.fusionauth.domain.provider.OpenIdConnectIdentityProvider;
 
 /**
- * Makes a PATCH /api/identity-provider/{idpId} call, enabling the identity provider for
- * the application corresponding to the counter.
- * <br/>
- * You likely want to reset the idp after a load test to clear the enabled applications.
- * Counting the applications provides a count of successful calls.
- * E.g.,
- * <pre>
- *   curl -s https://local.fusionauth.io/api/identity-provider/{idpId} -H "Authorization: {api_key}" | jq '.identityProvider.applicationConfiguration | length'
- * </pre>
+ * Makes a PUT /api/identity-provider/{idpId} call, enabling the identity provider for
+ * a random selection of applications and tenants.
+ * Useful for finding race conditions (like DB deadlock).
  *
  * @author Brent Halsey
  */
-public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker {
+public class FusionAuthPutIdentityProviderWorker extends FusionAuthBaseWorker {
   private final AtomicInteger counter;
 
   private final UUID idpId;
 
   private final int maxAttempts;
 
-  public FusionAuthPatchIdentityProviderWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
+  private final int numEnabledApplications;
+
+  private final int numEnabledTenants;
+
+  public FusionAuthPutIdentityProviderWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
     super(client, configuration);
     this.counter = counter;
     if (configuration.hasProperty("idpId")) {
@@ -52,6 +63,19 @@ public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker 
     } else {
       this.idpId = null;
     }
+
+    if (configuration.hasProperty("numEnabledApplications")) {
+      this.numEnabledApplications = configuration.getInteger("numEnabledApplications");
+    } else {
+      this.numEnabledApplications = Integer.min(10, applicationCount);
+    }
+
+    if (configuration.hasProperty("numEnabledTenants")) {
+      this.numEnabledTenants = configuration.getInteger("numEnabledTenants");
+    } else {
+      this.numEnabledTenants = Integer.min(10, tenantCount);
+    }
+
     this.maxAttempts = configuration.getInteger("maxAttempts", 10);
   }
 
@@ -59,16 +83,39 @@ public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker 
   public boolean execute() {
     setApplicationIndex(counter.incrementAndGet());
 
-    Map<String, Object> patch = Map.of("identityProvider",
-                                       Map.of("tenantConfiguration",
-                                              Map.of(tenantId.toString(),
-                                                     Map.of("limitUserLinkCount",
-                                                            Map.of("maximumLinks", 42, "enabled", Boolean.TRUE)))));
-//    Map<String, Object> patch = Map.of("identityProvider",
-//                                       Map.of("applicationConfiguration",
-//                                              Map.of(applicationId.toString(),
-//                                                     Map.of("createRegistration", Boolean.TRUE, "enabled", Boolean.TRUE))));
-    ClientResponse<IdentityProviderResponse, Errors> result = retryablePatch(idpId, patch);
+    // build application configs for a random selection of applications
+    List<Integer> allApps = IntStream.rangeClosed(1, applicationCount).boxed().collect(Collectors.toList());
+    Collections.shuffle(allApps);
+    Map<UUID, OpenIdConnectApplicationConfiguration> appConfig = new HashMap<>();
+    for (int i = 0; i < numEnabledApplications; i++) {
+      appConfig.put(applicationUUID(allApps.get(i)), new OpenIdConnectApplicationConfiguration().with(a -> a.enabled = true));
+    }
+
+    // build tenant configs for a random selection of tenants
+    List<Integer> allTenants = IntStream.rangeClosed(1, tenantCount).boxed().collect(Collectors.toList());
+    Collections.shuffle(allTenants);
+    Map<UUID, IdentityProviderTenantConfiguration> tenantConfig = new HashMap<>();
+    for (int i = 0; i < numEnabledTenants; i++) {
+      tenantConfig.put(tenantUUID(allTenants.get(i)), new IdentityProviderTenantConfiguration()
+          .with(t -> t.limitUserLinkCount = new IdentityProviderLimitUserLinkingPolicy()
+              .with(p -> p.enabled = true)));
+    }
+
+    OpenIdConnectIdentityProvider idp = new OpenIdConnectIdentityProvider()
+        .with(i -> i.name = "load-test-oidc-idp")
+        .with(i -> i.enabled = true)
+        .with(i -> i.linkingStrategy = IdentityProviderLinkingStrategy.LinkByEmail)
+        .with(i -> i.applicationConfiguration = appConfig)
+        .with(i -> i.tenantConfiguration = tenantConfig)
+        .with(i -> i.oauth2 = new IdentityProviderOauth2Configuration()
+            .with(o -> o.client_id = "client_id")
+            .with(o -> o.client_secret = "client_secret")
+            .with(o -> o.authorization_endpoint = URI.create("https://idp.fusionauth.io/p/oauth2/authorize"))
+            .with(o -> o.token_endpoint = URI.create("https://idp.fusionauth.io/p/oauth2/token"))
+            .with(o -> o.userinfo_endpoint = URI.create("https://idp.fusionauth.io/p/oauth2/userinfo"))
+            .with(o -> o.emailClaim = "email"));
+
+    ClientResponse<IdentityProviderResponse, Errors> result = retryablePut(idpId, new IdentityProviderRequest(idp));
     if (result.wasSuccessful()) {
       return true;
     }
@@ -77,14 +124,14 @@ public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker 
     return false;
   }
 
-  private ClientResponse<IdentityProviderResponse, Errors> retryablePatch(UUID idpId, Map<String, Object> patch) {
-    return retryablePatch(idpId, patch, 1);
+  private ClientResponse<IdentityProviderResponse, Errors> retryablePut(UUID idpId, IdentityProviderRequest idpRequest) {
+    return retryablePut(idpId, idpRequest, 1);
   }
 
   // Do our own retry logic (until we add retry support in the java client)
-  private ClientResponse<IdentityProviderResponse, Errors> retryablePatch(UUID idpId, Map<String, Object> patch, int attempt) {
+  private ClientResponse<IdentityProviderResponse, Errors> retryablePut(UUID idpId, IdentityProviderRequest idpRequest, int attempt) {
 
-    ClientResponse<IdentityProviderResponse, Errors> result = client.patchIdentityProvider(idpId, patch);
+    ClientResponse<IdentityProviderResponse, Errors> result = client.updateIdentityProvider(idpId, idpRequest);
     if (result.wasSuccessful() || attempt == maxAttempts) {
       return result;
     } else if (result.status == 409) {
@@ -96,7 +143,7 @@ public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker 
       } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }
-      return retryablePatch(idpId, patch, attempt + 1);
+      return retryablePut(idpId, idpRequest, attempt + 1);
     } else {
       printErrors(result);
       return result;
