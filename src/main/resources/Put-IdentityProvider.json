@@ -1,0 +1,31 @@
+{
+  "loopCount": 100,
+  "workerCount": 10,
+  "rampWait": 9,
+  "workerFactory": {
+    "className": "io.fusionauth.load.FusionAuthWorkerFactory",
+    "attributes": {
+      "directive": "patch-idp",
+      "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
+      "url": "https://local.fusionauth.io",
+      "counter": 0,
+      "factor": 1,
+      "idpId": "82339786-3dff-42a6-aac6-1f1ceecb6c46",
+      "maxAttempts": 10,
+      "debug": true,
+      "applicationCount": 10000,
+      "tenantCount": 1000
+    }
+  },
+  "listeners": [
+    {
+      "className": "io.fusionauth.load.listeners.ThroughputListener"
+    }
+  ],
+  "reporter": {
+    "className": "io.fusionauth.load.reporters.DefaultReporter",
+    "attributes": {
+      "interval": 5
+    }
+  }
+}

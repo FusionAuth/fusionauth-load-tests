@@ -15,7 +15,6 @@
  */
 package io.fusionauth.load;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -61,14 +60,14 @@ public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker 
     setApplicationIndex(counter.incrementAndGet());
 
     Map<String, Object> patch = Map.of("identityProvider",
-                                       List.of(
-                                           Map.of("applicationConfiguration",
-                                                  Map.of(applicationId.toString(),
-                                                         Map.of("createRegistration", Boolean.TRUE, "enabled", Boolean.TRUE))),
-                                           Map.of("tenantConfiguration",
-                                                  Map.of(tenantId.toString(),
-                                                         Map.of("limitUserLinkCount",
-                                                                Map.of("maximumLinks", 42, "enabled", Boolean.TRUE))))));
+                                       Map.of("tenantConfiguration",
+                                              Map.of(tenantId.toString(),
+                                                     Map.of("limitUserLinkCount",
+                                                            Map.of("maximumLinks", 42, "enabled", Boolean.TRUE)))));
+//    Map<String, Object> patch = Map.of("identityProvider",
+//                                       Map.of("applicationConfiguration",
+//                                              Map.of(applicationId.toString(),
+//                                                     Map.of("createRegistration", Boolean.TRUE, "enabled", Boolean.TRUE))));
     ClientResponse<IdentityProviderResponse, Errors> result = retryablePatch(idpId, patch);
     if (result.wasSuccessful()) {
       return true;
