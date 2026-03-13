@@ -9,7 +9,6 @@
       "apiKey": "bf69486b-4733-4470-a592-f1bfce7af580",
       "url": "https://local.fusionauth.io",
       "counter": 0,
-      "factor": 1,
       "idpId": "eafb5ede-ca8e-4ad9-8968-df5671b45b06",
       "maxAttempts": 10,
       "numEnabledApplications": 50,

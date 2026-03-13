@@ -84,13 +84,12 @@ public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker 
 
   // Do our own retry logic (until we add retry support in the java client)
   private ClientResponse<IdentityProviderResponse, Errors> retryablePatch(UUID idpId, Map<String, Object> patch, int attempt) {
-
     ClientResponse<IdentityProviderResponse, Errors> result = client.patchIdentityProvider(idpId, patch);
     if (result.wasSuccessful() || attempt == maxAttempts) {
       return result;
     } else if (result.status == 409) {
       try {
-        long backoff = 500L * attempt;
+        long backoff = (long) (500 * Math.pow(1.5, attempt));
         long jitter = (long) (Math.random() * 0.10 * backoff);
         System.out.printf("Got 409 on attempt %d, sleeping for %d ms + %d ms and retrying\n", attempt, backoff, jitter);
         Thread.sleep(backoff + jitter);
