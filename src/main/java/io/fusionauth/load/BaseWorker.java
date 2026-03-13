@@ -34,7 +34,7 @@ public abstract class BaseWorker implements Worker {
 
   final Configuration configuration;
 
-  private final boolean debug;
+  protected final boolean debug;
 
   protected BaseWorker(Configuration configuration) {
     this.debug = configuration.getBoolean("debug", false);
