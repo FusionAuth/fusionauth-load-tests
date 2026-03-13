@@ -48,10 +48,14 @@ public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker 
   public FusionAuthPatchIdentityProviderWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
     super(client, configuration);
     this.counter = counter;
-    if (configuration.hasProperty("idpId")) {
-      this.idpId = UUID.fromString(configuration.getString("idpId"));
-    } else {
-      this.idpId = null;
+    if (!configuration.hasProperty("idpId")) {
+      throw new IllegalArgumentException("The 'idpId' configuration property is required for FusionAuthPatchIdentityProviderWorker.");
+    }
+    String idpIdString = configuration.getString("idpId");
+    try {
+      this.idpId = UUID.fromString(idpIdString);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("The 'idpId' configuration property must be a valid UUID. Value was: " + idpIdString, e);
     }
     this.maxAttempts = configuration.getInteger("maxAttempts", 10);
   }
@@ -91,14 +95,16 @@ public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker 
       try {
         long backoff = (long) (500 * Math.pow(1.5, attempt));
         long jitter = (long) (Math.random() * 0.10 * backoff);
-        System.out.printf("Got 409 on attempt %d, sleeping for %d ms + %d ms and retrying\n", attempt, backoff, jitter);
+        if (debug) {
+          System.out.printf("Got 409 on attempt %d, sleeping for %d ms + %d ms and retrying\n", attempt, backoff, jitter);
+        }
         Thread.sleep(backoff + jitter);
       } catch (InterruptedException e) {
-        throw new RuntimeException(e);
+        Thread.currentThread().interrupt();
+        return result;
       }
       return retryablePatch(idpId, patch, attempt + 1);
     } else {
-      printErrors(result);
       return result;
     }
   }

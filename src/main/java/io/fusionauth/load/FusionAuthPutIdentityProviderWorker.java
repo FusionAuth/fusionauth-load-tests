@@ -58,11 +58,10 @@ public class FusionAuthPutIdentityProviderWorker extends FusionAuthBaseWorker {
   public FusionAuthPutIdentityProviderWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
     super(client, configuration);
     this.counter = counter;
-    if (configuration.hasProperty("idpId")) {
-      this.idpId = UUID.fromString(configuration.getString("idpId"));
-    } else {
-      this.idpId = null;
+    if (!configuration.hasProperty("idpId")) {
+      throw new IllegalArgumentException("Configuration property 'idpId' is required for FusionAuthPutIdentityProviderWorker.");
     }
+    this.idpId = UUID.fromString(configuration.getString("idpId"));
 
     if (configuration.hasProperty("numEnabledApplications")) {
       this.numEnabledApplications = configuration.getInteger("numEnabledApplications");
@@ -81,21 +80,22 @@ public class FusionAuthPutIdentityProviderWorker extends FusionAuthBaseWorker {
 
   @Override
   public boolean execute() {
-    setApplicationIndex(counter.incrementAndGet());
 
     // build application configs for a random selection of applications
     List<Integer> allApps = IntStream.rangeClosed(1, applicationCount).boxed().collect(Collectors.toList());
     Collections.shuffle(allApps);
+    int enabledApplications = Math.min(numEnabledApplications, applicationCount);
     Map<UUID, OpenIdConnectApplicationConfiguration> appConfig = new HashMap<>();
-    for (int i = 0; i < numEnabledApplications; i++) {
+    for (int i = 0; i < enabledApplications; i++) {
       appConfig.put(applicationUUID(allApps.get(i)), new OpenIdConnectApplicationConfiguration().with(a -> a.enabled = true));
     }
 
     // build tenant configs for a random selection of tenants
     List<Integer> allTenants = IntStream.rangeClosed(1, tenantCount).boxed().collect(Collectors.toList());
     Collections.shuffle(allTenants);
+    int enabledTenants = Math.min(numEnabledTenants, tenantCount);
     Map<UUID, IdentityProviderTenantConfiguration> tenantConfig = new HashMap<>();
-    for (int i = 0; i < numEnabledTenants; i++) {
+    for (int i = 0; i < enabledTenants; i++) {
       tenantConfig.put(tenantUUID(allTenants.get(i)), new IdentityProviderTenantConfiguration()
           .with(t -> t.limitUserLinkCount = new IdentityProviderLimitUserLinkingPolicy()
               .with(p -> p.enabled = true)));
@@ -137,14 +137,16 @@ public class FusionAuthPutIdentityProviderWorker extends FusionAuthBaseWorker {
       try {
         long backoff = (long) (500 * Math.pow(1.5, attempt));
         long jitter = (long) (Math.random() * 0.10 * backoff);
-        System.out.printf("Got 409 on attempt %d, sleeping for %d ms + %d ms and retrying\n", attempt, backoff, jitter);
+        if (debug) {
+          System.out.printf("Got 409 on attempt %d, sleeping for %d ms + %d ms and retrying%n", attempt, backoff, jitter);
+        }
         Thread.sleep(backoff + jitter);
       } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
         throw new RuntimeException(e);
       }
       return retryablePut(idpId, idpRequest, attempt + 1);
     } else {
-      printErrors(result);
       return result;
     }
   }
