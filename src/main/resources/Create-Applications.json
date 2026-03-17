@@ -1,5 +1,5 @@
 {
-  "loopCount": 100,
+  "loopCount": 1000,
   "workerCount": 10,
   "workerFactory": {
     "className": "io.fusionauth.load.FusionAuthWorkerFactory",
@@ -9,7 +9,7 @@
       "keyId": "b871576b-1729-4fb3-9d5a-768481663c88",
       "themeId": "75a068fd-e94b-451a-9aeb-3ddb9a3b5987",
       "url": "https://local.fusionauth.io",
-      "tenantCount": 10,
+      "tenantCount": 1000,
       "debug": true
     }
   },
