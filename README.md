@@ -7,7 +7,6 @@ This repo contains load tests you can run against any FusionAuth instance.
 
 ### Start FusionAuth
 
-
 You will need a working FusionAuth instance. If you want to run load tests, you have probably already figured this part out.
 
 ### Configure FusionAuth

@@ -42,8 +42,6 @@ public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker 
 
   private final UUID idpId;
 
-  private final int maxAttempts;
-
   public FusionAuthPatchIdentityProviderWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
     super(client, configuration);
     this.counter = counter;
@@ -56,7 +54,8 @@ public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker 
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("The 'idpId' configuration property must be a valid UUID. Value was: " + idpIdString, e);
     }
-    this.maxAttempts = configuration.getInteger("maxAttempts", 10);
+    client.retryConfiguration = FusionAuthClient.BASIC_RETRY_CONFIGURATION;
+    client.retryConfiguration.maxRetries = configuration.getInteger("maxAttempts", 10);
   }
 
   @Override
@@ -71,39 +70,12 @@ public class FusionAuthPatchIdentityProviderWorker extends FusionAuthBaseWorker 
                                                   Map.of(tenantId.toString(),
                                                          Map.of("limitUserLinkCount",
                                                                 Map.of("maximumLinks", 42, "enabled", Boolean.TRUE)))));
-    ClientResponse<IdentityProviderResponse, Errors> result = retryablePatch(idpId, patch);
+    ClientResponse<IdentityProviderResponse, Errors> result = client.patchIdentityProvider(idpId, patch);
     if (result.wasSuccessful()) {
       return true;
     }
 
     printErrors(result);
     return false;
-  }
-
-  private ClientResponse<IdentityProviderResponse, Errors> retryablePatch(UUID idpId, Map<String, Object> patch) {
-    return retryablePatch(idpId, patch, 1);
-  }
-
-  // Do our own retry logic (until we add retry support in the java client)
-  private ClientResponse<IdentityProviderResponse, Errors> retryablePatch(UUID idpId, Map<String, Object> patch, int attempt) {
-    ClientResponse<IdentityProviderResponse, Errors> result = client.patchIdentityProvider(idpId, patch);
-    if (result.wasSuccessful() || attempt == maxAttempts) {
-      return result;
-    } else if (result.status == 409) {
-      try {
-        long backoff = (long) (500 * Math.pow(1.5, attempt));
-        long jitter = (long) (Math.random() * 0.10 * backoff);
-        if (debug) {
-          System.out.printf("Got 409 on attempt %d, sleeping for %d ms + %d ms and retrying\n", attempt, backoff, jitter);
-        }
-        Thread.sleep(backoff + jitter);
-      } catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
-        return result;
-      }
-      return retryablePatch(idpId, patch, attempt + 1);
-    } else {
-      return result;
-    }
   }
 }
