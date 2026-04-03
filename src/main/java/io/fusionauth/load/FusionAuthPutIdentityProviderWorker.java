@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -45,19 +44,14 @@ import io.fusionauth.domain.provider.OpenIdConnectIdentityProvider;
  * @author Brent Halsey
  */
 public class FusionAuthPutIdentityProviderWorker extends FusionAuthBaseWorker {
-  private final AtomicInteger counter;
-
   private final UUID idpId;
-
-  private final int maxAttempts;
 
   private final int numEnabledApplications;
 
   private final int numEnabledTenants;
 
-  public FusionAuthPutIdentityProviderWorker(FusionAuthClient client, Configuration configuration, AtomicInteger counter) {
+  public FusionAuthPutIdentityProviderWorker(FusionAuthClient client, Configuration configuration) {
     super(client, configuration);
-    this.counter = counter;
     if (!configuration.hasProperty("idpId")) {
       throw new IllegalArgumentException("Configuration property 'idpId' is required for FusionAuthPutIdentityProviderWorker.");
     }
@@ -74,8 +68,8 @@ public class FusionAuthPutIdentityProviderWorker extends FusionAuthBaseWorker {
     } else {
       this.numEnabledTenants = Integer.min(10, tenantCount);
     }
-
-    this.maxAttempts = configuration.getInteger("maxAttempts", 10);
+    client.retryConfiguration = FusionAuthClient.BASIC_RETRY_CONFIGURATION;
+    client.retryConfiguration.maxRetries = configuration.getInteger("maxAttempts", 10);
   }
 
   @Override
@@ -115,39 +109,12 @@ public class FusionAuthPutIdentityProviderWorker extends FusionAuthBaseWorker {
             .with(o -> o.userinfo_endpoint = URI.create("https://idp.fusionauth.io/p/oauth2/userinfo"))
             .with(o -> o.emailClaim = "email"));
 
-    ClientResponse<IdentityProviderResponse, Errors> result = retryablePut(idpId, new IdentityProviderRequest(idp));
+    ClientResponse<IdentityProviderResponse, Errors> result = client.updateIdentityProvider(idpId, new IdentityProviderRequest(idp));
     if (result.wasSuccessful()) {
       return true;
     }
 
     printErrors(result);
     return false;
-  }
-
-  private ClientResponse<IdentityProviderResponse, Errors> retryablePut(UUID idpId, IdentityProviderRequest idpRequest) {
-    return retryablePut(idpId, idpRequest, 1);
-  }
-
-  // Do our own retry logic (until we add retry support in the java client)
-  private ClientResponse<IdentityProviderResponse, Errors> retryablePut(UUID idpId, IdentityProviderRequest idpRequest, int attempt) {
-    ClientResponse<IdentityProviderResponse, Errors> result = client.updateIdentityProvider(idpId, idpRequest);
-    if (result.wasSuccessful() || attempt == maxAttempts) {
-      return result;
-    } else if (result.status == 409) {
-      try {
-        long backoff = (long) (500 * Math.pow(1.5, attempt));
-        long jitter = (long) (Math.random() * 0.10 * backoff);
-        if (debug) {
-          System.out.printf("Got 409 on attempt %d, sleeping for %d ms + %d ms and retrying%n", attempt, backoff, jitter);
-        }
-        Thread.sleep(backoff + jitter);
-      } catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
-        throw new RuntimeException(e);
-      }
-      return retryablePut(idpId, idpRequest, attempt + 1);
-    } else {
-      return result;
-    }
   }
 }
