@@ -43,7 +43,9 @@ public class FusionAuthCreateApplicationWorker extends FusionAuthBaseWorker {
     Application application = new Application().with(a -> a.name = "application_" + applicationIndex)
                                                .with(a -> a.tenantId = tenantId)
                                                .with(a -> a.roles.add(new ApplicationRole("admin")))
-                                               .with(a -> a.roles.add(new ApplicationRole("user")));
+                                               .with(a -> a.roles.add(new ApplicationRole("user")))
+                                               .with(a -> a.passwordlessConfiguration.enabled = true)
+        ;
     ClientResponse<ApplicationResponse, Errors> result = tenantScopedClient.createApplication(applicationId, new ApplicationRequest(null, application));
     if (result.wasSuccessful()) {
       return true;
