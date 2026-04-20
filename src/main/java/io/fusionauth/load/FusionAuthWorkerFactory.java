@@ -71,6 +71,7 @@ public class FusionAuthWorkerFactory implements WorkerFactory {
       case "register" -> new FusionAuthRegistrationWorker(client, configuration, counter);
       case "search" -> new FusionAuthSearchWorker(client, configuration);
       case "search-data" -> new FusionAuthSearchDataWorker(client, configuration);
+      case "start-passwordless" -> new FusionAuthStartPasswordlessWorker(client, configuration);
       case "retrieve-email" -> new FusionAuthRetrieveEmailWorker(client, configuration);
       case "user-import" -> new FusionAuthUserImportWorker(client, configuration, counter);
       case "elasticsearch" -> new ElasticsearchWorker(configuration);
