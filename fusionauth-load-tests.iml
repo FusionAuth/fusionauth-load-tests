@@ -28,11 +28,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.cache/savant/io/fusionauth/fusionauth-java-client/1.65.0-{integration}/fusionauth-java-client-1.65.0-{integration}.jar!/" />
+          <root url="jar://$USER_HOME$/.cache/savant/io/fusionauth/fusionauth-java-client/1.66.0/fusionauth-java-client-1.66.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.cache/savant/io/fusionauth/fusionauth-java-client/1.65.0-{integration}/fusionauth-java-client-1.65.0-{integration}-src.jar!/" />
+          <root url="jar://$USER_HOME$/.cache/savant/io/fusionauth/fusionauth-java-client/1.66.0/fusionauth-java-client-1.66.0-src.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
