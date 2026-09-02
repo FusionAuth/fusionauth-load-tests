@@ -14,7 +14,7 @@
  * language governing permissions and limitations under the License.
  */
 
-guavaVersion = "32.1.2-jre"
+guavaVersion = "33.7.1-jre"
 guiceVersion = "6.0.0"
 jacksonVersion = "2.15.4"
 jackson5Version = "3.0.1"

@@ -127,29 +127,29 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.cache/savant/com/google/guava/guava/32.1.2-jre/guava-32.1.2-jre.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/google/guava/guava/33.7.1-jre/guava-33.7.1-jre.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.cache/savant/com/google/guava/guava/32.1.2-jre/guava-32.1.2-jre-src.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/google/guava/guava/33.7.1-jre/guava-33.7.1-jre-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.cache/savant/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.cache/savant/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1-src.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.cache/savant/com/google/guava/listenablefuture/9999.0.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0.0-empty-to-avoid-conflict-with-guava.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -158,44 +158,33 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.cache/savant/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/google/errorprone/error_prone_annotations/2.50.0/error_prone_annotations-2.50.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.cache/savant/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2-src.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/google/errorprone/error_prone_annotations/2.50.0/error_prone_annotations-2.50.0-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.cache/savant/org/checkerframework/checker-qual/3.33.0/checker-qual-3.33.0.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/google/j2objc/j2objc-annotations/3.1/j2objc-annotations-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.cache/savant/org/checkerframework/checker-qual/3.33.0/checker-qual-3.33.0-src.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/google/j2objc/j2objc-annotations/3.1/j2objc-annotations-3.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.cache/savant/com/google/errorprone/error_prone_annotations/2.18.0/error_prone_annotations-2.18.0.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/jspecify/jspecify/1.0.1/jspecify-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.cache/savant/com/google/errorprone/error_prone_annotations/2.18.0/error_prone_annotations-2.18.0-src.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/.cache/savant/com/google/j2objc/j2objc-annotations/2.8.0/j2objc-annotations-2.8.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/.cache/savant/com/google/j2objc/j2objc-annotations/2.8.0/j2objc-annotations-2.8.0-src.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/jspecify/jspecify/1.0.1/jspecify-1.0.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
