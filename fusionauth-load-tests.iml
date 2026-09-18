@@ -17,11 +17,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/google/inject/guice/6.0.0/guice-6.0.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/google/inject/guice/6.0.0/guice-6.0.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/google/inject/guice/6.0.0/guice-6.0.0-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/google/inject/guice/6.0.0/guice-6.0.0-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -83,73 +83,73 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.21.1/jackson-databind-2.21.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.21.1/jackson-databind-2.21.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.21.1/jackson-databind-2.21.1-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.21.1/jackson-databind-2.21.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.21/jackson-annotations-2.21.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.21/jackson-annotations-2.21.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.21/jackson-annotations-2.21-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.21/jackson-annotations-2.21-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.21.1/jackson-core-2.21.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.21.1/jackson-core-2.21.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.21.1/jackson-core-2.21.1-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.21.1/jackson-core-2.21.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/google/guava/guava/33.7.1-jre/guava-33.7.1-jre.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/33.7.1-jre/guava-33.7.1-jre.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/google/guava/guava/33.7.1-jre/guava-33.7.1-jre-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/33.7.1-jre/guava-33.7.1-jre-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -158,124 +158,127 @@
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/google/errorprone/error_prone_annotations/2.50.0/error_prone_annotations-2.50.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_annotations/2.50.0/error_prone_annotations-2.50.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/google/errorprone/error_prone_annotations/2.50.0/error_prone_annotations-2.50.0-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/google/errorprone/error_prone_annotations/2.50.0/error_prone_annotations-2.50.0-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/google/j2objc/j2objc-annotations/3.1/j2objc-annotations-3.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/google/j2objc/j2objc-annotations/3.1/j2objc-annotations-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/google/j2objc/j2objc-annotations/3.1/j2objc-annotations-3.1-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/google/j2objc/j2objc-annotations/3.1/j2objc-annotations-3.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/org/jspecify/jspecify/1.0.1/jspecify-1.0.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/jspecify/jspecify/1.0.1/jspecify-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/org/jspecify/jspecify/1.0.1/jspecify-1.0.1-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/jspecify/jspecify/1.0.1/jspecify-1.0.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/org/testng/testng/7.8.0/testng-7.8.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/testng/testng/7.8.0/testng-7.8.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/org/testng/testng/7.8.0/testng-7.8.0-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/testng/testng/7.8.0/testng-7.8.0-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/beust/jcommander/1.82/jcommander-1.82.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/beust/jcommander/1.82/jcommander-1.82.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/beust/jcommander/1.82/jcommander-1.82-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/beust/jcommander/1.82/jcommander-1.82-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/org/webjars/jquery/3.6.1/jquery-3.6.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/webjars/jquery/3.6.1/jquery-3.6.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/org/webjars/jquery/3.6.1/jquery-3.6.1-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/org/webjars/jquery/3.6.1/jquery-3.6.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/javax/inject/javax.inject/1/javax.inject-1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/javax/inject/javax.inject/1/javax.inject-1-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/javax/inject/javax.inject/1/javax.inject-1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/ch/qos/logback/logback-classic/1.5.6/logback-classic-1.5.6.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.5.6/logback-classic-1.5.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/ch/qos/logback/logback-classic/1.5.6/logback-classic-1.5.6-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.5.6/logback-classic-1.5.6-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/ch/qos/logback/logback-core/1.5.6/logback-core-1.5.6.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/ch/qos/logback/logback-core/1.5.6/logback-core-1.5.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.m2/repository/ch/qos/logback/logback-core/1.5.6/logback-core-1.5.6-sources.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/ch/qos/logback/logback-core/1.5.6/logback-core-1.5.6-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
+  </component>
+  <component name="PMD-X-Module" serialisationVersion="1">
+    <option name="activeLocationsIds" />
   </component>
 </module>
 
